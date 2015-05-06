@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+  	<body>
+
+  	<header class="site-header">
+
+	  <div class="wrap">
+	    <ul>
+	      <li><a class="site-title" href="{{ site.baseurl }}">{{ site.title }}</a></li>
+	    </ul>
+	  </div>
+	  <div class="navigation">
+	    <nav class="site-nav">
+	      <div class="trigger">
+	        {% for page in site.pages %}
+	          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+	        {% endfor %}
+	      </div>
+	    </nav>
+
+	    <nav class="post-nav">
+	      <div class="trigger">
+	        <div class="projects" style="font-weight: bold; padding-top: 15px">Projects</div>
+	        <div class="post-links">
+		        {% for post in site.categories.gallery reversed %}
+		        	{% if post.title != page.title %}
+		          		<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+		          	{% else %}
+						<div style="color: #ff9100">{{ post.title }}</div>
+		          	{% endif %}
+		        {% endfor %}
+		    </div>
+	      </div>
+	    </nav>
+	  </div>
+
+	</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      	<div class="post">
+
+		  {% if page.video %}
+		  	<iframe class="post-video" src="//player.vimeo.com/video/{{ page.video }}" width="928" height="520" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		  {% endif %}
+
+		  <article class="post-content">
+		  {{ content }}
+		  </article>
+
+		</div>
+      </div>
+    </div>
+    {% include footer.html %}
+    </body>	
+</html>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  	$(window).load(function(){
+  		$(".post-links").slideDown('slow', function() {
+  			
+  		});
+  	});
+  });
+</script>

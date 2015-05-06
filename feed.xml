@@ -1,136 +1,30 @@
+---
+layout: none
+---
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Matthew Everitt</title>
-    <description>This site documents the work of Matthew Everitt, a Media Designer based in Wellington, NZ. Currently studying a Masters of Design Innovation.</description>
-    <link></link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    
+    <title>{{ site.title | xml_escape }}</title>
+    <description>{{ site.description | xml_escape }}</description>
+    <link>{{ site.url }}{{ site.baseurl }}/</link>
+    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml" />
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <generator>Jekyll v{{ jekyll.version }}</generator>
+    {% for post in site.posts limit:10 %}
       <item>
-        <title>HeadBanger</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod01.jpg&quot; alt=&quot;smhead01&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod02.jpg&quot; alt=&quot;smhead02&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod03.jpg&quot; alt=&quot;smhead03&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod04.jpg&quot; alt=&quot;smhead04&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod05.jpg&quot; alt=&quot;smhead05&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod06.jpg&quot; alt=&quot;smhead06&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/headbanger+nod07.jpg&quot; alt=&quot;smhead07&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 26 Sep 2014 01:51:11 +1200</pubDate>
-        <link>/2014/09/26/Smart-Headphones.html</link>
-        <guid isPermaLink="true">/2014/09/26/Smart-Headphones.html</guid>
+        <title>{{ post.title | xml_escape }}</title>
+        <description>{{ post.content | xml_escape }}</description>
+        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
+        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
+        {% for tag in post.tags %}
+        <category>{{ tag | xml_escape }}</category>
+        {% endfor %}
+        {% for cat in post.categories %}
+        <category>{{ cat | xml_escape }}</category>
+        {% endfor %}
       </item>
-    
-      <item>
-        <title>Houdini Motion Capture</title>
-        <description>&lt;p&gt;This is a design solution for an approach to using the Kinect motion sensor, and sending the data in real-time to Houdini using Processing.
-The project uses the SimpleOpenNI Processing library to read skeleton data collected by the Kinect Sensor. These skeleton points and their orientation is then sent to Houdini via a server. Houdini is able to collect this information using a Pipe In Chop which connects to the server created by the Processing sketch.
-This allows you to attach geometry to the template skeleton points and see how it moves in real-time as you move. The motion capture data can be recorded and saved.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 14 Jul 2014 01:51:11 +1200</pubDate>
-        <link>/2014/07/14/houdini-processing.html</link>
-        <guid isPermaLink="true">/2014/07/14/houdini-processing.html</guid>
-      </item>
-    
-      <item>
-        <title>October in the Chair</title>
-        <description>&lt;p&gt;‘October In The Chair’ is a title sequence created for the short story of the same name by Neil Gaiman. Taking inspiration from the short story and Neil Gaiman’s other works the sequence explores the dream and imagery of the story. The sequence plays on time and perception using time-lapse photography and double exposure. The sequence creates an uncomfortable atmosphere by mixing the calm flow of leaves with uncanny imagery. This coupled with an unconventional soundtrack gives the sequence a sense of confusion emphasizing the dream aspects explored by Neil Gaiman.&lt;/p&gt;
-
-&lt;p&gt;Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
-</description>
-        <pubDate>Sat, 05 Oct 2013 02:51:11 +1300</pubDate>
-        <link>/2013/10/05/october-in-the-chair.html</link>
-        <guid isPermaLink="true">/2013/10/05/october-in-the-chair.html</guid>
-      </item>
-    
-      <item>
-        <title>Flanuer Photo Essay</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/flanuer02.jpg&quot; alt=&quot;flanuer02&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The modernisation of the urban space has changed the individuals relationship with, and perception of, place and time. The introduction of artificial lighting inside and out has had a major effect on a persons relationship with urban places after dark, and the way these places are being perceived and experienced. The change altered the fundamental notions of freedom and being. The photographic role here is to understand and portray the urban space at night as a horrific and intriguing environment. For some people this is enforcing there perception of the space as unsafe and intimidating, while altering others perception of well lit urban space.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/flanuer03.JPG&quot; alt=&quot;flanuer03&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/flanuer04.JPG&quot; alt=&quot;flanuer04&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/flanuer05.jpg&quot; alt=&quot;flanuer05&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/flanuer06.JPG&quot; alt=&quot;flanuer06&quot; /&gt;
-&lt;img src=&quot;/assets/flanuer01.jpg&quot; alt=&quot;flanuer01&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 05 Sep 2013 01:51:11 +1200</pubDate>
-        <link>/2013/09/05/flanuer.html</link>
-        <guid isPermaLink="true">/2013/09/05/flanuer.html</guid>
-      </item>
-    
-      <item>
-        <title>Graffiti</title>
-        <description>&lt;p&gt;Graffiti explores our perception of space through geometry and colour. Using the simple method of stencil and paint the alley is transformed from dull dreary to explosive and colourful. &lt;/p&gt;
-
-&lt;p&gt;The craft paper creating the stencil reinforces our 3d perception of the structures in the alley, however as it builds up it hints to the ulterior motive of the shape it is creating. When the stencil falls away the objective of the design is revealed, breaking the viewer’s perspective with string geometrical and colour contrasts. Inspiration for this piece of work comes from Tilts ‘Panic Room’ and Georges Rousse’s ‘Art Project in Miyagi’.&lt;/p&gt;
-
-&lt;p&gt;Music: ‘Yojimbo’ by Archēr.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 05 Aug 2013 01:51:11 +1200</pubDate>
-        <link>/2013/08/05/graffiti.html</link>
-        <guid isPermaLink="true">/2013/08/05/graffiti.html</guid>
-      </item>
-    
-      <item>
-        <title>sies8</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/seis8.jpg&quot; alt=&quot;seis8&quot; /&gt;
-&lt;img src=&quot;/assets/seis8-01.jpg&quot; alt=&quot;seis8-01&quot; /&gt;
-&lt;img src=&quot;/assets/seis8-02.jpg&quot; alt=&quot;seis8-02&quot; /&gt;
-&lt;img src=&quot;/assets/seis8-03.jpg&quot; alt=&quot;seis8-03&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;‘Seis 8’ is a wearable technology dress that uses aspects of fashion, technology and social interaction to explore the relation between the dress itself and its ability to express the effects of an earthquake on a community.&lt;/p&gt;
-
-&lt;p&gt;This forward-thinking idea was inspired by the recent earthquakes over the world, specifically Christchurch. And how a great sense of community was felt all over the country with people coming together to help those in need. This aspect of community is how the dress explores the future of fashion as a medium for people to explore new ideas.&lt;/p&gt;
-
-&lt;p&gt;The first thing noticed on the dress is the very geometric bottom half. This is coupled with more natural flow of the upper half to complete the aesthetic. The geometric lower half, which is made of white styrene represents an urban environment that is getting visibly shaken. The upper half represents the natural flow of the earth and is made of merino wool.&lt;/p&gt;
-
-&lt;p&gt;The technology within the dress consists of an Arduino Lilypad, one ultrasonic-sensor, and eight vibration motors. The motors are positioned inside the lower part of the dress and shake the loose geometric plates in a way similar to an earthquake. The motors are controlled by the Lilypad, which receives and input from the ultrasonic sensor. The motors initially build up to a seismic 8 earthquake and then the amount of shaking depends on the person proximity to another person. The closer someone gets the less it shakes and finally when the two people are hugging the shaking shuts of completely. Therefore, expressing our main idea of the sense of community formed during an earthquake and how this reduces the emotional effects of the earthquake on a person.&lt;/p&gt;
-
-&lt;p&gt;Made in collaboration with Greg Jennings&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/seis8-04.jpg&quot; alt=&quot;seis8-04&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 03 Aug 2012 01:51:11 +1200</pubDate>
-        <link>/2012/08/03/seis8.html</link>
-        <guid isPermaLink="true">/2012/08/03/seis8.html</guid>
-      </item>
-    
-      <item>
-        <title>Instant</title>
-        <description>&lt;p&gt;Diptych surf video exploring the space in between and the relationship between the audio and visual within a space.&lt;/p&gt;
-
-&lt;p&gt;Directed and Designed by Matthew Everitt&lt;/p&gt;
-
-&lt;p&gt;Edited in Adobe Premiere Pro 5.5&lt;/p&gt;
-
-&lt;p&gt;Shot on GoPro Hero2 and Canon 60D.&lt;/p&gt;
-
-&lt;p&gt;Music - First Snow (Ooah Remix) - Emancipator&lt;/p&gt;
-</description>
-        <pubDate>Fri, 04 May 2012 01:51:11 +1200</pubDate>
-        <link>/2012/05/04/instant.html</link>
-        <guid isPermaLink="true">/2012/05/04/instant.html</guid>
-      </item>
-    
-      <item>
-        <title>Welcome to Everitt Creative!</title>
-        <description>&lt;p&gt;This is a blog site setup through Github Pages to host a collection of creative works by Matthew Everitt.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 02 Mar 2012 02:51:11 +1300</pubDate>
-        <link>/2012/03/02/welcome-to-everitt-creative.html</link>
-        <guid isPermaLink="true">/2012/03/02/welcome-to-everitt-creative.html</guid>
-      </item>
-    
+    {% endfor %}
   </channel>
 </rss>

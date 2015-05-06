@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Matthew Everitt Design</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Matthew Everitt Design">
+    <link rel="canonical" href="/">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+  	<body>
+    <header class="site-header">
+
+  <div class="wrap">
+    <ul>
+      <li><a class="site-title" href="">Matthew Everitt Design</a></li>
+    </ul>
+  </div>
+  <div class="navigation">
+    <nav class="site-nav">
+        <div class="trigger">
+          
+            <a class="page-link" href="/bio/">Bio</a>
+          
+            <a class="page-link" href="/feed.xml"></a>
+          
+            <a class="page-link" href="/index.html"></a>
+          
+            <a class="page-link" href="/research/">Research</a>
+          
+        </div>
+      </nav>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="home">
+
+	<article class="home-article">
+		<ul class="gallery">
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/01headbanger.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/headbanger-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/Headbanger.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/02g-nome.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/g-nome-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/g-nome.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/03houdini.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/houdini-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/Houdini.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/04seis8.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/seis8-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/Seis8.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/05flanuer.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/flanuer-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/Flanuer.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/06graffiti.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/graffiti-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/Graffiti.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/07october.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/october-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/October.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="/gallery/08instant.html">
+							<div class="img-window">
+								
+								<img src="/assets/gallery/instant-thumbnail.png"/>
+								
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/Instant.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			
+		</ul>
+	</article>
+
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  	$(window).load(function(){
+  		$(".gallery .post-box").mouseenter(function() {
+  			if( $(this).find(".info-window").is(':hidden')){
+				$(this).find(".info-window").fadeIn("slow");
+			}
+  		});
+  		$(".gallery .post-box").mouseleave(function() {
+  			$(this).find(".info-window").delay(1000).animate({opacity: 0},function(){
+  				$(this).css({"display": "none","opacity":"1"});
+  			});
+  		});
+  	});
+  });
+</script>
+      </div>
+    </div>
+    <footer class="site-footer">
+
+  <div class="wrap">
+    <ul>
+      <li><a  href="mailto:everitt.matt@me.com">everitt.matt@me.com</a></li>
+      <li>&copy; Matthew Everitt</li>
+    </ul>
+  </div>
+
+</footer>
+
+    </body>
+</html>

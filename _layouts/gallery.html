@@ -1,0 +1,66 @@
+---
+layout: default
+---
+<div class="lightbox">
+  <div class="imgbox"> 
+    <p class="title"></p>
+    <p class="artist"></p>
+    <p class="blurb"></p>
+  </div>
+</div>
+<div class="gallery">
+<ul>
+  {% for post in site.categories.gallery reversed %}
+  	<li>
+  		<div class="gallery-article">
+  			{% if post.thumbnail %}
+  			<img class="gal-img" src="{{ post.thumbnail | prepend: site.baseurl }}"/>
+        {% elsif post.video %}
+        <iframe class="post-video" src="http://player.vimeo.com/video/{{ post.video }}?badge=0&byline=0&portrait=0&title=0" width="320" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  			{% else %}
+  			<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        {% endif %}
+        {% if post.title %}
+        <p class='gallery-blurb'>{{ post.title }}</p>
+        {% endif %}
+        {% if post.artist %}
+        <p class='gallery-blurb'>{{ post.artist }}</p>
+        {% endif %}
+        {% if post.blurb %}
+        <p class='gallery-blurb'>{{ post.blurb }}</p>
+        {% endif %}
+		</div>
+  	</li>
+  {% endfor %}
+<ul>
+</div>
+
+<script type="text/javascript">
+  $(".gallery-article .gal-img").click(function(){
+    $(".lightbox").fadeIn();
+    $(".lightbox .imgbox img").remove();
+    var article = $(this).parent();
+    var source = $(this).attr('src');
+    var image = $('<img>');
+    var title = article.children('.gallery-blurb:nth-child(2)').text();
+    $(".lightbox .imgbox .title").text(title);
+    console.log("Title: " + title);
+    var artist = article.children('.gallery-blurb:nth-child(3)').text();
+    $(".lightbox .imgbox .artist").text(artist);
+    console.log(artist);
+    var blurb = article.children('.gallery-blurb:nth-child(4)').text();
+    $(".lightbox .imgbox .blurb").text(blurb);
+    console.log(blurb);
+    image.attr('src',source);
+    $('html, body').css({'overflow': 'hidden', 'height': '100%'});
+
+    $(".lightbox .imgbox").prepend(image);
+
+  });
+
+  $(".lightbox").click(function(){
+    $(".lightbox img").fadeOut();
+    $(".lightbox").fadeOut();
+    $('html, body').css({'overflow': 'auto', 'height': 'auto'});
+  });
+</script>

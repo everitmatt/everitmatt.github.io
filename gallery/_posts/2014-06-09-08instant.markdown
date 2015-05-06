@@ -1,0 +1,20 @@
+---
+layout: post
+title:  Instant
+date:   2014-06-09 13:11:08
+artist: Matthew Everitt
+category: gallery
+class: comp308
+thumbnail: /assets/gallery/instant-thumbnail.png
+video: 42991033
+---
+
+Diptych surf video exploring the space in between and the relationship between the audio and visual within a space.
+
+Directed and Designed by Matthew Everitt
+
+Edited in Adobe Premiere Pro 5.5
+
+Shot on GoPro Hero2 and Canon 60D.
+
+Music - First Snow (Ooah Remix) - Emancipator

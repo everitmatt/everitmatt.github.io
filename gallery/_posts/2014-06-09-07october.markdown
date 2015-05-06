@@ -1,0 +1,12 @@
+---
+layout: post
+title:  October
+date:   2014-06-09 13:11:08
+artist: Matthew Everitt
+category: gallery
+thumbnail: /assets/gallery/october-thumbnail.png
+video: 78131629
+---
+
+‘October In The Chair’ is a title sequence created for the short story of the same name by Neil Gaiman. Taking inspiration from the short story and Neil Gaiman’s other works the sequence explores the dream and imagery of the story. The sequence plays on time and perception using time-lapse photography and double exposure. The sequence creates an uncomfortable atmosphere by mixing the calm flow of leaves with uncanny imagery. This coupled with an unconventional soundtrack gives the sequence a sense of confusion emphasizing the dream aspects explored by Neil Gaiman.
+Created using: After Effects, Premier Pro, Maya

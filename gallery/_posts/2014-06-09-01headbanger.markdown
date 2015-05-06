@@ -1,0 +1,17 @@
+---
+layout: post
+title:  Headbanger
+date:   2014-06-09 13:11:08
+artist: Matthew Everitt
+category: gallery
+thumbnail: /assets/gallery/headbanger-thumbnail.png
+video: 124261553
+---
+
+![headbanger01]({{ site.baseurl}}/assets/gallery/headbanger+nod01.jpg)
+![headbanger02]({{ site.baseurl}}/assets/gallery/headbanger+nod02.jpg)
+![headbanger03]({{ site.baseurl}}/assets/gallery/headbanger+nod03.jpg)
+![headbanger04]({{ site.baseurl}}/assets/gallery/headbanger+nod04.jpg)
+![headbanger05]({{ site.baseurl}}/assets/gallery/headbanger+nod05.jpg)
+![headbanger06]({{ site.baseurl}}/assets/gallery/headbanger+nod06.jpg)
+![headbanger07]({{ site.baseurl}}/assets/gallery/headbanger+nod07.jpg)

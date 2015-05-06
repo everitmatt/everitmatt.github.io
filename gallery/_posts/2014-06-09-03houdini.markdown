@@ -1,0 +1,11 @@
+---
+layout: post
+title:  Houdini
+date:   2014-06-09 13:11:08
+artist: Matthew Everitt
+category: gallery
+thumbnail: /assets/gallery/houdini-thumbnail.png
+video: 98992198
+---
+
+This is a design solution for an approach to using the Kinect motion sensor, and sending the data in real-time to Houdini using Processing. The project uses the SimpleOpenNI Processing library to read skeleton data collected by the Kinect Sensor. These skeleton points and their orientation is then sent to Houdini via a server. Houdini is able to collect this information using a Pipe In Chop which connects to the server created by the Processing sketch. This allows you to attach geometry to the template skeleton points and see how it moves in real-time as you move. The motion capture data can be recorded and saved.

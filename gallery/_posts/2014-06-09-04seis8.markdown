@@ -1,0 +1,25 @@
+---
+layout: post
+title: Seis8
+date:   2014-06-09 13:11:08
+artist: Matthew Everitt
+category: gallery
+thumbnail: /assets/gallery/seis8-thumbnail.png
+---
+
+![sies801]({{ site.baseurl}}/assets/gallery/seis8.jpg)
+
+‘Seis 8’ is a wearable technology dress that uses aspects of fashion, technology and social interaction to explore the relation between the dress itself and its ability to express the effects of an earthquake on a community.
+
+This forward-thinking idea was inspired by the recent earthquakes over the world, specifically Christchurch. And how a great sense of community was felt all over the country with people coming together to help those in need. This aspect of community is how the dress explores the future of fashion as a medium for people to explore new ideas.
+
+The first thing noticed on the dress is the very geometric bottom half. This is coupled with more natural flow of the upper half to complete the aesthetic. The geometric lower half, which is made of white styrene represents an urban environment that is getting visibly shaken. The upper half represents the natural flow of the earth and is made of merino wool.
+
+The technology within the dress consists of an Arduino Lilypad, one ultrasonic-sensor, and eight vibration motors. The motors are positioned inside the lower part of the dress and shake the loose geometric plates in a way similar to an earthquake. The motors are controlled by the Lilypad, which receives and input from the ultrasonic sensor. The motors initially build up to a seismic 8 earthquake and then the amount of shaking depends on the person proximity to another person. The closer someone gets the less it shakes and finally when the two people are hugging the shaking shuts of completely. Therefore, expressing our main idea of the sense of community formed during an earthquake and how this reduces the emotional effects of the earthquake on a person.
+
+Made in collaboration with Greg Jennings
+
+![sies801]({{ site.baseurl}}/assets/gallery/seis8-01.jpg)
+![sies801]({{ site.baseurl}}/assets/gallery/seis8-02.jpg)
+![sies801]({{ site.baseurl}}/assets/gallery/seis8-03.jpg)
+![sies801]({{ site.baseurl}}/assets/gallery/seis8-04.jpg)

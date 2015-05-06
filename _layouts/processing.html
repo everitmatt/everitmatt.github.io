@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<ul>
+  {% for post in site.categories.scholarships %}
+  	<li>
+  		<div class="course-article">
+			<a class="post-link" href="{{ post.url | prepend: site.baseurl }}"><h1>{{ post.title }}</h1></a>
+			<p>{{ post.blurb }}</p>
+			<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">Read more →</a>
+		</div>
+  	</li>
+  {% endfor %}
+<ul>
