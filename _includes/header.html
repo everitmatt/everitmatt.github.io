@@ -11,8 +11,22 @@
           {% for page in site.pages %}
             <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
           {% endfor %}
+          <a class="projects" href="#">Projects</a>
         </div>
       </nav>
-  </div>
+      <nav class="post-nav">
+        <div class="trigger">
+          <div class="post-links">
+            {% for post in site.categories.gallery reversed %}
+              {% if post.title != page.title %}
+                  <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                {% else %}
+            <div style="color: #ff9100">{{ post.title }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        </div>
+      </nav>
 
+  </div>
 </header>

@@ -5,12 +5,12 @@ date:   2014-06-09 13:11:08
 artist: Matthew Everitt
 category: gallery
 thumbnail: /assets/gallery/g-nome-thumbnail.png
-video: 
+video: 126989666
 ---
 
-![g-nome02]({{ site.baseurl}}/assets/gallery/g-nome02.jpg)
-
 G-nome is a piece of speculative design that looks ahead to 2040 and investigates how our online interactions will manifest themselves physically.
+
+![g-nome02]({{ site.baseurl}}/assets/gallery/g-nome02.jpg)
 
 ![g-nome]({{ site.baseurl}}/assets/gallery/g-nome.png)
 
