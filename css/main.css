@@ -232,13 +232,8 @@ p {
         margin-right: 0; }
       .site-header .navigation .site-nav .page-link {
         color: black;
-        padding: 0 10px;
-        border-right: 1px solid white;
         display: block;
-        padding-left: 0px;
         width: 100%; }
-      .site-header .navigation .site-nav .page-link:last-child {
-        border-right: none; }
       .site-header .navigation .site-nav a:hover {
         color: #ff9100;
         -webkit-transition: 0.5s;
@@ -261,13 +256,8 @@ p {
         display: none; }
         .site-header .navigation .post-nav .post-links .post-link {
           color: black;
-          padding: 0 10px;
-          border-right: 1px solid white;
-          display: block;
-          padding-left: 0px;
+          padding-left: 15px;
           width: 100%; }
-        .site-header .navigation .post-nav .post-links .post-link:last-child {
-          border-right: none; }
         .site-header .navigation .post-nav .post-links a:hover {
           color: #ff9100;
           -webkit-transition: 0.5s;

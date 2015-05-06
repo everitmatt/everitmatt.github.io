@@ -24,7 +24,15 @@
 	  ga('send', 'pageview');
 
 	</script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".projects").click( function() {
+                    $(".post-links").slideDown('slow', function() { 
 
+                    });
+                });
+        });
+    </script>
 </head>
 
   	<body>
@@ -37,59 +45,58 @@
   </div>
   <div class="navigation">
     <nav class="site-nav">
-        <div class="trigger">
+      <div class="trigger">
+        
+          <a class="page-link" href="http://everittcreative.me/bio/">Bio</a>
+        
+          <a class="page-link" href="http://everittcreative.me/feed.xml"></a>
+        
+          <a class="page-link" href="http://everittcreative.me/index.html"></a>
+        
+          <a class="page-link" href="http://everittcreative.me/research/">Research</a>
+        
+        <a class="projects" href="#">Projects</a>
+      </div>
+    </nav>
+    <nav class="post-nav">
+      <div class="trigger">
+        <div class="post-links">
           
-            <a class="page-link" href="http://everittcreative.me/bio/">Bio</a>
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/01headbanger.html">+ Headbanger</a>
+              
           
-            <a class="page-link" href="http://everittcreative.me/feed.xml"></a>
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/02g-nome.html">+ g-nome</a>
+              
           
-            <a class="page-link" href="http://everittcreative.me/index.html"></a>
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/03houdini.html">+ Houdini</a>
+              
           
-            <a class="page-link" href="http://everittcreative.me/research/">Research</a>
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/04seis8.html">+ Seis8</a>
+              
           
-          <a class="projects" href="#">Projects</a>
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/05flanuer.html">+ Flanuer</a>
+              
+          
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/06graffiti.html">+ Graffiti</a>
+              
+          
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/07october.html">+ October</a>
+              
+          
+            
+                <a class="post-link" href="http://everittcreative.me/gallery/08instant.html">+ Instant</a>
+              
+          
         </div>
-      </nav>
-      <nav class="post-nav">
-        <div class="trigger">
-          <div class="post-links">
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/01headbanger.html">Headbanger</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/02g-nome.html">g-nome</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/03houdini.html">Houdini</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/04seis8.html">Seis8</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/05flanuer.html">Flanuer</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/06graffiti.html">Graffiti</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/07october.html">October</a>
-                
-            
-              
-                  <a class="post-link" href="http://everittcreative.me/gallery/08instant.html">Instant</a>
-                
-            
-        </div>
-        </div>
-      </nav>
-
+      </div>
+    </nav>
   </div>
 </header>
 
@@ -231,12 +238,6 @@
   				$(this).css({"display": "none","opacity":"1"});
   			});
   		});
-  		$(".projects").click( function() {
-	  		console.log($(this));
-	  		$(".post-links").slideDown('slow', function() {	
-
-	  		});
-	  	});
   	});
   });
 </script>
