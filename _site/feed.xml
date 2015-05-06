@@ -3,10 +3,10 @@
   <channel>
     <title>Matthew Everitt Design</title>
     <description>Matthew Everitt Design</description>
-    <link>/</link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 06 May 2015 11:55:12 +1200</pubDate>
-    <lastBuildDate>Wed, 06 May 2015 11:55:12 +1200</lastBuildDate>
+    <link>http://everittcreative.me/</link>
+    <atom:link href="http://everittcreative.me/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Wed, 06 May 2015 12:37:12 +1200</pubDate>
+    <lastBuildDate>Wed, 06 May 2015 12:37:12 +1200</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
     
       <item>
@@ -22,8 +22,8 @@
 &lt;p&gt;Music - First Snow (Ooah Remix) - Emancipator&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/08instant.html</link>
-        <guid isPermaLink="true">/gallery/08instant.html</guid>
+        <link>http://everittcreative.me/gallery/08instant.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/08instant.html</guid>
         
         
         <category>gallery</category>
@@ -36,8 +36,8 @@
 Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/07october.html</link>
-        <guid isPermaLink="true">/gallery/07october.html</guid>
+        <link>http://everittcreative.me/gallery/07october.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/07october.html</guid>
         
         
         <category>gallery</category>
@@ -53,8 +53,8 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
 &lt;p&gt;Music: ‘Yojimbo’ by Archēr&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/06graffiti.html</link>
-        <guid isPermaLink="true">/gallery/06graffiti.html</guid>
+        <link>http://everittcreative.me/gallery/06graffiti.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/06graffiti.html</guid>
         
         
         <category>gallery</category>
@@ -63,19 +63,19 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
     
       <item>
         <title>Flanuer</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/gallery/flanuer01.jpg&quot; alt=&quot;flanuer01&quot; /&gt;&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/flanuer01.jpg&quot; alt=&quot;flanuer01&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The modernisation of the urban space has changed the individuals relationship with, and perception of, place and time. The introduction of artificial lighting inside and out has had a major effect on a persons relationship with urban places after dark, and the way these places are being perceived and experienced. The change altered the fundamental notions of freedom and being. The photographic role here is to understand and portray the urban space at night as a horrific and intriguing environment. For some people this is enforcing there perception of the space as unsafe and intimidating, while altering others perception of well lit urban space.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/gallery/flanuer02.jpg&quot; alt=&quot;flanuer02&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/flanuer03.jpg&quot; alt=&quot;flanuer03&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/flanuer04.jpg&quot; alt=&quot;flanuer04&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/flanuer05.jpg&quot; alt=&quot;flanuer05&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/flanuer06.jpg&quot; alt=&quot;flanuer06&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/flanuer02.jpg&quot; alt=&quot;flanuer02&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/flanuer03.jpg&quot; alt=&quot;flanuer03&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/flanuer04.jpg&quot; alt=&quot;flanuer04&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/flanuer05.jpg&quot; alt=&quot;flanuer05&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/flanuer06.jpg&quot; alt=&quot;flanuer06&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/05flanuer.html</link>
-        <guid isPermaLink="true">/gallery/05flanuer.html</guid>
+        <link>http://everittcreative.me/gallery/05flanuer.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/05flanuer.html</guid>
         
         
         <category>gallery</category>
@@ -84,7 +84,7 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
     
       <item>
         <title>Seis8</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/gallery/seis8.jpg&quot; alt=&quot;sies801&quot; /&gt;&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/seis8.jpg&quot; alt=&quot;sies801&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;‘Seis 8’ is a wearable technology dress that uses aspects of fashion, technology and social interaction to explore the relation between the dress itself and its ability to express the effects of an earthquake on a community.&lt;/p&gt;
 
@@ -96,14 +96,14 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
 
 &lt;p&gt;Made in collaboration with Greg Jennings&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/gallery/seis8-01.jpg&quot; alt=&quot;sies801&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/seis8-02.jpg&quot; alt=&quot;sies801&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/seis8-03.jpg&quot; alt=&quot;sies801&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/seis8-04.jpg&quot; alt=&quot;sies801&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/seis8-01.jpg&quot; alt=&quot;sies801&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/seis8-02.jpg&quot; alt=&quot;sies801&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/seis8-03.jpg&quot; alt=&quot;sies801&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/seis8-04.jpg&quot; alt=&quot;sies801&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/04seis8.html</link>
-        <guid isPermaLink="true">/gallery/04seis8.html</guid>
+        <link>http://everittcreative.me/gallery/04seis8.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/04seis8.html</guid>
         
         
         <category>gallery</category>
@@ -115,8 +115,8 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
         <description>&lt;p&gt;This is a design solution for an approach to using the Kinect motion sensor, and sending the data in real-time to Houdini using Processing. The project uses the SimpleOpenNI Processing library to read skeleton data collected by the Kinect Sensor. These skeleton points and their orientation is then sent to Houdini via a server. Houdini is able to collect this information using a Pipe In Chop which connects to the server created by the Processing sketch. This allows you to attach geometry to the template skeleton points and see how it moves in real-time as you move. The motion capture data can be recorded and saved.&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/03houdini.html</link>
-        <guid isPermaLink="true">/gallery/03houdini.html</guid>
+        <link>http://everittcreative.me/gallery/03houdini.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/03houdini.html</guid>
         
         
         <category>gallery</category>
@@ -125,17 +125,17 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
     
       <item>
         <title>g-nome</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/gallery/g-nome02.jpg&quot; alt=&quot;g-nome02&quot; /&gt;&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/g-nome02.jpg&quot; alt=&quot;g-nome02&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;G-nome is a piece of speculative design that looks ahead to 2040 and investigates how our online interactions will manifest themselves physically.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/gallery/g-nome.png&quot; alt=&quot;g-nome&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/g-nome.png&quot; alt=&quot;g-nome&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/gallery/g-nome01.jpg&quot; alt=&quot;g-nome01&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/g-nome01.jpg&quot; alt=&quot;g-nome01&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/02g-nome.html</link>
-        <guid isPermaLink="true">/gallery/02g-nome.html</guid>
+        <link>http://everittcreative.me/gallery/02g-nome.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/02g-nome.html</guid>
         
         
         <category>gallery</category>
@@ -144,17 +144,17 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
     
       <item>
         <title>Headbanger</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/gallery/headbanger+nod01.jpg&quot; alt=&quot;headbanger01&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/headbanger+nod02.jpg&quot; alt=&quot;headbanger02&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/headbanger+nod03.jpg&quot; alt=&quot;headbanger03&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/headbanger+nod04.jpg&quot; alt=&quot;headbanger04&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/headbanger+nod05.jpg&quot; alt=&quot;headbanger05&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/headbanger+nod06.jpg&quot; alt=&quot;headbanger06&quot; /&gt;
-&lt;img src=&quot;/assets/gallery/headbanger+nod07.jpg&quot; alt=&quot;headbanger07&quot; /&gt;&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod01.jpg&quot; alt=&quot;headbanger01&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod02.jpg&quot; alt=&quot;headbanger02&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod03.jpg&quot; alt=&quot;headbanger03&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod04.jpg&quot; alt=&quot;headbanger04&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod05.jpg&quot; alt=&quot;headbanger05&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod06.jpg&quot; alt=&quot;headbanger06&quot; /&gt;
+&lt;img src=&quot;http://everittcreative.me/assets/gallery/headbanger+nod07.jpg&quot; alt=&quot;headbanger07&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 01:11:08 +1200</pubDate>
-        <link>/gallery/01headbanger.html</link>
-        <guid isPermaLink="true">/gallery/01headbanger.html</guid>
+        <link>http://everittcreative.me/gallery/01headbanger.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/gallery/01headbanger.html</guid>
         
         
         <category>gallery</category>
@@ -166,8 +166,8 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
         <description>
 </description>
         <pubDate>Sun, 10 Jun 2012 01:11:08 +1200</pubDate>
-        <link>/research/test-research.html</link>
-        <guid isPermaLink="true">/research/test-research.html</guid>
+        <link>http://everittcreative.me/research/test-research.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/research/test-research.html</guid>
         
         
         <category>research</category>
@@ -209,8 +209,8 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
 &lt;p&gt;Please visit VUW Scholarship Website for further information about the Computer Graphics programme.&lt;/p&gt;
 </description>
         <pubDate>Wed, 10 Aug 2011 00:11:08 +1200</pubDate>
-        <link>/processing/scholarships/weta-scholarship.html</link>
-        <guid isPermaLink="true">/processing/scholarships/weta-scholarship.html</guid>
+        <link>http://everittcreative.me/processing/scholarships/weta-scholarship.html</link>
+        <guid isPermaLink="true">http://everittcreative.me/processing/scholarships/weta-scholarship.html</guid>
         
         
         <category>processing</category>
