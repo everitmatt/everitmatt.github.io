@@ -26,9 +26,9 @@
 	        <div class="post-links">
 		        {% for post in site.categories.gallery reversed %}
 		        	{% if post.title != page.title %}
-		          		<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+		          		<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">+ {{ post.title }}</a>
 		          	{% else %}
-						<div style="color: #ff9100">{{ post.title }}</div>
+						<div style="color: #ff9100">+ {{ post.title }}</div>
 		          	{% endif %}
 		        {% endfor %}
 		    </div>

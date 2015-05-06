@@ -256,7 +256,7 @@ p {
         display: none; }
         .site-header .navigation .post-nav .post-links .post-link {
           color: black;
-          padding-left: 15px;
+          display: block;
           width: 100%; }
         .site-header .navigation .post-nav .post-links a:hover {
           color: #ff9100;
