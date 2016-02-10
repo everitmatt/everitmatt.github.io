@@ -1,6 +1,6 @@
 ---
 layout: application
 title: Data For Surf's Sake
-permalink : /application/
+permalink : /data-for-surfs-sake/
 ---
 Application goes here.
