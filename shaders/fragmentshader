@@ -1,0 +1,15 @@
+precision mediump float;
+const float filterPixelWidth = 1.4142135623730951;
+const vec4 blank = vec4(0.);
+
+varying vec3 vColor;
+varying float vAlpha;
+varying float pointWidth;
+
+void main () {
+  float dist = length(gl_PointCoord - .5);
+  float filterWidth = filterPixelWidth / pointWidth;
+  float filtered = smoothstep(.5 - filterWidth, .5, dist);
+  gl_FragColor = vec4(vColor, 1.0) *vAlpha;
+  // gl_FragColor = mix(vec4(vColor, 1.0),blank,filtered)*vAlpha;
+}

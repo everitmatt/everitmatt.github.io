@@ -1,0 +1,19 @@
+attribute vec4 heatPoints;
+attribute vec3 color;
+attribute float alpha;
+attribute float scale;
+
+
+varying vec3 vColor;
+varying float vAlpha;
+varying float pointWidth;
+void main() {
+  vColor = color;
+  vAlpha = alpha;
+  pointWidth = scale;
+
+  gl_PointSize = scale;
+
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+
+}
