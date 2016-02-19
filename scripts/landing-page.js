@@ -52,20 +52,9 @@ function initLanding() {
 	
 	createSelect();
 
-	createMap();
 	createWorld();
 	createEmitters();
 	createGlobalSurfs();
-
-	function createMap(){
-		var geometry = new THREE.PlaneGeometry(width,height,width/10.0,height/10.0);
-		mapObject = new THREE.Mesh( geometry, blueMarbleMaterial );
-		mapObject.position.x = width/2.0;
-		mapObject.position.y = height/2.0;
-		mapObject.position.z = 0;
-		scene.add(mapObject);
-
-	}
 
 	function createWorld(){
 		var group = new THREE.Group();

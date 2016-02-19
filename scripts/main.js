@@ -250,35 +250,6 @@ function loadTextures(){
 				depthTest: false,
 				blending: THREE.NormalBlending,
 			});
-
-			loader.load(
-		// resource URL
-				"../textures/gebco_08_rev_elev_21600x108002.png",
-				// Function when resource is loaded
-				function ( texture ) {
-					// do something with the texture
-					blueMarbleMaterial  = new THREE.ShaderMaterial({
-						uniforms: {
-							texture: {type: 't', value: texture},
-						},
-						vertexShader:   document.getElementById( 'bluemarble_vertexshader' ).textContent,
-						fragmentShader: document.getElementById( 'bluemarble_fragmentshader' ).textContent,
-						transparent: true,
-						blending: THREE.NormalBlending,
-						side: THREE.DoubleSide,
-					});
-
-					mainApiCall();
-				},
-				// Function called when download progresses
-				function ( xhr ) {
-					console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-				},
-				// Function called when download errors
-				function ( xhr ) {
-					console.log( 'An error happened' );
-				}
-			);
 		},
 		// Function called when download progresses
 		function ( xhr ) {
