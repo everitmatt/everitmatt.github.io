@@ -34,13 +34,13 @@ function initLanding() {
 	var customContainer = document.getElementById('gui-container');
 	customContainer.appendChild(gui.domElement);
 
-	$('#gui-container').mouseenter(function(){
-		$(this).animate({left:'0px'},350);
-	});
+	// $('#gui-container').mouseenter(function(){
+	// 	$(this).animate({left:'0px'},350);
+	// });
 
-	$('#gui-container').mouseleave(function(){
-		$(this).delay(500).animate({left:'-250px'},350);
-	});
+	// $('#gui-container').mouseleave(function(){
+	// 	$(this).delay(500).animate({left:'-250px'},350);
+	// });
 
 	timeline = document.createElement("INPUT");
     timeline.setAttribute("type", "range");
@@ -53,7 +53,6 @@ function initLanding() {
 	createSelect();
 
 	createWorld();
-	createEmitters();
 	createGlobalSurfs();
 
 	function createWorld(){
@@ -205,7 +204,8 @@ function initLanding() {
 
 	function createSelect(){
 		var select = document.getElementById("location-select")
-		select.style.marginTop = '50px';
+		select.style.margin = '50px 5px';
+		select.style.width = '240px';
 		for(var i = 0; i<distinctLocations.length;i++){
 			var l = document.createElement("option");
 			l.value = i;
@@ -236,7 +236,7 @@ function initLanding() {
 // 	landingGui.add(params,'local');
 	landingGui.open();
 
-	goGlobal();
+	goUser();
 
 	// console.log(landing);
 	console.log(scene);
@@ -275,8 +275,8 @@ function createEmitters(){
 
 function updateLanding(){
 // 	createEmitters();
-	emitterObject.visible = false;
-	mapObject.visible = false;
+	// emitterObject.visible = false;
+	// mapObject.visible = false;
 	scene.fog = new THREE.FogExp2( 0xffffff, 0.0005 );
 	raycaster.setFromCamera(mouse,camera);
 	raycaster.params.Points.threshold = 1;
@@ -379,10 +379,7 @@ function autoPlay(){
     }).start();
     var targTween = new TWEEN.Tween(targPos).to({ x: targLocation[0], y: targLocation[1], z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
     var zoomTween = new TWEEN.Tween(params).to({zoom:5},1000).easing(TWEEN.Easing.Quadratic.In).onComplete(function(){
-    	var info = document.getElementById("information2");
-    	info.style.left = width/2+5 +"px";
-    	info.style.top = height/2+5 +"px";
-    	$('#information2').fadeTo("slow",0.5);
+    	interactive = false;
     });
     var zoomTween2 = new TWEEN.Tween(params).to({zoom:4},1000).easing(TWEEN.Easing.Quadratic.Out).chain(zoomTween).start();
 

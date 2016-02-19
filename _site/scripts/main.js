@@ -168,14 +168,6 @@ function initCanvas(){
 
 	material_depth = new THREE.MeshDepthMaterial();
 
-	//stats
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	stats.domElement.style.right = '0px';
-	stats.domElement.style.height = '20px';
-	container.appendChild( stats.domElement );
-
 	//event listeners
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
@@ -363,7 +355,6 @@ function animate(time){
 		updatePersonal();
 	}
 	render();
-	stats.update();
 	if(!isMouseDown){
 		params.count+=(Math.pow(2,params.speed));
 	}
