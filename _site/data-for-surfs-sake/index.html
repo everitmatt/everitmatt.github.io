@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <title>Data for Surf's Sake</title>
     <style>
-      html, body, #map-div {
+      html, body{
         margin: 0;
         padding: 0;
         height: 100%;
@@ -58,13 +58,14 @@
     <script src="../lib/jquery-1.12.0.min.js"></script>
     <script src="../lib/dat.gui.js"></script>
     <script src="../lib/Tween.js"></script>
-    <script src="../lib/chosen.jquery.min.js"></script>
+<!--     <script src="../lib/chosen.jquery.min.js"></script> -->
     <script src="../lib/jsonpipe.js"></script>
-    <script src="../scripts/styles.js"></script>
+<!--     <script src="../lib/CSS3DRenderer2.js"></script> -->
+<!--     <script src="../scripts/styles.js"></script> -->
 
-    <script src="../local-sources/distinct-locations.js"></script>
-    <script src="../local-sources/sandpolygons.js"></script>
-    <script src="../local-sources/coastlinePolygon.js"></script>
+    <script src="../local-sources/distinct-locations-new.js"></script>
+<!--     <script src="../local-sources/sandpolygons.js"></script> -->
+<!--     <script src="../local-sources/coastlinePolygon.js"></script> -->
     <script src="../local-sources/landpolygons50m.js"></script>
     <script src="../local-sources/global-swell-emitters.js"></script>
     
@@ -74,66 +75,65 @@
     <script src="../scripts/main.js"></script>
 
     <script src="../shaders/BokehShader2.js"></script>
-    <script type="x-shader/x-vertex" id="vertexshader">
-      attribute float scale;
-      attribute float alpha;
-      attribute vec3 color;
-
-      uniform float pointWidth;
-
-      varying vec3 vColor;
-      varying float vAlpha;
-
-      void main() {
-        vColor = color;
-        vAlpha = alpha;
-
-        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-        gl_PointSize = pointWidth * ( 300.0 / length( mvPosition.xyz ) );
-        
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-
-      }
-    </script>
-    <script type="x-shader/x-fragment" id="fragmentshader" >
-      precision mediump float;
-      const float filterPixelWidth = 1.4142135623730951;
-      const vec4 blank = vec4(0.);
-      uniform sampler2D texture;
-      
-      varying vec3 vColor;
-      varying float vAlpha;
-
-      void main () {
-        if(vAlpha < 0.1) discard;
-
-        gl_FragColor = vec4(vColor,1.0);
-        
-        gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord )*vAlpha;
-      }
-    </script>
     <script type="x-shader/x-vertex" id="swell_vertexshader">
-      attribute float scale;
-      attribute float alpha;
-      attribute float swellSize;
+    attribute float scale;
+    attribute float swellSize;
+    attribute float timestamp;
+    attribute vec3 target;
+    
+    uniform float equator;
+    uniform float time;
+    uniform float zoom;
+    uniform float alpha;
+    uniform float pointWidth;
 
-      uniform float pointWidth;
+    varying float vAlpha;
+    varying float vSwell;
 
-      varying float vAlpha;
-      varying float vSwell;
-
-      void main() {
-        vAlpha = alpha;
-        vSwell = 1.0/10.0*swellSize;
-
-        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-    gl_PointSize = pointWidth * ( 300.0 / length( mvPosition.xyz ) );
-        
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-
+    vec3 emitter;
+    float x;
+    float y;
+      
+    void main() {
+      float lerp = 1.0/518400.0;
+      float start = timestamp-518400.0;
+      vAlpha = 0.0;
+      vSwell = 1.0/10.0*swellSize;
+      vec3 newPosition = position;
+      
+      if(start-500000.0 < time){
+        vAlpha = 1.0;
+        if(position.y > equator){
+          x = position.x + (20.0 - vSwell*10.0) * cos((time+timestamp)*-0.00005*(vSwell+0.1));
+          y = position.y + (20.0 - vSwell*10.0) * sin((time+timestamp)*-0.00005*(vSwell+0.1));
+          newPosition = vec3(x,y,position.z);
+        } else {
+          x = position.x + (20.0 - vSwell*10.0) * cos((time+timestamp)*0.00005*(vSwell+0.1));
+          y = position.y + (20.0 - vSwell*10.0) * sin((time+timestamp)*0.00005*(vSwell+0.1));
+          newPosition = vec3(x,y,position.z);
+        }
+        emitter = newPosition;
       }
+      if(start < time){
+        vAlpha = 1.0;
+        vec3 dir = target-emitter;
+        float l2 = 1.0-lerp*(timestamp-time);
+        newPosition = emitter+dir*l2;
+      }
+      if(timestamp < time){
+        newPosition = vec3(target.x,target.y,scale/zoom);
+      }
+      if(alpha < 0.0){
+        vAlpha = 1.0+alpha;
+      }
+
+      vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
+
+      gl_PointSize = equator*0.04 * (vSwell+1.0) * ( 300.0 / length( mvPosition.xyz ) );
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+
+    }
     </script>
     <script type="x-shader/x-fragment" id="swell_fragmentshader" >
       precision mediump float;
@@ -171,6 +171,8 @@
       }
     </script>
     <script type="x-shader/x-vertex" id="land_vertexshader">
+    
+
       void main() {
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 
@@ -180,24 +182,58 @@
       void main () {
           gl_FragColor = vec4(1.0,1.0,1.0,1.0);
 
-          if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) <= 1.0) {
-                gl_FragColor = vec4(0.9, 0.9, 0.9, 1.0);
-          }
+          if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) <= 1.0 || mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) <= 1.0) {
+                gl_FragColor = vec4(0.0, 0.0, 1.0, 0.1);
+          } else { discard ;}
 
-          if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) <= 1.0) {
-                gl_FragColor = vec4(0.9, 0.9, 0.9, 1.0);
-          }
+          //if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) <= 1.0) {
+          //      gl_FragColor = vec4(0.0, 0.0, 1.0, 0.1);
+          //}
       }
     </script>
+
+    <script type="x-shader/x-vertex" id="bluemarble_vertexshader">
+      uniform sampler2D texture;
+      varying vec2 vUv;
+      varying float vDis;
+      vec3 newPosition;
+      void main() {
+
+        vUv = uv;
+
+        vec4 tex = texture2D(texture,vUv);
+        vDis = (0.30*tex.r + 0.59*tex.g + 0.11*tex.b)*10.0-4.0;
+        if(vDis > 0.0){
+          newPosition = position;
+        } else {
+          newPosition = position+normal*vDis;
+        }
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+
+      }
+    </script>
+    <script type="x-shader/x-fragment" id="bluemarble_fragmentshader" >
+    uniform sampler2D texture;
+    varying vec2 vUv;
+    varying float vDis;
+    void main () {
+      gl_FragColor = mix(texture2D(texture, vUv),vec4(0.0,0.5,1.0,1.0),0.5);
+      
+      }
+    </script>
+    
     <script type="x-shader/x-vertex" id="pilgrim_vertexshader">
 
       attribute float alpha;
+
+      uniform float pointWidth;
 
       varying float vAlpha;
 
       void main() {
 
         vAlpha = alpha;
+        gl_PointSize = pointWidth;
 
         gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 
@@ -219,159 +255,27 @@
 
     </script>
 
-    <script type="x-shader/x-fragment" id="ocean_fragmentshader">
-      #ifdef GL_ES
-      precision mediump float;
-      #endif
-
-      #extension GL_OES_standard_derivatives : enable
-
-      uniform float time;
-      uniform vec2 mouse;
-      uniform vec2 resolution;
-
-      const vec4 BLUE = vec4( 0.0, 0.5, 1.0, 1.0 );
-      const vec4 TEAL = vec4( 0.0, 1.0, 1.0, 1.0);
-      const vec4 GREEN = vec4( 0.0, 1.0, 0.0, 1.0 );
-      const vec4 YELLOW = vec4( 1.0, 1.0, 0.0, 1.0);
-      const vec4 RED = vec4( 1.0, 0.0, 0.0, 1.0 );
-
-      float remap(float minval, float maxval, float curval){
-        return (curval - minval)/(maxval - minval);
-      }
-
-      void main( void ) {
-        const int num = 10;
-        vec3 controlPoints[num];
-        controlPoints[0] = vec3(mouse,0.5);
-        for(int i = 1; i < num; i++){
-          float j = float(i);
-          controlPoints[i] = vec3((j)*0.1,0.5-sin((time*j)*0.1)*0.5,1.0);
-        }
-
-        vec2 p = gl_FragCoord.xy / resolution.xy;
-        float swell = 0.0;
-        float dist = 0.0;
-        float scale = 50.0/float(num);
-        for(int i = 0; i < num; i++){
-          dist = distance(controlPoints[i].xy,p)*scale+controlPoints[i].z;
-          if(dist > 0.0){
-            swell += controlPoints[i].z/dist;
-          }
-        }
-        swell = swell / float(num);
-
-        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
-        if (mod(swell*1000.0, 10.0) <= 0.5) {
-          float dCol = swell;
-          if(dCol < 0.3){
-            gl_FragColor = mix (BLUE,TEAL, remap(0.0,0.3, dCol));
-          } else if(dCol < 0.33){
-            gl_FragColor = mix (TEAL,GREEN, remap(0.3,0.33, dCol));
-          } else if(dCol < 0.4){
-            gl_FragColor = mix (GREEN,YELLOW, remap(0.33,0.4, dCol));
-          }
-          else {
-            gl_FragColor = mix (YELLOW,RED, remap(0.4,0.45, dCol));
-
-          }
-        }
-      }
-      </script>
-      <script type="x-shader/x-fragment" id="swellmap_fragment">
-
-      uniform float time;
-      uniform vec2 mouse;
-      uniform vec2 resolution;
-
-      const vec4 BLUE = vec4( 0.0, 0.5, 1.0, 1.0 );
-      const vec4 BLUET = vec4( 0.0, 0.75, 1.0, 1.0 );
-      const vec4 TEAL = vec4( 0.0, 1.0, 1.0, 1.0);
-      const vec4 TEALG = vec4( 0.0, 1.0, 0.5, 1.0);
-      const vec4 GREEN = vec4( 0.0, 1.0, 0.0, 1.0 );
-      const vec4 GREENY = vec4( 0.5, 1.0, 0.0, 1.0 );
-      const vec4 YELLOW = vec4( 1.0, 1.0, 0.0, 1.0);
-      const vec4 YELLOWR = vec4( 1.0, 0.5, 0.0, 1.0);
-      const vec4 RED = vec4( 1.0, 0.0, 0.0, 1.0 );
-      const vec4 REDP = vec4( 1.0, 0.0, 0.5, 1.0 );
-      const vec4 PURPLE = vec4( 1.0, 0.0, 1.0, 1.0 );
-      const int num = 3;
-      const float speed = 0.2;
-      float swell = 0.0, dist = 0.0;
-      vec3 controlPoints[16];
-
-      void main( void ) {
-        controlPoints[13] = vec3(0.5+sin(time*speed)*0.5,0.5,1.0);
-        controlPoints[14] = vec3(0.5,0.25,-1.0);
-        controlPoints[15] = vec3(0.5,0.75,-1.0);
-        for(int i = 0; i < num; i++){
-          float j = float(i+1);
-          float x = 0.5+sin(time*speed)*0.5+0.1*cos(time*j*speed);
-          float y = 0.5+0.1*sin(time*j*speed);
-          //controlPoints[i] = vec3(x,y,0.75-sin((time*j)*0.1)*0.5);
-          controlPoints[i*4] = vec3(x,y,1.0);
-          for(int k = 0; k < 4; k++){
-            float x2 = x+0.1*cos(time*j*(float(k)+1.0)*speed);
-            float y2 = y+0.1*sin(time*j*(float(k)+1.0)*speed);
-            controlPoints[i*4+1+k] = vec3(x2,y2,0.5);
-          }
-        }
-
-        vec2 p = gl_FragCoord.xy / resolution.xy;
-        float scale = 100.0/float(num);
-        for(int i = 0; i < 16; i++){
-          dist = distance(controlPoints[i].xy,p)*scale+controlPoints[i].z;
-          if(dist > 0.0){
-            swell += controlPoints[i].z/dist;
-          } else {
-            swell = 0.0;  
-          }
-        }
-        swell = swell / float(num);
-
-        if(swell < 0.2){
-          gl_FragColor = BLUE;
-        } else if(swell < 0.25){
-          gl_FragColor = BLUET;
-        } else if(swell < 0.30){
-          gl_FragColor = TEAL;
-        } else if(swell < 0.35){
-          gl_FragColor = TEALG;
-        } else if(swell < 0.40){
-          gl_FragColor = GREEN;
-        } else if(swell < 0.45){
-          gl_FragColor = GREENY;
-        } else if(swell < 0.50){
-          gl_FragColor = YELLOW;
-        } else if(swell < 0.55){
-          gl_FragColor = YELLOWR;
-        } else if(swell < 0.60){
-          gl_FragColor = RED;
-        } else if(swell < 0.65){
-          gl_FragColor = REDP;
-        } else {
-          gl_FragColor = PURPLE;
-
-        }
-
-        if (mod(swell*1000.0, 20.0) <= 0.5 && mod(swell*1000.0, 40.0) >= 0.2) {
-          gl_FragColor = vec4(1.0,1.0,1.0,1.0); 
-        }
-      }
-</script>
-
   </head>
 
   <body>
-<!--     <div id="loading">loading</div> -->
-<!--     <div id="map-div"></div> -->
+  <div id="timeline-container" style="width:100%; height: 200px; z-index: 1; position: absolute">
+    <div id="timeline-centered" style="width: 800px; height: 100%; margin: 0px auto;">
+      <div style="float:left; width:30%; height: 50px; margin-left: 5%; margin-top: 50px"></div>
+      <div style="float:left; width:30%; height: 50px; margin-top: 50px"></div>
+      <div style="float:left; width:30%; height: 50px; margin-right: 5%; margin-top: 50px"></div>
+    </div>
+  </div>
     <div id="login-container">
         <div id="login">
-<!--             <div id = "start"></div> -->
+          <div style="width: 100%; text-align: center; color: white">Welcome Chat</div>
+          <div style="width: 100%; text-align: center; color: white">loading stuff...</div>
             <div id = "loading-bar"></div>
         </div>
     </div>
+    <div id="gui-container" style="position:absolute; top: 0px; left: -250px; height:100%; width:260px; background-color: black; z-index:1"></div>
     <div id="information" style="position: fixed; width:200px; height:50px; background-color: white; z-index: 1; visibility: hidden"></div>
-    <select id="location-select" style="position: fixed; left: 50%; top:20px; z-index: 2; visibility: hidden;"  onchange="goSelectedLocation(this.value)"></select>
+    <div id="information2" style="position: fixed; width:200px; height:50px; background-color: grey; z-index: 1; display: none; opaity: 0.5"></div>
+    <select id="location-select" style="visibility: hidden;"  onchange="goSelectedLocation(this.value)"></select>
   </body>
+
 </html>
