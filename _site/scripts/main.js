@@ -250,6 +250,8 @@ function loadTextures(){
 				depthTest: false,
 				blending: THREE.NormalBlending,
 			});
+
+			mainApiCall();
 		},
 		// Function called when download progresses
 		function ( xhr ) {
@@ -283,7 +285,7 @@ function mainApiCall(){
 		"complete": function(statusText) {
 			exitLoading();
 		},
-		"timeout": 10000, // Number. Set a timeout (in milliseconds) for the request
+		"timeout": 60000, // Number. Set a timeout (in milliseconds) for the request
 		"method": "GET", // String. The type of request to make (e.g. "POST", "GET", "PUT"); default is "GET"
 		"headers": { // Object. An object of additional header key/value pairs to send along with request
 			"X-Requested-With": "XMLHttpRequest"
