@@ -1,4 +1,4 @@
-var container, camera, localCamera, scene, renderer, cssRenderer, material_depth;
+var container, camera, cssCamera, localCamera, scene, cssScene, renderer, cssRenderer, material_depth;
 var loadingScreen, statsContainer;
 var TIME_SPACE = "loading";
 var targPos;
@@ -10,6 +10,7 @@ var params = {
 	zoom: 1,
 	speed: 1,
 	timeline: 0,
+	frame: 0,
 	restart: function(){
 		params.count = 0
 		userOptions.surfIndex = 0;
@@ -18,7 +19,7 @@ var params = {
 
 var userOptions = {
 	searchGPSId: '546a8e195101c0076728c57a',
-	surfId: '5635dffb1716481100732228',
+	surfIds: ['562a98b86ba2a21100b30ea8','5625c5d82ec0af1100dfc700','5635dffb1716481100732228'],
 	surfIndex: 0,
 	locationIndices: [],
 	timestamps: []
@@ -36,15 +37,17 @@ var proIds = [
 
 var palette = {
 	background: 0xffffff,
-	background_alpha: 1.0,
+	background_alpha: 0.0,
 	landOutline: 0xaaaaaa,
-	landFill: 0x000000,
+	landFill: 0xaaaaaa,
 }
 
 var count = 0;
 var totalPerc = 0;
+var swellUniforms = {};
 // var bounds = [[-180,180],[-90,90]];
-var startTimestamp = 1414819736-86400, endTimestamp = 1447870200;
+var startTimestamp = 1414819736-1000000, endTimestamp = 1447870200;
+var totalDuration = endTimestamp-startTimestamp;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
@@ -63,7 +66,7 @@ var shaderSettings = {
 			};
 var effectController;
 
-var width, height, world = 1000000;
+var width, height, world = 1;
 
 var loadingObject, landingObject, globalObject, localObject, usersObject, personalObject, localHoverObject, mapPlaneObject;
 
@@ -73,16 +76,30 @@ var mouseDown = [];
 var mouseDiff = [];
 var mouseDownTarget = [];
 var mouseDownPosition = [];
+var mouseDragging = false;
 var mouse = new THREE.Vector3(), raycaster = new THREE.Raycaster(),GLOBAL_INTERSECTED ,LOCAL_INTERSECTED, dir, intersected, intersectedLocals, totalPerc;
 
+var blueMarbleMaterial;
+
 $(document).ready(function(){
-	mainApiCall();
+	loadTextures();
+// 	mainApiCall();
 });
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+	center: {lat: 0, lng: 0},
+	zoom: 3
+  });
+
+  mainApiCall();
+}
 
 
 function initCanvas(){
 	width = window.innerWidth*world;
-	height = window.innerHeight*world;
+	height = window.innerWidth*0.5*world;
 	$("#login-container").fadeIn("slow");
 // 	statsContainer = document.getElementById('stats-container');
 // 	statsContainer.style.visibility = 'hidden';
@@ -94,7 +111,7 @@ function initCanvas(){
 	container.style.top = '0px';
 	$("#webgl-container").animate({opacity:'1'},5000);
 
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 1000000000 );
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 10000);
 	camera.up.set( 0, 0, 1 );
 	camera.position.x = window.innerWidth/2.0;
 	camera.position.y = window.innerHeight;
@@ -105,7 +122,6 @@ function initCanvas(){
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2( palette.background, 0.005 );
-	cssScene = new THREE.Scene();
 
 	createLoading();
 	initPostprocessing();
@@ -137,9 +153,15 @@ function initCanvas(){
 		dithering: 0.0001
 
 	};
-	
+// 	cssRenderer = new THREE.CSS3DRenderer();
+// 	cssRenderer.setSize( window.innerWidth, window.innerHeight );
+// 	cssRenderer.domElement.style.position = 'absolute';
+// 	cssRenderer.domElement.style.top = 0;
+// 	container.appendChild( cssRenderer.domElement );
+
 	renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, alpha: true});
 	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.sortObjects = false;
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.setClearColor(palette.background,1);
 	container.appendChild( renderer.domElement );
@@ -150,6 +172,7 @@ function initCanvas(){
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
+	stats.domElement.style.right = '0px';
 	stats.domElement.style.height = '20px';
 	container.appendChild( stats.domElement );
 
@@ -198,14 +221,85 @@ function initCanvas(){
 		loadingObject = group;
 	}
 }
+
+function loadTextures(){
+	initCanvas();
+	// instantiate a loader
+	var loader = new THREE.TextureLoader();
+
+	loader.load(
+		// resource URL
+		"../textures/sprites/spark1.png",
+		// Function when resource is loaded
+		function ( texture ) {
+			// do something with the texture
+			swellUniforms = {
+				equator: {type: 'f', value: 0.0},
+				time: {type: 'f', value: 0.0 },
+				zoom: {type: 'f', value: 0.0},
+				alpha: {type: 'f', value: 0.0},
+				texture: {type: 't', value: texture},
+				pointWidth: {type: 'f', value: 20.0*world}
+			}
+
+			surfMaterial = new THREE.ShaderMaterial( {
+				uniforms: swellUniforms,
+				vertexShader:   document.getElementById( 'swell_vertexshader' ).textContent,
+				fragmentShader: document.getElementById( 'swell_fragmentshader' ).textContent,
+				transparent: true,
+				depthTest: false,
+				blending: THREE.NormalBlending,
+			});
+
+			loader.load(
+		// resource URL
+				"../textures/gebco_08_rev_elev_21600x108002.png",
+				// Function when resource is loaded
+				function ( texture ) {
+					// do something with the texture
+					blueMarbleMaterial  = new THREE.ShaderMaterial({
+						uniforms: {
+							texture: {type: 't', value: texture},
+						},
+						vertexShader:   document.getElementById( 'bluemarble_vertexshader' ).textContent,
+						fragmentShader: document.getElementById( 'bluemarble_fragmentshader' ).textContent,
+						transparent: true,
+						blending: THREE.NormalBlending,
+						side: THREE.DoubleSide,
+					});
+
+					mainApiCall();
+				},
+				// Function called when download progresses
+				function ( xhr ) {
+					console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+				},
+				// Function called when download errors
+				function ( xhr ) {
+					console.log( 'An error happened' );
+				}
+			);
+		},
+		// Function called when download progresses
+		function ( xhr ) {
+			console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+		},
+		// Function called when download errors
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
+
+	// load a resource
+
+}
       
 function mainApiCall(){
-	initCanvas();
-
+	
 	database = [];
 	var chunkCount = 0;
 	var loadingBar = document.getElementById("loading-bar");
-	jsonpipe.flow('../local-sources/SGPS-15-Timestamps-1.json', {
+	jsonpipe.flow('../local-sources/minified-surfs.json', {
 		"delimiter": "\n", // String. The delimiter separating valid JSON objects; default is "\n\n"
 		"success": function(data) {
 			// Do something with this JSON chunk
@@ -214,38 +308,8 @@ function mainApiCall(){
 		},
 		"error": function(errorMsg) {
 			console.log(errorMsg);
-			// Something wrong happened, check the error message
 		},
 		"complete": function(statusText) {
-			// Called after success/error, with the XHR status text
-// 			console.log(landing);
-			getNext();
-		},
-		"timeout": 10000, // Number. Set a timeout (in milliseconds) for the request
-		"method": "GET", // String. The type of request to make (e.g. "POST", "GET", "PUT"); default is "GET"
-		"headers": { // Object. An object of additional header key/value pairs to send along with request
-			"X-Requested-With": "XMLHttpRequest"
-		},
-		"data": "", // String. A serialized string to be sent in a POST/PUT request,
-		"withCredentials": true // Boolean. Send cookies when making cross-origin requests; default is true
-	});
-}
-
-function getNext(){
-	jsonpipe.flow('../local-sources/SGPS-15-Timestamps-2.json', {
-		"delimiter": "\n", // String. The delimiter separating valid JSON objects; default is "\n\n"
-		"success": function(data) {
-			// Do something with this JSON chunk
-			landing.push(data);
-
-		},
-		"error": function(errorMsg) {
-			console.log(errorMsg);
-			// Something wrong happened, check the error message
-		},
-		"complete": function(statusText) {
-			// Called after success/error, with the XHR status text
-			console.log(landing);
 			exitLoading();
 		},
 		"timeout": 10000, // Number. Set a timeout (in milliseconds) for the request
@@ -311,15 +375,25 @@ function animate(time){
 	} else if (TIME_SPACE == "landing"){
 // 		intersectGlobal();
 		updateLanding();
+		if(!isMouseDown){
+			timeline.value = params.count*100.0/totalDuration;
+		}
+// 		console.log(toScreenXY(targPos));
+
 	} else if(TIME_SPACE == "local"){
 // 		intersect();
 		updateLocal();
+		if(!isMouseDown){
+			timeline.value = params.count*100.0/totalDuration;
+		}
 	} else if(TIME_SPACE == "personal"){
 		updatePersonal();
 	}
 	render();
 	stats.update();
-	params.count+=(Math.pow(2,params.speed));
+	if(!isMouseDown){
+		params.count+=(Math.pow(2,params.speed));
+	}
 }
 
 function render(){
@@ -348,7 +422,9 @@ function render(){
 // 		renderer.clear();
 		renderer.setClearColor(palette.background,palette.background_alpha);
 // 		renderer.autoClear = false;
+// 		cssRenderer.render( cssScene, params.camera );
 		renderer.render( scene, params.camera);
+		
 
 	}
 }
@@ -372,7 +448,7 @@ function updateLoading(){
 function exitLoading(){
 	//fadeout
 	if(auto){
-		userOptions.searchGPSId = proIds[1];
+		userOptions.searchGPSId = proIds[2];
 	}
 
 	scene.remove(loadingObject);
@@ -398,7 +474,7 @@ function onWindowResize() {
 //
 
 function onDocumentMouseMove( event ) {
-	event.preventDefault();
+// 	event.preventDefault();
 	mouseX = event.clientX - windowHalfX;
 	mouseY = event.clientY - windowHalfY;
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -407,29 +483,34 @@ function onDocumentMouseMove( event ) {
 	infoDiv.style.left = (event.clientX+10) + "px";
 	infoDiv.style.top = (event.clientY-60) + "px";
 	if(isMouseDown){
-		mouseDiff = [(mouseX - mouseDown[0])*world/Math.pow(2,params.zoom)*2,(mouseY - mouseDown[1])*world/Math.pow(2,params.zoom)*2];
-		camera.position.x = mouseDownPosition[0] + mouseDiff[0];
-		targPos.x = mouseDownTarget[0] + mouseDiff[0];
-		camera.position.y = mouseDownPosition[1] - mouseDiff[1];
-		targPos.y = mouseDownTarget[1] - mouseDiff[1];
-		camera.lookAt(targPos);
-// 		console.log(mouseDiff);
+		mouseDragging = true;
+		params.count = timeline.value/100*totalDuration;
 	}
+// 		mouseDiff = [(mouseX - mouseDown[0])*world/Math.pow(2,params.zoom)*2,(mouseY - mouseDown[1])*world/Math.pow(2,params.zoom)*2];
+// 		camera.position.x = mouseDownPosition[0] + mouseDiff[0];
+// 		targPos.x = mouseDownTarget[0] + mouseDiff[0];
+// 		camera.position.y = mouseDownPosition[1] - mouseDiff[1];
+// 		targPos.y = mouseDownTarget[1] - mouseDiff[1];
+// 		camera.lookAt(targPos);
+// // 		console.log(mouseDiff);
+// 	}
 }
 
 function onDocumentMouseDown( event ) {
 // 	event.preventDefault();
-	isMouseDown = true;
-	mouseDown = [event.clientX - windowHalfX,event.clientY - windowHalfY];
-	mouseDownTarget = [targPos.x,targPos.y];
-	mouseDownPosition = [camera.position.x, camera.position.y];
+		isMouseDown = true;
+		mouseDown = [event.clientX - windowHalfX,event.clientY - windowHalfY];
+		mouseDownTarget = [targPos.x,targPos.y];
+		mouseDownPosition = [camera.position.x, camera.position.y];
 
 }
 
 function onDocumentMouseUp( event ) {
-	event.preventDefault();
+// 	event.preventDefault();
 	if(isMouseDown){
+		//params.count*100.0/totalDuration;
 		isMouseDown = false;
+		mouseDragging = false;
 	}
 
 }
@@ -589,14 +670,22 @@ function intersectGlobal(){
 	}
 }
 
-function latLngToPixel(lat,lng){
-	mapWidth = width;
-    mapHeight = height;
-	var x = mapWidth-(lng+180)*(mapWidth/360);
-    var latRad = lat*Math.PI/180;
-    var mercN = Math.log(Math.tan((Math.PI/4)+(latRad/2)));
-    var y = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
-    return [x,y];
+// function latLngToPixel(lat,lng){
+// 	mapWidth = window.innerWidth*world;
+//     mapHeight = window.innerHeight*world;
+// 	var x = mapWidth-(lng+180)*(mapWidth/360);
+//     var latRad = lat*Math.PI/180;
+//     var mercN = Math.log(Math.tan((Math.PI/4)+(latRad/2)));
+//     var y = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
+//     return [x,y];
+// }
+
+function latLngToPixel(lat,lng)
+{
+  var screenX = (((lng * -1)  + 180) * (width  / 360));
+  var screenY = (((lat * -1) + 90) * (height/ 180));
+
+  return [screenX,screenY];
 }
 
 function latLngToPixelReal(lat,lng){
@@ -625,4 +714,17 @@ function constrain(v,min,max){
 
 function convertToRange(value, srcRange, dstRange){
 	return dstRange[0] + (dstRange[1]-dstRange[0]) * (value - srcRange[0])/(srcRange[1]-srcRange[0]);
+}
+
+function toScreenXY ( position ) {
+
+    var pos = position.clone();
+    projScreenMat = new THREE.Matrix4();
+    projScreenMat.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+    pos.applyMatrix4(projScreenMat);
+//     projScreenMat.multiplyVector3( pos );
+
+    return { x: ( pos.x + 1 ) * width / 2 ,
+         y: ( - pos.y + 1) * height / 2 };
+
 }
