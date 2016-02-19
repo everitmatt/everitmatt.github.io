@@ -1,0 +1,550 @@
+[
+  {
+     "FIELD1":"Mediterranean Sea"
+    ,"FIELD2":29
+    ,"FIELD3":-6
+    ,"FIELD4":47
+    ,"FIELD5":42
+    ,"FIELD6":"83"
+    ,"FIELD7":"28"
+  },
+  {
+     "FIELD1":"Black Sea"
+    ,"FIELD2":40
+    ,"FIELD3":27
+    ,"FIELD4":47
+    ,"FIELD5":42
+    ,"FIELD6":"86"
+    ,"FIELD7":"28"
+  },
+  {
+     "FIELD1":"Eastern Mediterranean"
+    ,"FIELD2":29.5
+    ,"FIELD3":9.25
+    ,"FIELD4":41.5
+    ,"FIELD5":37
+    ,"FIELD6":"74"
+    ,"FIELD7":"28"
+  },
+  {
+     "FIELD1":"Western Mediterranean"
+    ,"FIELD2":34.5
+    ,"FIELD3":-6
+    ,"FIELD4":45
+    ,"FIELD5":16.5
+    ,"FIELD6":"73"
+    ,"FIELD7":"28"
+  },
+  {
+     "FIELD1":"North Atlantic"
+    ,"FIELD2":18
+    ,"FIELD3":-83
+    ,"FIELD4":67
+    ,"FIELD5":10
+    ,"FIELD6":"2"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Canary Islands"
+    ,"FIELD2":25
+    ,"FIELD3":-30
+    ,"FIELD4":35
+    ,"FIELD5":-10
+    ,"FIELD6":"6"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Cape Cod"
+    ,"FIELD2":41
+    ,"FIELD3":-71
+    ,"FIELD4":42.5
+    ,"FIELD5":-69
+    ,"FIELD6":"69"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Gulf Of Mexico"
+    ,"FIELD2":14.5
+    ,"FIELD3":-101
+    ,"FIELD4":32
+    ,"FIELD5":-72
+    ,"FIELD6":"63"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Mid Atlantic"
+    ,"FIELD2":0
+    ,"FIELD3":-90
+    ,"FIELD4":50
+    ,"FIELD5":0
+    ,"FIELD6":"22"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Morocco"
+    ,"FIELD2":27
+    ,"FIELD3":-23
+    ,"FIELD4":37
+    ,"FIELD5":-5
+    ,"FIELD6":"15"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"North Atlantic Hurricane"
+    ,"FIELD2":0
+    ,"FIELD3":-98.25
+    ,"FIELD4":50
+    ,"FIELD5":-30
+    ,"FIELD6":"78"
+    ,"FIELD7":"17"
+  },
+  {
+     "FIELD1":"North Sea"
+    ,"FIELD2":51
+    ,"FIELD3":-17
+    ,"FIELD4":65
+    ,"FIELD5":17
+    ,"FIELD6":"7"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"North Caribbean"
+    ,"FIELD2":16
+    ,"FIELD3":-85
+    ,"FIELD4":28
+    ,"FIELD5":-63
+    ,"FIELD6":"32"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"NY"
+    ,"FIELD2":39
+    ,"FIELD3":-75
+    ,"FIELD4":42
+    ,"FIELD5":-70
+    ,"FIELD6":"66"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"UK Ireland"
+    ,"FIELD2":42
+    ,"FIELD3":-33
+    ,"FIELD4":65
+    ,"FIELD5":10
+    ,"FIELD6":"1"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"US Northeastern Seaboard"
+    ,"FIELD2":34
+    ,"FIELD3":-80
+    ,"FIELD4":47
+    ,"FIELD5":-56
+    ,"FIELD6":"20"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"US Southeastern Seaboard"
+    ,"FIELD2":24
+    ,"FIELD3":-85
+    ,"FIELD4":37.5
+    ,"FIELD5":-60
+    ,"FIELD6":"21"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Western Europe"
+    ,"FIELD2":35
+    ,"FIELD3":-27
+    ,"FIELD4":50
+    ,"FIELD5":1
+    ,"FIELD6":"3"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"North Pacific"
+    ,"FIELD2":-10
+    ,"FIELD3":-230
+    ,"FIELD4":60
+    ,"FIELD5":-90
+    ,"FIELD6":"80"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"California"
+    ,"FIELD2":31
+    ,"FIELD3":-140
+    ,"FIELD4":44
+    ,"FIELD5":-115
+    ,"FIELD6":"12"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Central Pacific"
+    ,"FIELD2":-5
+    ,"FIELD3":-200
+    ,"FIELD4":45
+    ,"FIELD5":-110
+    ,"FIELD6":"39"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Hawaii"
+    ,"FIELD2":17
+    ,"FIELD3":-162.5
+    ,"FIELD4":24
+    ,"FIELD5":-152.5
+    ,"FIELD6":"38"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"North East Pacific"
+    ,"FIELD2":10
+    ,"FIELD3":-170
+    ,"FIELD4":60
+    ,"FIELD5":-80
+    ,"FIELD6":"24"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"North Pacific Hurricane"
+    ,"FIELD2":5
+    ,"FIELD3":-170
+    ,"FIELD4":60
+    ,"FIELD5":-77
+    ,"FIELD6":"79"
+    ,"FIELD7":"17"
+  },
+  {
+     "FIELD1":"North West Pacific"
+    ,"FIELD2":10
+    ,"FIELD3":105
+    ,"FIELD4":60
+    ,"FIELD5":197.5
+    ,"FIELD6":"50"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Pacific Mexico"
+    ,"FIELD2":10
+    ,"FIELD3":-130
+    ,"FIELD4":32.5
+    ,"FIELD5":-89
+    ,"FIELD6":"23"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Pacific North West"
+    ,"FIELD2":40
+    ,"FIELD3":-140
+    ,"FIELD4":50
+    ,"FIELD5":-121
+    ,"FIELD6":"16"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Southern California"
+    ,"FIELD2":32
+    ,"FIELD3":-123
+    ,"FIELD4":35
+    ,"FIELD5":-117
+    ,"FIELD6":"70"
+    ,"FIELD7":"17"
+  },
+  {
+     "FIELD1":"US Pacific"
+    ,"FIELD2":10
+    ,"FIELD3":-190
+    ,"FIELD4":60
+    ,"FIELD5":-100
+    ,"FIELD6":"13"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Northern Indian Ocean"
+    ,"FIELD2": -10
+    ,"FIELD3":40
+    ,"FIELD4":28
+    ,"FIELD5":110
+    ,"FIELD6":"43"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Arabian Sea"
+    ,"FIELD2":8
+    ,"FIELD3":48
+    ,"FIELD4":26
+    ,"FIELD5":81
+    ,"FIELD6":"41"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"South East Asia"
+    ,"FIELD2":4
+    ,"FIELD3":85
+    ,"FIELD4":22
+    ,"FIELD5":118
+    ,"FIELD6":"57"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"South Atlantic"
+    ,"FIELD2":-70
+    ,"FIELD3":-80
+    ,"FIELD4":8
+    ,"FIELD5":40
+    ,"FIELD6":"30"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"South Pacific"
+    ,"FIELD2":-68
+    ,"FIELD3":-222
+    ,"FIELD4":23
+    ,"FIELD5":-68
+    ,"FIELD6":"81"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Central America"
+    ,"FIELD2":4
+    ,"FIELD3":-99
+    ,"FIELD4":15
+    ,"FIELD5":-78
+    ,"FIELD6":"25"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Chile"
+    ,"FIELD2":-40
+    ,"FIELD3":-100
+    ,"FIELD4":-18
+    ,"FIELD5":-60
+    ,"FIELD6":"27"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Ecuador and Peru"
+    ,"FIELD2":-22
+    ,"FIELD3":-110
+    ,"FIELD4":5
+    ,"FIELD5":-70
+    ,"FIELD6":"28"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"French Polynesnia"
+    ,"FIELD2":-22
+    ,"FIELD3":-155
+    ,"FIELD4":-12
+    ,"FIELD5":-135
+    ,"FIELD6":"49"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Pacific Ocean Islands"
+    ,"FIELD2":-23
+    ,"FIELD3":171
+    ,"FIELD4":-13
+    ,"FIELD5":193
+    ,"FIELD6":"58"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"SE Pacific"
+    ,"FIELD2":-50
+    ,"FIELD3":-180
+    ,"FIELD4":20
+    ,"FIELD5":-54
+    ,"FIELD6":"26"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"South Philippine Sea"
+    ,"FIELD2":5
+    ,"FIELD3":105
+    ,"FIELD4":21.5
+    ,"FIELD5":135
+    ,"FIELD6":"51"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"SW Pacific"
+    ,"FIELD2":-23
+    ,"FIELD3":105
+    ,"FIELD4":27
+    ,"FIELD5":197.5
+    ,"FIELD6":"52"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Southern Indian Ocean"
+    ,"FIELD2":-70
+    ,"FIELD3":-20
+    ,"FIELD4":15
+    ,"FIELD5":155
+    ,"FIELD6":"34"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Indonesia"
+    ,"FIELD2":-15
+    ,"FIELD3":90
+    ,"FIELD4":5
+    ,"FIELD5":126
+    ,"FIELD6":"44"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Madagascar"
+    ,"FIELD2":-30
+    ,"FIELD3":30
+    ,"FIELD4":-8
+    ,"FIELD5":70
+    ,"FIELD6":"47"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Maldives"
+    ,"FIELD2":-2
+    ,"FIELD3":67
+    ,"FIELD4":7
+    ,"FIELD5":81
+    ,"FIELD6":"45"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"South Africa"
+    ,"FIELD2":-45
+    ,"FIELD3":6
+    ,"FIELD4":-25
+    ,"FIELD5":42
+    ,"FIELD6":"4"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Western Australia"
+    ,"FIELD2":-36
+    ,"FIELD3":93
+    ,"FIELD4":-20
+    ,"FIELD5":122
+    ,"FIELD6":"33"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Tasman Sea"
+    ,"FIELD2":-65
+    ,"FIELD3":115
+    ,"FIELD4":-15
+    ,"FIELD5":201
+    ,"FIELD6":"11"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"New Zealand"
+    ,"FIELD2":-49
+    ,"FIELD3":159
+    ,"FIELD4":-33
+    ,"FIELD5":187
+    ,"FIELD6":"10"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"South Australia"
+    ,"FIELD2":-51
+    ,"FIELD3":120
+    ,"FIELD4":-29
+    ,"FIELD5":160
+    ,"FIELD6":"35"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Baltic Sea"
+    ,"FIELD2":52
+    ,"FIELD3":5
+    ,"FIELD4":66
+    ,"FIELD5":31
+    ,"FIELD6":"87"
+    ,"FIELD7":"32"
+  },
+  {
+     "FIELD1":"China"
+    ,"FIELD2":18
+    ,"FIELD3":109
+    ,"FIELD4":35
+    ,"FIELD5":140
+    ,"FIELD6":"61"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Great Lakes"
+    ,"FIELD2":41
+    ,"FIELD3":-92.2
+    ,"FIELD4":49.5
+    ,"FIELD5":-75.7
+    ,"FIELD6":"76"
+    ,"FIELD7":"30"
+  },
+  {
+     "FIELD1":"North Sea and Norwegian Ocean"
+    ,"FIELD2":50
+    ,"FIELD3":-40
+    ,"FIELD4":75
+    ,"FIELD5":20
+    ,"FIELD6":"59"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Northern Australia"
+    ,"FIELD2":-32
+    ,"FIELD3":140
+    ,"FIELD4":-5
+    ,"FIELD5":190
+    ,"FIELD6":"36"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Persian Gulf"
+    ,"FIELD2":23
+    ,"FIELD3":47
+    ,"FIELD4":31
+    ,"FIELD5":57
+    ,"FIELD6":"85"
+    ,"FIELD7":"28"
+  },
+  {
+     "FIELD1":"Southern Caribbean"
+    ,"FIELD2":8
+    ,"FIELD3":-71
+    ,"FIELD4":20
+    ,"FIELD5":-49
+    ,"FIELD6":"53"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"Southern Japan"
+    ,"FIELD2":23.5
+    ,"FIELD3":120
+    ,"FIELD4":40
+    ,"FIELD5":150
+    ,"FIELD6":"48"
+    ,"FIELD7":"1"
+  },
+  {
+     "FIELD1":"World Atlantic"
+    ,"FIELD2":-65
+    ,"FIELD3":-180
+    ,"FIELD4":72.5
+    ,"FIELD5":180
+    ,"FIELD6":"88"
+    ,"FIELD7":"41"
+  },
+  {
+     "FIELD1":"World Pacific"
+    ,"FIELD2":-65
+    ,"FIELD3":-360
+    ,"FIELD4":72.5
+    ,"FIELD5":0
+    ,"FIELD6":"89"
+    ,"FIELD7":"41"
+  }]

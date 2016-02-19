@@ -32,15 +32,20 @@ function initLanding() {
 	});
 
 	var customContainer = document.getElementById('gui-container');
-	customContainer.appendChild(gui.domElement);
+// 	customContainer.appendChild(gui.domElement);
 
-	// $('#gui-container').mouseenter(function(){
-	// 	$(this).animate({left:'0px'},350);
-	// });
+// 	$("#menu-icon").click(function(){
+// 		$(this).fadeOut("fast",function(){
+// 			$("#gui-container").animate({left: "0px"},500);
+// 		});
+// 	});
 
-	// $('#gui-container').mouseleave(function(){
-	// 	$(this).delay(500).animate({left:'-250px'},350);
-	// });
+// 	$("#gui-container").mouseleave(function(){
+// 		$(this).animate({left: "-250px"},500,function(){
+// 			$("#menu-icon").fadeIn("fast");
+// 		});
+// 	});
+
 
 	timeline = document.createElement("INPUT");
     timeline.setAttribute("type", "range");
@@ -52,8 +57,20 @@ function initLanding() {
 	
 	createSelect();
 
+	createMap();
 	createWorld();
+	createEmitters();
 	createGlobalSurfs();
+
+	function createMap(){
+		var geometry = new THREE.PlaneGeometry(width,height,width/10.0,height/10.0);
+		mapObject = new THREE.Mesh( geometry, blueMarbleMaterial );
+		mapObject.position.x = width/2.0;
+		mapObject.position.y = height/2.0;
+		mapObject.position.z = 0;
+		scene.add(mapObject);
+
+	}
 
 	function createWorld(){
 		var group = new THREE.Group();
@@ -204,8 +221,9 @@ function initLanding() {
 
 	function createSelect(){
 		var select = document.getElementById("location-select")
-		select.style.margin = '50px 5px';
-		select.style.width = '240px';
+		select.style.height = "40px";
+		select.style.width = "96%";
+		select.style.margin = '10px 2%';
 		for(var i = 0; i<distinctLocations.length;i++){
 			var l = document.createElement("option");
 			l.value = i;
@@ -236,9 +254,9 @@ function initLanding() {
 // 	landingGui.add(params,'local');
 	landingGui.open();
 
-	goUser();
+	goGlobal();
 
-	// console.log(landing);
+	console.log(landing);
 	console.log(scene);
 	console.log(userOptions);
 }
@@ -275,8 +293,8 @@ function createEmitters(){
 
 function updateLanding(){
 // 	createEmitters();
-	// emitterObject.visible = false;
-	// mapObject.visible = false;
+	emitterObject.visible = false;
+	mapObject.visible = false;
 	scene.fog = new THREE.FogExp2( 0xffffff, 0.0005 );
 	raycaster.setFromCamera(mouse,camera);
 	raycaster.params.Points.threshold = 1;

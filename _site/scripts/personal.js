@@ -12,29 +12,44 @@ var replaySpeed = 1;
 // var mouse = new THREE.Vector2(), raycaster = new THREE.Raycaster(),INTERSECTED,activeParticle, dir, intersectedIndex = -1, cleared = true;
 
 function initPersonal() {
-	console.log(personal);
-	testZoom = 15;
-	xBounds = [ personal.longitude - 0.01,
-  		personal.longitude + 0.01];
-	yBounds = [ personal.latitude - 0.01,
-	  		personal.latitude + 0.01];
+	TIME_SPACE = "personal"
 
-	camera.position.z = 1000;
-	camera.up.set( 0, 0, 1 );
+	bounds = {
+		topLeft: {
+			x: -180,
+			y: -90
+		},
+		bottomRight: {
+			x:180,
+			y:90
+		},
+		center: {
+			x: 0,
+			y: 0,	
+		}
+	};
+// 	testZoom = 15;
+// 	xBounds = [ personal.longitude - 0.01,
+//   		personal.longitude + 0.01];
+// 	yBounds = [ personal.latitude - 0.01,
+// 	  		personal.latitude + 0.01];
+
+// 	camera.position.z = 1000;
+// 	camera.up.set( 0, 0, 1 );
 	
 // 	var t = latLngToPixelWithZoom(personal.latitude,personal.longitude,testZoom);
 	
 // 	targPos.x = t[0];
 //   	targPos.y = t[1];
 
-	targPos.x = convertToRange(personal.longitude,xBounds,[0,window.innerWidth]);
-  	targPos.y = convertToRange(personal.latitude,yBounds,[0,window.innerHeight]);
+// 	targPos.x = convertToRange(personal.longitude,xBounds,[0,window.innerWidth]);
+//   	targPos.y = convertToRange(personal.latitude,yBounds,[0,window.innerHeight]);
 
-  	camPos.x = targPos.x
-  	camPos.y = targPos.y
+//   	camPos.x = targPos.x
+//   	camPos.y = targPos.y
 
-	scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2( 0xffffff, 0.0015 );
+// 	scene = new THREE.Scene();
+// 	scene.fog = new THREE.FogExp2( 0xffffff, 0.0015 );
 
 	//particle geometry
 	function createParticles(){
@@ -67,7 +82,13 @@ function initPersonal() {
 			var s = personal.data[i];
 
 	        var location = [s.latitude, s.longitude, s.altitude];
-	        //check to see if new location, if new create lerped vertices, if no new do nothing;
+	        var lat = s.latitude;
+	        var lng = s.longitude;
+	        if(lng > bounds.topLeft.x) bounds.topLeft.x = lng;
+			if(lng < bounds.bottomRight.x) bounds.bottomRight.x = lng;
+			if(lat > bounds.topLeft.y) bounds.topLeft.y = lat;
+			if(lat < bounds.bottomRight.y) bounds.bottomRight.y = lat;
+	        //check to see if new location, if new create lerped vertices, if not new do nothing;
 	        if(currentLocation[0] != location[0] || currentLocation[1] != location[1] || currentLocation[2] != location[2]){
 	        	//find the datum count till the next location update
 	      		var datumCount = 0;
@@ -85,11 +106,11 @@ function initPersonal() {
 	        	// var finalLocation = [fS.lat,fs.lng];
 
 	        	//create THREE.Vector3's
-	        	var startPoint = [convertToRange(s.longitude,xBounds,[0,window.innerWidth]),convertToRange(s.latitude,yBounds,[0,window.innerHeight])];
-// 	        	var startPoint = latLngToPixelWithZoom(s.latitude,s.longitude,testZoom);
+// 	        	var startPoint = [convertToRange(s.longitude,xBounds,[0,window.innerWidth]),convertToRange(s.latitude,yBounds,[0,window.innerHeight])];
+	        	var startPoint = latLngToPixel(s.latitude,s.longitude);
 	        	var startVertex = new THREE.Vector3(startPoint[0],startPoint[1],0);
-	        	var finalPoint = [convertToRange(fS.longitude,xBounds,[0,window.innerWidth]),convertToRange(fS.latitude,yBounds,[0,window.innerHeight])];
-// 	        	var finalPoint = latLngToPixelWithZoom(fS.latitude,fS.longitude,testZoom);
+// 	        	var finalPoint = [convertToRange(fS.longitude,xBounds,[0,window.innerWidth]),convertToRange(fS.latitude,yBounds,[0,window.innerHeight])];
+	        	var finalPoint = latLngToPixel(fS.latitude,fS.longitude);
 	        	var finalVertex = new THREE.Vector3(finalPoint[0],finalPoint[1],0);
 	        	var lerpVal = 1/datumCount;
 	        	var lerp = 0;
@@ -146,118 +167,118 @@ function initPersonal() {
 		scene.add(plane);
 	}
 
-	function createSand(){
-		var group = new THREE.Group();
-		group.name = "sand";
-		scene.add(group);
-		var sLineMaterial = new THREE.LineBasicMaterial({
-        	color: 0xfff000,
-        	linewidth: 2,
-        	linejoin: "round" 
-    	});
+// 	function createSand(){
+// 		var group = new THREE.Group();
+// 		group.name = "sand";
+// 		scene.add(group);
+// 		var sLineMaterial = new THREE.LineBasicMaterial({
+//         	color: 0xfff000,
+//         	linewidth: 2,
+//         	linejoin: "round" 
+//     	});
 
-    	var sMeshMaterial = new THREE.MeshBasicMaterial({
-        	color: 0xffff00,
-    	});
+//     	var sMeshMaterial = new THREE.MeshBasicMaterial({
+//         	color: 0xffff00,
+//     	});
 
-    	var sl = sand.features;
-		for(var i = 0; i < sl.length;i++){
-			var s = sl[i].geometry.coordinates[0];
-			var isWithinBounds = false;
-			for(var j = 0; j < s.length; j++){
-				var p = s[j];
-				if(checkBounds(p)){
-					isWithinBounds = true;
-					break;
-				}
-				isWithinBounds= false;
-			}
-			if(isWithinBounds){
-				var sPoints = [];
-				var sGeometry = new THREE.Geometry();
-				for(var j = 0; j < s.length; j++){
-					var p = s[j];
-					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
-// 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
-					vertex = new THREE.Vector3(point[0],point[1],0);
-					sGeometry.vertices.push(vertex);
-					sPoints.push(vertex);
-				}
-				var sShape = new THREE.Shape(sPoints);
-				var sShapeGeometry = new THREE.ShapeGeometry(sShape);
-				var sMesh = new THREE.Mesh(sShapeGeometry,sMeshMaterial);
-				sMesh.name = "sand";
-				group.add(sMesh);
-				var sLine = new THREE.Line( sGeometry, sLineMaterial);
-				sLine.name = "sand";
-				group.add(sLine);
-			}
-		}
-	}
+//     	var sl = sand.features;
+// 		for(var i = 0; i < sl.length;i++){
+// 			var s = sl[i].geometry.coordinates[0];
+// 			var isWithinBounds = false;
+// 			for(var j = 0; j < s.length; j++){
+// 				var p = s[j];
+// 				if(checkBounds(p)){
+// 					isWithinBounds = true;
+// 					break;
+// 				}
+// 				isWithinBounds= false;
+// 			}
+// 			if(isWithinBounds){
+// 				var sPoints = [];
+// 				var sGeometry = new THREE.Geometry();
+// 				for(var j = 0; j < s.length; j++){
+// 					var p = s[j];
+// 					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
+// // 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
+// 					vertex = new THREE.Vector3(point[0],point[1],0);
+// 					sGeometry.vertices.push(vertex);
+// 					sPoints.push(vertex);
+// 				}
+// 				var sShape = new THREE.Shape(sPoints);
+// 				var sShapeGeometry = new THREE.ShapeGeometry(sShape);
+// 				var sMesh = new THREE.Mesh(sShapeGeometry,sMeshMaterial);
+// 				sMesh.name = "sand";
+// 				group.add(sMesh);
+// 				var sLine = new THREE.Line( sGeometry, sLineMaterial);
+// 				sLine.name = "sand";
+// 				group.add(sLine);
+// 			}
+// 		}
+// 	}
 
-	function createCoastline(){
-		var group = new THREE.Group();
-		group.name = "coastline"
-		scene.add(group);
-		var cMaterial = new THREE.LineBasicMaterial({
-        	color: 0x0000f0,
-        	linewidth: 2,
-        	linejoin: "round" 
-    	});
+// 	function createCoastline(){
+// 		var group = new THREE.Group();
+// 		group.name = "coastline"
+// 		scene.add(group);
+// 		var cMaterial = new THREE.LineBasicMaterial({
+//         	color: 0x0000f0,
+//         	linewidth: 2,
+//         	linejoin: "round" 
+//     	});
 
-    	var cMeshMaterial = new THREE.MeshBasicMaterial({
-        	color: 0x0000ff,
-    	});
+//     	var cMeshMaterial = new THREE.MeshBasicMaterial({
+//         	color: 0x0000ff,
+//     	});
 
-		var cl = coastline.features;
-		for(var i = 0; i < cl.length;i++){
-			if(cl[i].geometry.type == "MultiPolygon"){
-				var cG = cl[i].geometry.coordinates;
-				for(var j = 0; j < cG.length; j++){
-					var c = cG[j][0];
-					for(var k = 0; k < c.length; k++){
-						var p = c[k];
-						if(checkBounds(p)){
-							isWithinBounds = true;
-							break;
-						}
-						isWithinBounds= false;
-					}
-				}
-			} else {
-				var c = cl[i].geometry.coordinates[0];
-				var isWithinBounds = false;
-				for(var j = 0; j < c.length; j++){
-					var p = c[j];
-					if(checkBounds(p)){
-						isWithinBounds = true;
-						break;
-					}
-					isWithinBounds= false;
-				}
-			}
-			if(isWithinBounds){
-// 				var cPoints = [];
-				var cGeometry = new THREE.Geometry();
-				for(var j = 0; j < c.length; j++){
-					var p = c[j];
-					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
-// 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
-					vertex = new THREE.Vector3(point[0],point[1],0);
-					cGeometry.vertices.push(vertex);
-// 					cPoints.push(vertex);
-				}
-// 				var cShape = new THREE.Shape(cPoints);
-// 				var cShapeGeometry = new THREE.ShapeGeometry(cShape);
-// 				var cMesh = new THREE.Mesh(cShapeGeometry,cMeshMaterial);
-// 				cMesh.name = "coastline";
-// 				group.add(cMesh);
-				var cLine = new THREE.Line( cGeometry, cMaterial);
-				cLine.name = "coastline";
-				group.add(cLine);
-			}
-		}
-	}
+// 		var cl = coastline.features;
+// 		for(var i = 0; i < cl.length;i++){
+// 			if(cl[i].geometry.type == "MultiPolygon"){
+// 				var cG = cl[i].geometry.coordinates;
+// 				for(var j = 0; j < cG.length; j++){
+// 					var c = cG[j][0];
+// 					for(var k = 0; k < c.length; k++){
+// 						var p = c[k];
+// 						if(checkBounds(p)){
+// 							isWithinBounds = true;
+// 							break;
+// 						}
+// 						isWithinBounds= false;
+// 					}
+// 				}
+// 			} else {
+// 				var c = cl[i].geometry.coordinates[0];
+// 				var isWithinBounds = false;
+// 				for(var j = 0; j < c.length; j++){
+// 					var p = c[j];
+// 					if(checkBounds(p)){
+// 						isWithinBounds = true;
+// 						break;
+// 					}
+// 					isWithinBounds= false;
+// 				}
+// 			}
+// 			if(isWithinBounds){
+// // 				var cPoints = [];
+// 				var cGeometry = new THREE.Geometry();
+// 				for(var j = 0; j < c.length; j++){
+// 					var p = c[j];
+// 					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
+// // 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
+// 					vertex = new THREE.Vector3(point[0],point[1],0);
+// 					cGeometry.vertices.push(vertex);
+// // 					cPoints.push(vertex);
+// 				}
+// // 				var cShape = new THREE.Shape(cPoints);
+// // 				var cShapeGeometry = new THREE.ShapeGeometry(cShape);
+// // 				var cMesh = new THREE.Mesh(cShapeGeometry,cMeshMaterial);
+// // 				cMesh.name = "coastline";
+// // 				group.add(cMesh);
+// 				var cLine = new THREE.Line( cGeometry, cMaterial);
+// 				cLine.name = "coastline";
+// 				group.add(cLine);
+// 			}
+// 		}
+// 	}
 
 	function createSwell(){
 	}
@@ -267,14 +288,33 @@ function initPersonal() {
 	}
 
 	// createGrid();
-	createSand();
-	createCoastline();
+// 	createSand();
+// 	createCoastline();
 	createParticles();
-	params.count = 0;
+
+	localGui = gui.addFolder('local');
+	localGui.add(params,'returnToLanding');
+	localGui.open();
+
+// 	params.count = 0;
 	console.log(scene);
+	var tBounds = [bounds.topLeft.y+(bounds.bottomRight.y-bounds.topLeft.y)/2,bounds.topLeft.x+(bounds.bottomRight.x-bounds.topLeft.x)/2];
+
+	t = latLngToPixel(personal.latitude,personal.longitude);
+	
+	var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+10*world, z:1.5*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+		camera.lookAt(targPos);
+	}).onComplete(function(){
+		interactive = false;
+		scene.remove(selectedObject);
+	}).start();
+	var targTween = new TWEEN.Tween(targPos).to({ x: t[0], y: t[1], z: 0.0 }, 1000).easing(TWEEN.Easing.Quadratic.InOut).start();
+	var zoomTween = new TWEEN.Tween(params).to({zoom:7},1000).easing(TWEEN.Easing.Quadratic.InOut).start();
 }
 
 function updatePersonal(){
+	camera.zoom = Math.pow(2,params.zoom);
+	camera.updateProjectionMatrix();
 // 	updateCamera(params.count);
 // 	updateParticle(params.count);
 // 	camera.up.set( 0, 0, 1 );

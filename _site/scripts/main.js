@@ -4,6 +4,7 @@ var TIME_SPACE = "loading";
 var targPos;
 var gui;
 var auto = true;
+var playing = true;
 var params = {
 	count: 0,
 	date: '',
@@ -15,6 +16,16 @@ var params = {
 		params.count = 0
 		userOptions.surfIndex = 0;
 	},
+	play: function(){
+		if(playing){
+			playing = false;
+		} else {
+			playing = true;
+		}
+	},
+	end: function(){
+		params.count = endTimestamp;
+	}
 }
 
 var userOptions = {
@@ -168,6 +179,14 @@ function initCanvas(){
 
 	material_depth = new THREE.MeshDepthMaterial();
 
+	//stats
+// 	stats = new Stats();
+// 	stats.domElement.style.position = 'absolute';
+// 	stats.domElement.style.top = '0px';
+// 	stats.domElement.style.right = '0px';
+// 	stats.domElement.style.height = '20px';
+// 	container.appendChild( stats.domElement );
+
 	//event listeners
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
@@ -244,6 +263,7 @@ function loadTextures(){
 			});
 
 			mainApiCall();
+
 		},
 		// Function called when download progresses
 		function ( xhr ) {
@@ -275,6 +295,7 @@ function mainApiCall(){
 			console.log(errorMsg);
 		},
 		"complete": function(statusText) {
+			console.log(landing);
 			exitLoading();
 		},
 		"timeout": 60000, // Number. Set a timeout (in milliseconds) for the request
@@ -285,6 +306,7 @@ function mainApiCall(){
 		"data": "", // String. A serialized string to be sent in a POST/PUT request,
 		"withCredentials": true // Boolean. Send cookies when making cross-origin requests; default is true
 	});
+// 	exitLoading();
 }
 
 function initPostprocessing() {
@@ -355,7 +377,8 @@ function animate(time){
 		updatePersonal();
 	}
 	render();
-	if(!isMouseDown){
+// 	stats.update();
+	if(!isMouseDown && playing){
 		params.count+=(Math.pow(2,params.speed));
 	}
 }

@@ -1,8 +1,5 @@
 var currentTime;
-// var testLocal = [-28.2,153.6]; //Snapper
-// var testLocal = [-41.3,174.8]; //lyall
-// var testLocal = [-38,177]; //ohope beach
-// var testLocal = [-39.1,174.1]; //fitzroy
+
 var testZoom = 10;
 var t, end;
 var users;
@@ -11,6 +8,8 @@ var showcase;
 var splashes;
 var pilgrimageObject;
 var localGui;
+var goingPersonal = false;
+var personal = false;
 var topUsers = {
 	surfCount:{id:"",value:0},
 	waveCount:{id:"",value:0},
@@ -26,7 +25,6 @@ var pilgrimStartIndex;
 var splashStartIndex;
 
 function initLocal() {
-//     TIME_SPACE = "local";
 	users = [];
 	topUsers = {
 		surfCount:{id:"",value:0},
@@ -58,15 +56,85 @@ function initLocal() {
 
     createLocalSurfs();
 
+    // 	function createCoastline(){
+// 		var group = new THREE.Group();
+// 		group.name = "coastline"
+// 		scene.add(group);
+// 		var cMaterial = new THREE.LineBasicMaterial({
+//         	color: 0x0000f0,
+//         	linewidth: 2,
+//         	linejoin: "round" 
+//     	});
+
+//     	var cMeshMaterial = new THREE.MeshBasicMaterial({
+//         	color: 0x0000ff,
+//     	});
+
+// 		var cl = coastline.features;
+// 		for(var i = 0; i < cl.length;i++){
+// 			if(cl[i].geometry.type == "MultiPolygon"){
+// 				var cG = cl[i].geometry.coordinates;
+// 				for(var j = 0; j < cG.length; j++){
+// 					var c = cG[j][0];
+// 					for(var k = 0; k < c.length; k++){
+// 						var p = c[k];
+// 						if(checkBounds(p)){
+// 							isWithinBounds = true;
+// 							break;
+// 						}
+// 						isWithinBounds= false;
+// 					}
+// 				}
+// 			} else {
+// 				var c = cl[i].geometry.coordinates[0];
+// 				var isWithinBounds = false;
+// 				for(var j = 0; j < c.length; j++){
+// 					var p = c[j];
+// 					if(checkBounds(p)){
+// 						isWithinBounds = true;
+// 						break;
+// 					}
+// 					isWithinBounds= false;
+// 				}
+// 			}
+// 			if(isWithinBounds){
+// // 				var cPoints = [];
+// 				var cGeometry = new THREE.Geometry();
+// 				for(var j = 0; j < c.length; j++){
+// 					var p = c[j];
+// 					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
+// // 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
+// 					vertex = new THREE.Vector3(point[0],point[1],0);
+// 					cGeometry.vertices.push(vertex);
+// // 					cPoints.push(vertex);
+// 				}
+// // 				var cShape = new THREE.Shape(cPoints);
+// // 				var cShapeGeometry = new THREE.ShapeGeometry(cShape);
+// // 				var cMesh = new THREE.Mesh(cShapeGeometry,cMeshMaterial);
+// // 				cMesh.name = "coastline";
+// // 				group.add(cMesh);
+// 				var cLine = new THREE.Line( cGeometry, cMaterial);
+// 				cLine.name = "coastline";
+// 				group.add(cLine);
+// 			}
+// 		}
+// 	}
+
     function createLocalSurfs(){
-//     	scene.remove(localObject);
-    	localObject = new THREE.Group();
-    	localObject.name = "local";
-    	scene.add(localObject);
+    	scene.remove(localObject);
+//     	localObject = new THREE.Points();
+//     	localObject.name = "local";
+//     	scene.add(localObject);
 		
 		pilgrimageObject = new THREE.Group();
 		pilgrimageObject.name = "pilgrimage";
 		scene.add(pilgrimageObject);
+
+		var pGeometry = new THREE.Geometry();
+		var pMaterial = new THREE.PointsMaterial({color: 0xff9100});
+
+		var positions = new Float32Array(local.length*3);
+		var colors = new Float32Array(local.length*3);
 
 		for(var i = 0; i < local.length; i++){
 
@@ -78,6 +146,12 @@ function initLocal() {
 			var lat = +location.latitude.toFixed(4);
             var lng = +location.longitude.toFixed(4);
 			var p = latLngToPixel(lat,lng);
+			
+			for(var j = 0; j < userOptions.surfIds.length; j++){
+				if(location.surf_id == userOptions.surfIds[j]){
+					personal = true;
+				}
+			}
 
 			var cString = "#"+location.id.substring(0,6);
 			var c1 = new THREE.Color(cString);
@@ -190,25 +264,28 @@ function initLocal() {
 					}
 				}
 			}
+			
+			pGeometry.vertices.push(new THREE.Vector3(p[0],p[1],0.0));
+// 			var curve = new THREE.EllipseCurve(
+// 				p[0],  p[1],            // ax, aY
+// 				0.0002, 0.0002,           // xRadius, yRadius
+// 				0,  2 * Math.PI,  // aStartAngle, aEndAngle
+// 				false,            // aClockwise
+// 				0                 // aRotation 
+// 			);
 
-			var curve = new THREE.EllipseCurve(
-				p[0],  p[1],            // ax, aY
-				200, 200,           // xRadius, yRadius
-				0,  2 * Math.PI,  // aStartAngle, aEndAngle
-				false,            // aClockwise
-				0                 // aRotation 
-			);
+// 			var path = new THREE.Path( curve.getPoints( 50 ) );
+// 			var geometry = path.createPointsGeometry( 50 );
+// 			var material = new THREE.LineBasicMaterial( { color : c1, transparent: true, linewidth: 2 } );
 
-			var path = new THREE.Path( curve.getPoints( 50 ) );
-			var geometry = path.createPointsGeometry( 50 );
-			var material = new THREE.LineBasicMaterial( { color : c1, transparent: true, linewidth: 2 } );
-
-			// Create the final Object3d to add to the scen
-			var ellipse = new THREE.Line( geometry, material );
-			ellipse.name = location.id;
-			localObject.add(ellipse);
-
+// 			// Create the final Object3d to add to the scen
+// 			var ellipse = new THREE.Line( geometry, material );
+// 			ellipse.name = location.id;
+// 			localObject.add(ellipse);
 		}
+		localObject = new THREE.Points(pGeometry,pMaterial);
+    	localObject.name = "local";
+    	scene.add(localObject);
 
     }
 	
@@ -221,18 +298,17 @@ function initLocal() {
 	localCamera.position.x = t[0];
 	localCamera.position.y = t[1];
 	localCamera.position.z = 1.5*world;
-// 	end = latLngToPixel(local[local.length-1].latitude,local[local.length-1].longitude);
 	var drop = new TWEEN.Tween(fadeOut).to({drop:0.0},500).easing(TWEEN.Easing.Quadratic.In).onComplete(function(){
-		TIME_SPACE = 'local';
 		interactive = true;
 		var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0]+10*world, y: t[1]+1*world, z:1.5*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
 			camera.lookAt(targPos);
 		}).onComplete(function(){
+			TIME_SPACE = 'local';
 			interactive = false;
 			scene.remove(selectedObject);
 		}).start();
-		var targTween = new TWEEN.Tween(targPos).to({ x: t[0], y: t[1], z: 0.02*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).start();
-		var zoomTween = new TWEEN.Tween(params).to({zoom:6},1000).easing(TWEEN.Easing.Quadratic.InOut).start();
+		var targTween = new TWEEN.Tween(targPos).to({ x: t[0], y: t[1], z: 0.005*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).start();
+		var targTween = new TWEEN.Tween(params).to({ zoom: 6 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
 	});
 	var jump = new TWEEN.Tween(fadeOut).to({drop:1.1},100).easing(TWEEN.Easing.Quadratic.Out).chain(drop).start();
 
@@ -250,6 +326,10 @@ function initLocal() {
 	localGui.add(params,'duration');
 	params.speedMax = function(){showSpeedMax();}
 	localGui.add(params,'speedMax');
+	if(personal){
+		params.personal = function(){goPersonal();}
+		localGui.add(params, 'personal');
+	}
 	params.returnToLanding = function(){returnToLanding();}
 	localGui.add(params,'returnToLanding');
 	localGui.open();
@@ -270,112 +350,98 @@ function initLocal() {
 
 function updateLocal(){
 	var targLocation;
-// 	if(!interactive){
-// 		var cameraX = t[0] + 10*world * Math.cos(Math.PI/2.0+(params.count*0.001/Math.pow(2,params.speed)));
-// 		var cameraY = t[1] + 10*world * Math.sin(Math.PI/2.0+(params.count*0.001/Math.pow(2,params.speed)));
-// // 		console.log(targPos);
-// 		camera.up.set( 0, 0, 1 );
-// 		camera.position.x = cameraX;
-// 		camera.position.y = cameraY;
-// 		camera.position.z = 1.5*world;
+
+// 		camera.up.set( 0, -1, 1 );
+// 		camera.position.x = targPos.x;
+// 		camera.position.y = targPos.y;
+// 		camera.position.z = 5.0*world;
 // 		camera.lookAt(targPos);
-// 	}
+// 		params.zoom = 1;
 	camera.zoom = Math.pow(2,params.zoom);
 	camera.updateProjectionMatrix();
-// 	localCamera.up.set( 0, -1, 1 );
-// 	localCamera.position.x = t[0];
-// 	localCamera.position.y = t[1];
-// 	localCamera.position.z = 10*world;
-// 	localCamera.lookAt(targPos);
-// 	localCamera.zoom = Math.pow(2,params.zoom);
-// 	localCamera.updateProjectionMatrix();
+
 	
 	var frame = startTimestamp+params.count;
 	var d = new Date(frame*1000);
 	var start = 43200*params.speed;
 	var lerpValue = 1/start;
     params.date = d.toUTCString();
-// 	console.log(lerpValue);
-    if(userOptions.timestamps[userOptions.surfIndex] < frame){
-		if(userOptions.surfIndex < userOptions.locationIndices.length-1){
-			userOptions.surfIndex++;
-			userLocation = distinctLocations[userOptions.locationIndices[userOptions.surfIndex]];
+	if(!goingPersonal){
+		if(followingUser && userOptions.timestamps[userOptions.surfIndex]-43200*params.speed < frame){
+		console.log("about to move");
+			if(userOptions.timestamps[userOptions.surfIndex] < frame){
+				if(userOptions.surfIndex < userOptions.locationIndices.length-1){
+					var name1 = userLocation.detected_location_name.split(",");
+					userOptions.surfIndex++;
+					userLocation = distinctLocations[userOptions.locationIndices[userOptions.surfIndex]];
+					var name2 = userLocation.detected_location_name.split(",");
+					console.log(userLocation.detected_location_name);
+					if(name1[0] != name[0]){
+// 						returnToLanding();
+					}
+// 					
+				}
+			}
 		}
-    }
-    
-    for(var i = 0; i < local.length; i++){
-    	//create pilgrim and animate in;
-    	if(local[i].start_timestamp-start < frame && local[i].start_timestamp > frame){
-    		if(pilgrimStartIndex == -1) pilgrimStartIndex = i;
-			if(local[i].visible == false){
-				//create the object
-				local[i].visible = true;
-				local[i].previous_location = null;
-				for(var j = 0; j< landing.length; j++){
-					if(local[i].id == landing[j].id && landing[j].start_timestamp < local[i].start_timestamp && landing[j].location != undefined){
-						local[i].previous_location = [landing[j].latitude,landing[j].longitude,landing[j].location,local[i].start_timestamp-landing[j].start_timestamp];
-					}
-				}
-// 				console.log(local[i].previous_location);
-				createPilgrim(i);
-			} else {
-				if(local[i].previous_location != null && i >= pilgrimStartIndex){
-					var surf = pilgrimageObject.children[i-pilgrimStartIndex];
-					var geometry = surf.geometry;
-					var attributes = geometry.attributes;
-					for( var k = 0; k < attributes.alpha.array.length; k++){
-						if(k<(frame-local[i].start_timestamp+start)*lerpValue*attributes.alpha.array.length){
-							attributes.alpha.array[k] = 1.1-(frame-local[i].start_timestamp+start)*lerpValue;
+
+		for(var i = 0; i < local.length; i++){
+			//create pilgrim and animate in;
+			if(local[i].start_timestamp-start < frame && local[i].start_timestamp > frame){
+				if(pilgrimStartIndex == -1) pilgrimStartIndex = i;
+				if(local[i].visible == false){
+					//create the object
+					local[i].visible = true;
+					local[i].previous_location = null;
+					for(var j = 0; j< landing.length; j++){
+						if(local[i].id == landing[j].id && landing[j].start_timestamp < local[i].start_timestamp && landing[j].location != undefined){
+							local[i].previous_location = [landing[j].latitude,landing[j].longitude,landing[j].location,local[i].start_timestamp-landing[j].start_timestamp];
 						}
-// 	 						attributes.alpha.array[k] = 1.0-(frame-local[i].start_timestamp+start)*lerpValue;
 					}
-					attributes.alpha.needsUpdate = true;
+	// 				console.log(local[i].previous_location);
+					createPilgrim(i);
+				} else {
+					if(local[i].previous_location != null && i >= pilgrimStartIndex){
+						var surf = pilgrimageObject.children[i-pilgrimStartIndex];
+						var geometry = surf.geometry;
+						var attributes = geometry.attributes;
+						for( var k = 0; k < attributes.alpha.array.length; k++){
+							if(k<(frame-local[i].start_timestamp+start)*lerpValue*attributes.alpha.array.length){
+								attributes.alpha.array[k] = 1.2-(frame-local[i].start_timestamp+start)*lerpValue;
+							}
+	// 	 						attributes.alpha.array[k] = 1.0-(frame-local[i].start_timestamp+start)*lerpValue;
+						}
+						attributes.alpha.needsUpdate = true;
+					}
 				}
-			}
-    	} else if(local[i].start_timestamp < frame && local[i].start_timestamp+start > frame){
-    		// splash
-    		if(splashStartIndex == -1) splashStartIndex = i;
-			if(local[i].splash == false){
-				//create the object
-				console.log(local[i])
-				local[i].splash = true;
-				createSplash(i);
+// 			} else if(local[i].start_timestamp < frame && local[i].start_timestamp+start > frame){
+// 				splash
+// 				if(splashStartIndex == -1) splashStartIndex = i;
+// 				if(local[i].splash == false){
+// 					//create the object
+// 					console.log(local[i])
+// 					local[i].splash = true;
+// 					createSplash(i);
+// 					for(var j = 0; j < userOptions.surfIds.length; j++){
+// 						if(local[i].surf_id == userOptions.surfIds[j]){
+// 							personal = local[i];
+// 							params.speed = 1;
+// 							console.log("going personal");
+// 							goPersonal();
+// 						}
+// 					}
+// 				} else {
+// 					var splash = splashes.children[i-splashStartIndex];
+// 					var geometry = splash.geometry;
+// 					var attributes = geometry.attributes;
+// 					attributes.alpha.array[0] = 1.0-(frame-local[i].start_timestamp)*lerpValue*5;
+// 					attributes.alpha.needsUpdate = true;
+// 				}
 			} else {
-				var splash = splashes.children[i-splashStartIndex];
-				var geometry = splash.geometry;
-				var attributes = geometry.attributes;
-				attributes.alpha.array[0] = 1.0-(frame-local[i].start_timestamp)*lerpValue*5;
-				attributes.alpha.needsUpdate = true;
+				local[i].visible = false;
+				//local[i].splash = false;
 			}
-    	} else {
-    		local[i].visible = false;
-    		local[i].splash = false;
-    	}
-//     	if(local[i].start_timestamp < frame && local[i].visible == true){
-//     		if(local[i].previous_location != null){
-// 				var surf = pilgrimageObject.children[i];
-// 				var geometry = surf.geometry;
-// 				var attributes = geometry.attributes;
-// 				for( var k = 0; k < attributes.alpha.array.length; k++){
-// 						attributes.alpha.array[k] = 0.0;
-// 				}
-// 				attributes.alpha.needsUpdate = true;
-// 			}
-// 			local[i].visible == false;
-//     	}
-//     	if(local[i].start_timestamp+3600*params.speed < frame){
-//     		if(local[i].previous_location != null){
-// 				var splash = splashes.children[i];
-// 				console.log(splashes);
-// 				var geometry = splash.geometry;
-// 				var attributes = geometry.attributes;
-// 				for( var k = 0; k < attributes.alpha.array.length; k++){
-//  						attributes.alpha.array[k] = 0.0 ;
-// 				}
-// 				attributes.alpha.needsUpdate = true;
-// 			}
-//     	}
-    }
+		}
+	}
 }
 
 function showSurfCount(){
@@ -419,10 +485,12 @@ function returnToLanding(){
 	landingGui.add(params,'local');
 	landingGui.open();
 	params.camera = camera;
-	fadeOut = {fade: 1.0, drop: 1.0};
+	var fade = new TWEEN.Tween(fadeOut).to({fade:0.0},2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){
+		swellUniforms.alpha.value = fadeOut.fade;
+	}).start();
+	fadeOut.drop = 1.0;
 	autoplaying = false;
 	followingUser = false;
-// 	params.speed = 11;
 	goingLocal = false;
 	TIME_SPACE = "landing";
 	scene.remove(localObject);
@@ -431,54 +499,61 @@ function returnToLanding(){
 	scene.remove(pilgrimageObject);
 	scene.remove(showcase);
 	scene.remove(splashes);
+	scene.remove(personal);
 	camera.up.set( 0, 0, 1 );
 	var cameraTween = new TWEEN.Tween(camera.position).to({ x: width*0.5, y: height*1.8, z: height }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
         camera.lookAt(targPos);
     }).start();
     var targTween = new TWEEN.Tween(targPos).to({ x: width*0.5, y: height*0, z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
     var zoomTween = new TWEEN.Tween(params).to({zoom:1},2000).easing(TWEEN.Easing.Quadratic.InOut).start();
-// 	params.zoom = 1;
 	interactive = true;
-	//TODO camera lerp
-// 	statsContainer.style.visibility = 'hidden';
-// 	
-// 	camera.zoom = Math.pow(2,params.zoom);
-// 	camera.updateProjectionMatrix();
-//     camera.position.x = width*0.5;
-// 	camera.position.y = height*1.8;
-// 	camera.position.z = height*world;
-// 	targPos = new THREE.Vector3(width*0.5,height*0,0);
-// 	camera.lookAt(targPos);
+
 	var geometry = landingObject.geometry;
 	var attributes = geometry.attributes;
 	var updateCount = 0;
-    for(var i = 0; i<attributes.alpha.array.length; i++){
-    	attributes.position.array[i*3+2] = attributes.scale.array[i];
-    }
-	attributes.position.needsUpdate = true;
+
 }
 
 function goPersonal(){
-	TIME_SPACE = "personal";
-// 	queryOptions.query = generateQuery(["Lyall Bay, New Zealand"]);
-// 	queryOptions.query = generateQuery(["Ohope Beach, New Zealand"]);
-//     queryOptions.query = generateQuery(["Snapper Rocks, Australia",
-//     	"Snapper Rocks, QLD, Australia",
-//     	"Kirra, Australia",
-//     	"Kirra, QLD, Australia",
-//     	"Duranbah, Australia",
-//     	"Duranbah, NSW, Australia"
-//     ]);
-// 	queryOptions.query = 'select * from sgps_15.'+userOptions.surfId;
-// 	makeApiCall(queryOptions,exitLocal);
+	exitLocal();
 }
 
-function exitLocal(pObject){
-	console.log(pObject);
-	personal.data = pObject;
-	scene.remove(localObject);
+function exitLocal(){
+	goingPersonal = true;
+// 	scene.remove(localObject);
+// 	scene.remove(usersObject);
+// 	scene.remove(grid);
+// 	scene.remove(pilgrimageObject);
+// 	scene.remove(showcase);
+// 	scene.remove(splashes);
+	gui.removeFolder('local');
 // 	localObject = null;
-	initPersonal();
+	personal.data = [];
+	jsonpipe.flow('../local-sources/'+personal.surf_id+'.json', {
+			"delimiter": "\n", // String. The delimiter separating valid JSON objects; default is "\n\n"
+			"success": function(data) {
+				// Do something with this JSON chunk
+				personal.data.push(data);
+
+			},
+			"error": function(errorMsg) {
+				console.log(errorMsg);
+				// Something wrong happened, check the error message
+			},
+			"complete": function(statusText) {
+				// Called after success/error, with the XHR status text
+				console.log(personal);
+				initPersonal();
+			},
+			"timeout": 10000, // Number. Set a timeout (in milliseconds) for the request
+			"method": "GET", // String. The type of request to make (e.g. "POST", "GET", "PUT"); default is "GET"
+			"headers": { // Object. An object of additional header key/value pairs to send along with request
+				"X-Requested-With": "XMLHttpRequest"
+			},
+			"data": "", // String. A serialized string to be sent in a POST/PUT request,
+			"withCredentials": true // Boolean. Send cookies when making cross-origin requests; default is true
+	});
+// 	initPersonal();
 }
 
 function createPilgrim(index){
@@ -495,14 +570,16 @@ function createPilgrim(index){
 	if(location.previous_location != null){
 		var name1 = local[index].detected_location_name.split(",");
 		var name2 = local[index].previous_location[2].split(",");
-		if(name1[0] == name2[0]){
-			location.previous_location = null;
-		}
 		if(name1[name1.length-1] == name2[name2.length-1]){
-			c1 = new THREE.Color(0x00ff00);
-		} else {
-			c1 = new THREE.Color(0xff0000);
+			location.previous_location = null;
+			
 		}
+		c1 = new THREE.Color(0xff0000);
+// 		if(name1[name1.length-1] == name2[name2.length-1]){
+// 			c1 = new THREE.Color(0x00ff00);
+// 		} else {
+// 			c1 = new THREE.Color(0xff0000);
+// 		}
 	}
 	if(location.previous_location != null){
 		console.log(location.previous_location[2]);
@@ -534,7 +611,8 @@ function createPilgrim(index){
 		buffergeometry.addAttribute( 'alpha', new THREE.BufferAttribute(alphas,1));
 
 		var uniforms = {
-			color:     { type: "c", value: c1  }
+			color:     { type: "c", value: c1  },
+			pointWidth:{ type: "f", value: 1.0},
 		};
 
 		var shaderMaterial = new THREE.ShaderMaterial( {
@@ -570,7 +648,8 @@ function createSplash(index){
 	var c1 = new THREE.Color(cString);
 
 	var uniforms = {
-		color:     { type: "c", value: c1 }
+		color:     { type: "c", value: c1 },
+		pointWidth:{ type: "f", value: 2.0},
 	};
 
 	var shaderMaterial = new THREE.ShaderMaterial( {
@@ -667,4 +746,8 @@ function createShowcase(id){
 			showcase.add(showLine);
 		}
 	}
+}
+
+function clearScene(){
+
 }

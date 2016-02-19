@@ -58,20 +58,17 @@
     <script src="../lib/jquery-1.12.0.min.js"></script>
     <script src="../lib/dat.gui.js"></script>
     <script src="../lib/Tween.js"></script>
-<!--     <script src="../lib/chosen.jquery.min.js"></script> -->
     <script src="../lib/jsonpipe.js"></script>
-<!--     <script src="../lib/CSS3DRenderer2.js"></script> -->
-<!--     <script src="../scripts/styles.js"></script> -->
+
 
     <script src="../local-sources/distinct-locations-new.js"></script>
-<!--     <script src="../local-sources/sandpolygons.js"></script> -->
-<!--     <script src="../local-sources/coastlinePolygon.js"></script> -->
+
     <script src="../local-sources/landpolygons50m.js"></script>
     <script src="../local-sources/global-swell-emitters.js"></script>
     
     <script src="../scripts/landing-page.js"></script>
-    <!-- // <script src="../scripts/local.js"></script> -->
-    <!-- // <script src="../scripts/personal.js"></script> -->
+    <script src="../scripts/local.js"></script>
+    <script src="../scripts/personal.js"></script>
     <script src="../scripts/main.js"></script>
 
     <script src="../shaders/BokehShader2.js"></script>
@@ -259,10 +256,10 @@
 
   <body>
   <div id="timeline-container" style="width:100%; height: 200px; z-index: 1; position: absolute">
-    <div id="timeline-centered" style="width: 800px; height: 100%; margin: 0px auto;">
-      <div style="float:left; width:30%; height: 50px; margin-left: 5%; margin-top: 50px"></div>
-      <div style="float:left; width:30%; height: 50px; margin-top: 50px"></div>
-      <div style="float:left; width:30%; height: 50px; margin-right: 5%; margin-top: 50px"></div>
+    <div id="timeline-centered" style="width: 1000px; height: 100%; margin: 0px auto; color: white; text-align: center;">
+      <div style="float:left; width:30%; height: 40px; margin-left: 5%; margin-top: 50px; background-color: grey; opacity: 0.0">global</div>
+      <div style="float:left; width:30%; height: 40px; margin-top: 50px; background-color: black; opacity: 0.0">local</div>
+      <div style="float:left; width:30%; height: 40px; margin-right: 5%; margin-top: 50px; background-color: black; opacity: 0.0; margin-bottom: 20px">personal</div>
     </div>
   </div>
     <div id="login-container">
@@ -272,7 +269,22 @@
             <div id = "loading-bar"></div>
         </div>
     </div>
-    <div id="gui-container" style="position:absolute; top: 0px; left: 0px; height:100%; width:250px; background-color: black; z-index:1"></div>
+    <div id="gui-container" style="position:absolute; top: 0px; left: 0px; height:100%; width:250px; background-color: black; z-index:1; opacity: 0.5">
+    <div style="height: 40px; width: 100%;margin-top:49px; color: white; text-align:center">
+      <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">top</button>
+      <button style="height:100%;width:32%;float: left;" onClick="goGlobal()">45</button>
+      <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="goHistogram()">front</button>
+    </div>
+    <div style="height: 40px; width: 100%;color: white; text-align: center">
+      <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="params.restart()">start</button>
+      <button style="height:100%;width:32%;float: left;" onClick="params.play()">play</button>
+      <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">end</button>
+    </div>
+    <div style="height: 40px; width: 100%;color: white; text-align: center">
+      <button style="height:100%;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
+    </div>
+    </div>
+    <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; left: 0px; display:none; margin: 0px 10px; height: 40px">menu</div>
     <div id="information" style="position: fixed; width:200px; height:50px; background-color: white; z-index: 1; visibility: hidden"></div>
     <div id="information2" style="position: fixed; width:200px; height:50px; background-color: grey; z-index: 1; display: none; opaity: 0.5"></div>
     <select id="location-select" style="visibility: hidden;"  onchange="goSelectedLocation(this.value)"></select>
