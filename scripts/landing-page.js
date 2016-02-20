@@ -221,38 +221,37 @@ function initLanding() {
 
 	function createSelect(){
 		var select = document.getElementById("location-select")
-		select.style.height = "40px";
-		select.style.width = "96%";
-		select.style.margin = '10px 2%';
+		select.style.width = "100%";
+		select.style.margin = '10px 0px';
 		for(var i = 0; i<distinctLocations.length;i++){
 			var l = document.createElement("option");
 			l.value = i;
 			l.text = distinctLocations[i].detected_location_name;
 			select.options.add(l);
 		}
-		customContainer.appendChild(select);
+		document.getElementById("location-select-container").appendChild(select);
 		select.style.visibility = "visible";
 		
 	}
 
-	gui.add(params,'date').listen();
-	gui.add(params,'zoom',1,14).listen();
-	gui.add(params,'speed',0,15).listen();
-	gui.add(params,'restart');
-	landingGui = gui.addFolder('actions');
-	params.global = function(){goGlobal();}
-	landingGui.add(params,'global');
-	params.histogram = function(){goHistogram();}
-	landingGui.add(params,'histogram');
-	params.birds_eye = function(){goBirdsEye();}
-	landingGui.add(params,'birds_eye');
-	params.autoPlay = function(){autoPlay();}
-	landingGui.add(params,'autoPlay');
-	params.user = function(){goUser();}
-	landingGui.add(params,'user');
-// 	params.local = function(){goLocal();}
-// 	landingGui.add(params,'local');
-	landingGui.open();
+// 	gui.add(params,'date').listen();
+// 	gui.add(params,'zoom',1,14).listen();
+// 	gui.add(params,'speed',0,15).listen();
+// 	gui.add(params,'restart');
+// 	landingGui = gui.addFolder('actions');
+// 	params.global = function(){goGlobal();}
+// 	landingGui.add(params,'global');
+// 	params.histogram = function(){goHistogram();}
+// 	landingGui.add(params,'histogram');
+// 	params.birds_eye = function(){goBirdsEye();}
+// 	landingGui.add(params,'birds_eye');
+// 	params.autoPlay = function(){autoPlay();}
+// 	landingGui.add(params,'autoPlay');
+// 	params.user = function(){goUser();}
+// 	landingGui.add(params,'user');
+// // 	params.local = function(){goLocal();}
+// // 	landingGui.add(params,'local');
+// 	landingGui.open();
 
 	goGlobal();
 
@@ -309,12 +308,12 @@ function updateLanding(){
 			targLocation = latLngToPixel(userLocation.latitude,userLocation.longitude);
 		}
 		targPos = new THREE.Vector3(targLocation[0],targLocation[1],0);
-		var cameraX = targLocation[0] + width * Math.cos(Math.PI/2.0+(params.count*0.001/Math.pow(2,params.speed)));
-		var cameraY = targLocation[1] + width * Math.sin(Math.PI/2.0+(params.count*0.001/Math.pow(2,params.speed)));
+		var cameraX = targLocation[0] + height * Math.cos(Math.PI/2.0+(params.count*0.001/Math.pow(2,params.speed)));
+		var cameraY = targLocation[1] + height * Math.sin(Math.PI/2.0+(params.count*0.001/Math.pow(2,params.speed)));
 		camera.up.set( 0, 0, 1 );
 		camera.position.x = cameraX;
 		camera.position.y = cameraY;
-		camera.position.z = 400*world;
+		camera.position.z = 300*world;
 		camera.lookAt(targPos);
 	}
 	swellUniforms.time.value = startTimestamp+params.count;
@@ -348,7 +347,7 @@ function updateLanding(){
 					var cameraY = targLocation[1] + width * Math.sin(Math.PI/2.0+((params.count+120)*0.001/Math.pow(2,params.speed)));
 					camera.up.set( 0, 0, 1 );
 					TWEEN.removeAll();
-					var cameraTween = new TWEEN.Tween(camera.position).to({ x: cameraX, y: cameraY, z:400*world }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+					var cameraTween = new TWEEN.Tween(camera.position).to({ x: cameraX, y: cameraY, z:300*world }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
 						 camera.lookAt(targPos);
 					}).start();
 					var targTween = new TWEEN.Tween(targPos).to({ x: targLocation[0], y: targLocation[1], z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
@@ -377,6 +376,7 @@ function updateLanding(){
 }
 
 function autoPlay(){
+	$('#local-button').slideDown("fast");
 	$('#information2').fadeOut("fast");
 	scene.remove(selectedObject);
 
@@ -389,17 +389,19 @@ function autoPlay(){
 	autoLocation = distinctLocations[num];
 	console.log(num+": "+autoLocation.detected_location_name);
 	var targLocation = latLngToPixel(autoLocation.latitude,autoLocation.longitude);
-	var cameraX = targLocation[0] + width * Math.cos(Math.PI/2.0+((params.count+120*Math.pow(2,params.speed))*0.001/Math.pow(2,params.speed)))
-	var cameraY = targLocation[1] + width * Math.sin(Math.PI/2.0+((params.count+120*Math.pow(2,params.speed))*0.001/Math.pow(2,params.speed)));
+	var cameraX = targLocation[0] + height * Math.cos(Math.PI/2.0+((params.count+120*Math.pow(2,params.speed))*0.001/Math.pow(2,params.speed)))
+	var cameraY = targLocation[1] + height * Math.sin(Math.PI/2.0+((params.count+120*Math.pow(2,params.speed))*0.001/Math.pow(2,params.speed)));
 
-	var cameraTween = new TWEEN.Tween(camera.position).to({ x: cameraX, y: cameraY, z:400*world }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
-        camera.lookAt(targPos);
-    }).start();
-    var targTween = new TWEEN.Tween(targPos).to({ x: targLocation[0], y: targLocation[1], z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
-    var zoomTween = new TWEEN.Tween(params).to({zoom:5},1000).easing(TWEEN.Easing.Quadratic.In).onComplete(function(){
+	var zoomTween = new TWEEN.Tween(params).to({zoom:4},1000).easing(TWEEN.Easing.Quadratic.In).onComplete(function(){
     	interactive = false;
     });
-    var zoomTween2 = new TWEEN.Tween(params).to({zoom:4},1000).easing(TWEEN.Easing.Quadratic.Out).chain(zoomTween).start();
+	var cameraTween = new TWEEN.Tween(camera.position).to({ x: cameraX, y: cameraY, z: 300*world}, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+        camera.lookAt(targPos);
+    }).start();
+    var targTween = new TWEEN.Tween(targPos).to({ x: targLocation[0], y: targLocation[1], z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onComplete(function(){
+		zoomTween.start();
+    }).start();
+//     var zoomTween2 = new TWEEN.Tween(params).to({zoom:4},1000).easing(TWEEN.Easing.Quadratic.Out).chain(zoomTween).start();
 
     var curve = new THREE.EllipseCurve(
 		targLocation[0],  targLocation[1],            // ax, aY
@@ -420,6 +422,7 @@ function autoPlay(){
 }
 
 function goSelectedLocation(num){
+	$('#local-button').slideDown("fast");
 	$('#information2').fadeOut("fast");
 	scene.remove(selectedObject);
 
@@ -462,6 +465,7 @@ function goSelectedLocation(num){
 }
 
 function goUser(){
+	$('#local-button').slideDown("fast");
 	$('#information2').fadeOut("fast");
 	scene.remove(selectedObject);
 
@@ -503,6 +507,7 @@ function goUser(){
 
 
 function goBirdsEye(){
+	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	autoplaying = false;
 	followingUser = false;
@@ -519,6 +524,7 @@ function goBirdsEye(){
 }
 
 function goHistogram(){
+	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	autoplaying = false;
 	followingUser = false;
@@ -537,6 +543,7 @@ function goHistogram(){
 }
 
 function goGlobal(){
+	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	autoplaying = false;
 	followingUser = false;
@@ -560,6 +567,8 @@ function goGlobal(){
 
 
 function goLocal(){
+	$('#topspot-container').slideUp("fast");
+	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 
 	goingLocal = true;
@@ -573,6 +582,16 @@ function goLocal(){
 
 		queryLanding(userLocation.detected_location_name,exitLanding);
 	}
+}
+
+function goLocalOnClick(i){
+	$('#local-button').slideUp("fast");
+	$('#information2').fadeOut("fast");
+
+	goingLocal = true;
+	params.speed = 11;
+	var fade = new TWEEN.Tween(fadeOut).to({fade:-1.0},1000).easing(TWEEN.Easing.Quadratic.InOut).start();
+	queryLanding(distinctLocations[i].detected_location_name,exitLanding);
 }
 
 function queryLanding(locationName, callback){

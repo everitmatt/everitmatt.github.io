@@ -12,7 +12,7 @@ var replaySpeed = 1;
 // var mouse = new THREE.Vector2(), raycaster = new THREE.Raycaster(),INTERSECTED,activeParticle, dir, intersectedIndex = -1, cleared = true;
 
 function initPersonal() {
-	TIME_SPACE = "personal"
+// 	TIME_SPACE = "personal"
 
 	bounds = {
 		topLeft: {
@@ -28,37 +28,17 @@ function initPersonal() {
 			y: 0,	
 		}
 	};
-// 	testZoom = 15;
-// 	xBounds = [ personal.longitude - 0.01,
-//   		personal.longitude + 0.01];
-// 	yBounds = [ personal.latitude - 0.01,
-// 	  		personal.latitude + 0.01];
-
-// 	camera.position.z = 1000;
-// 	camera.up.set( 0, 0, 1 );
-	
-// 	var t = latLngToPixelWithZoom(personal.latitude,personal.longitude,testZoom);
-	
-// 	targPos.x = t[0];
-//   	targPos.y = t[1];
-
-// 	targPos.x = convertToRange(personal.longitude,xBounds,[0,window.innerWidth]);
-//   	targPos.y = convertToRange(personal.latitude,yBounds,[0,window.innerHeight]);
-
-//   	camPos.x = targPos.x
-//   	camPos.y = targPos.y
-
-// 	scene = new THREE.Scene();
-// 	scene.fog = new THREE.FogExp2( 0xffffff, 0.0015 );
 
 	//particle geometry
 	function createParticles(){
 		//particle shader
-		var pMaterial = new THREE.ShaderMaterial( {
-	        vertexShader:   document.getElementById( 'vertexshader' ).textContent,
-	        fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-	        transparent:    true
-	    });
+
+		var pMaterial = new THREE.PointsMaterial();
+// 		var pMaterial = new THREE.ShaderMaterial( {
+// 	        vertexShader:   document.getElementById( 'vertexshader' ).textContent,
+// 	        fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+// 	        transparent:    true
+// 	    });
 
 	    var wMaterial = new THREE.LineBasicMaterial({
 	        // color: 0x00ff00,
@@ -145,10 +125,10 @@ function initPersonal() {
 	    pGeometry.addAttribute( 'alpha', new THREE.BufferAttribute(alphas,1));
 	    pGeometry.addAttribute( 'scale', new THREE.BufferAttribute(scales,1));
 
-	    particles = new THREE.Line( pGeometry,wMaterial);
-	    particles.name = "surfs";
+	    personalObject = new THREE.Line( pGeometry,wMaterial);
+	    personalObject.name = "surfs";
 
-	    scene.add( particles );
+	    scene.add( personalObject );
 	}
 
 	function createGrid(){
@@ -292,10 +272,6 @@ function initPersonal() {
 // 	createCoastline();
 	createParticles();
 
-	localGui = gui.addFolder('local');
-	localGui.add(params,'returnToLanding');
-	localGui.open();
-
 // 	params.count = 0;
 	console.log(scene);
 	var tBounds = [bounds.topLeft.y+(bounds.bottomRight.y-bounds.topLeft.y)/2,bounds.topLeft.x+(bounds.bottomRight.x-bounds.topLeft.x)/2];
@@ -308,8 +284,9 @@ function initPersonal() {
 		interactive = false;
 		scene.remove(selectedObject);
 	}).start();
-	var targTween = new TWEEN.Tween(targPos).to({ x: t[0], y: t[1], z: 0.0 }, 1000).easing(TWEEN.Easing.Quadratic.InOut).start();
-	var zoomTween = new TWEEN.Tween(params).to({zoom:7},1000).easing(TWEEN.Easing.Quadratic.InOut).start();
+	var targTween = new TWEEN.Tween(targPos).to({ x: t[0], y: t[1], z: 0.0 }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){
+		camera.lookAt(targPos);
+	}).start();
 }
 
 function updatePersonal(){

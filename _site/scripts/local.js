@@ -5,11 +5,14 @@ var t, end;
 var users;
 var grid;
 var showcase;
+var showcasing = "";
 var splashes;
-var pilgrimageObject;
+var splashUniforms;
+var pilgrimageObject;	
+var pilgrimageUniforms;
 var localGui;
 var goingPersonal = false;
-var personal = false;
+var isPersonal = false;
 var topUsers = {
 	surfCount:{id:"",value:0},
 	waveCount:{id:"",value:0},
@@ -20,7 +23,7 @@ var topUsers = {
 	};
 
 var bounds;
-var startFrame;
+var localStartFrame;
 var pilgrimStartIndex;
 var splashStartIndex;
 
@@ -122,19 +125,19 @@ function initLocal() {
 
     function createLocalSurfs(){
     	scene.remove(localObject);
-//     	localObject = new THREE.Points();
-//     	localObject.name = "local";
-//     	scene.add(localObject);
 		
 		pilgrimageObject = new THREE.Group();
 		pilgrimageObject.name = "pilgrimage";
 		scene.add(pilgrimageObject);
 
-		var pGeometry = new THREE.Geometry();
-		var pMaterial = new THREE.PointsMaterial({color: 0xff9100});
+		var pGeometry = new THREE.BufferGeometry();
 
 		var positions = new Float32Array(local.length*3);
+		var timestamps = new Float32Array(local.length);
 		var colors = new Float32Array(local.length*3);
+
+		localSurfUniforms.equator.value = height/2;
+		localSurfUniforms.pointWidth.value = 20.0*world;
 
 		for(var i = 0; i < local.length; i++){
 
@@ -149,12 +152,23 @@ function initLocal() {
 			
 			for(var j = 0; j < userOptions.surfIds.length; j++){
 				if(location.surf_id == userOptions.surfIds[j]){
-					personal = true;
+					personal = location;
+					isPersonal = true;
 				}
 			}
 
 			var cString = "#"+location.id.substring(0,6);
 			var c1 = new THREE.Color(cString);
+
+			positions[i*3] = p[0];
+			positions[i*3+1] = p[1];
+			positions[i*3+2] = 0;
+
+			timestamps[i] = location.start_timestamp;
+
+			colors[i*3] =c1.r;
+			colors[i*3+1] =c1.g;
+			colors[i*3+2] =c1.b;
 
 			//find bounds
 			if(lng > bounds.topLeft.x) bounds.topLeft.x = lng;
@@ -264,26 +278,11 @@ function initLocal() {
 					}
 				}
 			}
-			
-			pGeometry.vertices.push(new THREE.Vector3(p[0],p[1],0.0));
-// 			var curve = new THREE.EllipseCurve(
-// 				p[0],  p[1],            // ax, aY
-// 				0.0002, 0.0002,           // xRadius, yRadius
-// 				0,  2 * Math.PI,  // aStartAngle, aEndAngle
-// 				false,            // aClockwise
-// 				0                 // aRotation 
-// 			);
-
-// 			var path = new THREE.Path( curve.getPoints( 50 ) );
-// 			var geometry = path.createPointsGeometry( 50 );
-// 			var material = new THREE.LineBasicMaterial( { color : c1, transparent: true, linewidth: 2 } );
-
-// 			// Create the final Object3d to add to the scen
-// 			var ellipse = new THREE.Line( geometry, material );
-// 			ellipse.name = location.id;
-// 			localObject.add(ellipse);
+			pGeometry.addAttribute( 'position', new THREE.BufferAttribute(positions,3) );
+			pGeometry.addAttribute( 'timestamp', new THREE.BufferAttribute(timestamps,1) );
+			pGeometry.addAttribute( 'color', new THREE.BufferAttribute(colors,3) );
 		}
-		localObject = new THREE.Points(pGeometry,pMaterial);
+		localObject = new THREE.Points(pGeometry,localSurfMaterial);
     	localObject.name = "local";
     	scene.add(localObject);
 
@@ -300,9 +299,21 @@ function initLocal() {
 	localCamera.position.z = 1.5*world;
 	var drop = new TWEEN.Tween(fadeOut).to({drop:0.0},500).easing(TWEEN.Easing.Quadratic.In).onComplete(function(){
 		interactive = true;
-		var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0]+10*world, y: t[1]+1*world, z:1.5*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+		var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+5*world, z:1.5*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
 			camera.lookAt(targPos);
-		}).onComplete(function(){
+				}).onComplete(function(){
+					loader.load(
+				// resource URL
+				"../textures/sprites/surf1.png",
+				// Function when resource is loaded
+				function ( texture ) {
+					// do something with the texture
+					localSurfUniforms.texture.value = texture;
+				},
+				function ( xhr ) {
+					console.log( 'An error happened' );
+				}
+			);
 			TIME_SPACE = 'local';
 			interactive = false;
 			scene.remove(selectedObject);
@@ -311,33 +322,58 @@ function initLocal() {
 		var targTween = new TWEEN.Tween(params).to({ zoom: 6 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
 	});
 	var jump = new TWEEN.Tween(fadeOut).to({drop:1.1},100).easing(TWEEN.Easing.Quadratic.Out).chain(drop).start();
-
-	gui.removeFolder("actions");
-	localGui = gui.addFolder('local');
-	params.surfCount = function(){showSurfCount();}
-	localGui.add(params,'surfCount');
-	params.waveCount = function(){showWaveCount();}
-	localGui.add(params,'waveCount');
-	params.distanceWaves = function(){showDistanceWaves();}
-	localGui.add(params,'distanceWaves');
-	params.distanceTotal = function(){showDistanceTotal();}
-	localGui.add(params,'distanceTotal');
-	params.duration = function(){showDuration();}
-	localGui.add(params,'duration');
-	params.speedMax = function(){showSpeedMax();}
-	localGui.add(params,'speedMax');
-	if(personal){
-		params.personal = function(){goPersonal();}
-		localGui.add(params, 'personal');
+	
+	if(isPersonal){
+		console.log(personal);
+		$("#personal-gui").slideDown("fast");
 	}
-	params.returnToLanding = function(){returnToLanding();}
-	localGui.add(params,'returnToLanding');
-	localGui.open();
+
+	$("#local-gui").slideDown("fast");
+
+	document.getElementById("top-button").onclick = function(){localGoBirdsEye()};
+	document.getElementById("45-button").onclick = function(){localGoGlobal()};
+	document.getElementById("front-button").onclick = function(){localGoHistogram()};
+
+// 	gui.removeFolder("actions");
+// 	localGui = gui.addFolder('local');
+// 	params.surfCount = function(){showSurfCount();}
+// 	localGui.add(params,'surfCount');
+// 	params.waveCount = function(){showWaveCount();}
+// 	localGui.add(params,'waveCount');
+// 	params.distanceWaves = function(){showDistanceWaves();}
+// 	localGui.add(params,'distanceWaves');
+// 	params.distanceTotal = function(){showDistanceTotal();}
+// 	localGui.add(params,'distanceTotal');
+// 	params.duration = function(){showDuration();}
+// 	localGui.add(params,'duration');
+// 	params.speedMax = function(){showSpeedMax();}
+// 	localGui.add(params,'speedMax');
+// 	if(personal){
+// 		params.personal = function(){goPersonal();}
+// 		localGui.add(params, 'personal');
+// 	}
+// 	params.returnToLanding = function(){returnToLanding();}
+// 	localGui.add(params,'returnToLanding');
+// 	localGui.open();
 
 // 	params.restart();
-	startFrame = startTimestamp+params.count;
+	localStartFrame = startTimestamp+params.count;
 	pilgrimStartIndex = -1;
 	splashStartIndex = -1;
+
+	pilgrimageUniforms = {
+			equator: {type: 'f', value: 0.0},
+			time: {type: 'f', value: 0.0 },
+			zoom: {type: 'f', value: 0.0},
+			pointWidth: {type: 'f', value: 20.0*world},
+		};
+
+	splashUniforms = {
+			equator: {type: 'f', value: 0.0},
+			time: {type: 'f', value: 0.0 },
+			zoom: {type: 'f', value: 0.0},
+			pointWidth: {type: 'f', value: 20.0*world},
+		};
 
     console.log(scene);
     console.log(camera);
@@ -359,6 +395,15 @@ function updateLocal(){
 // 		params.zoom = 1;
 	camera.zoom = Math.pow(2,params.zoom);
 	camera.updateProjectionMatrix();
+
+	localSurfUniforms.time.value = startTimestamp+params.count;
+	localSurfUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+
+	pilgrimageUniforms.time.value = startTimestamp+params.count;
+	pilgrimageUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+
+	splashUniforms.time.value = startTimestamp+params.count;
+	splashUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
 
 	
 	var frame = startTimestamp+params.count;
@@ -386,104 +431,116 @@ function updateLocal(){
 
 		for(var i = 0; i < local.length; i++){
 			//create pilgrim and animate in;
-			if(local[i].start_timestamp-start < frame && local[i].start_timestamp > frame){
-				if(pilgrimStartIndex == -1) pilgrimStartIndex = i;
-				if(local[i].visible == false){
-					//create the object
-					local[i].visible = true;
-					local[i].previous_location = null;
-					for(var j = 0; j< landing.length; j++){
-						if(local[i].id == landing[j].id && landing[j].start_timestamp < local[i].start_timestamp && landing[j].location != undefined){
-							local[i].previous_location = [landing[j].latitude,landing[j].longitude,landing[j].location,local[i].start_timestamp-landing[j].start_timestamp];
-						}
-					}
-	// 				console.log(local[i].previous_location);
-					createPilgrim(i);
-				} else {
-					if(local[i].previous_location != null && i >= pilgrimStartIndex){
-						var surf = pilgrimageObject.children[i-pilgrimStartIndex];
-						var geometry = surf.geometry;
-						var attributes = geometry.attributes;
-						for( var k = 0; k < attributes.alpha.array.length; k++){
-							if(k<(frame-local[i].start_timestamp+start)*lerpValue*attributes.alpha.array.length){
-								attributes.alpha.array[k] = 1.2-(frame-local[i].start_timestamp+start)*lerpValue;
-							}
-	// 	 						attributes.alpha.array[k] = 1.0-(frame-local[i].start_timestamp+start)*lerpValue;
-						}
-						attributes.alpha.needsUpdate = true;
+			if(local[i].start_timestamp-start < frame && local[i].visible == false){
+				//create the object
+				local[i].visible = true;
+				local[i].previous_location = null;
+				for(var j = 0; j< landing.length; j++){
+					if(local[i].id == landing[j].id && landing[j].start_timestamp < local[i].start_timestamp && landing[j].detected_location_name != undefined){
+						local[i].previous_location = [landing[j].latitude,landing[j].longitude,landing[j].detected_location_name,local[i].start_timestamp-landing[j].start_timestamp];
 					}
 				}
-// 			} else if(local[i].start_timestamp < frame && local[i].start_timestamp+start > frame){
-// 				splash
-// 				if(splashStartIndex == -1) splashStartIndex = i;
-// 				if(local[i].splash == false){
-// 					//create the object
-// 					console.log(local[i])
-// 					local[i].splash = true;
-// 					createSplash(i);
-// 					for(var j = 0; j < userOptions.surfIds.length; j++){
-// 						if(local[i].surf_id == userOptions.surfIds[j]){
-// 							personal = local[i];
-// 							params.speed = 1;
-// 							console.log("going personal");
-// 							goPersonal();
-// 						}
-// 					}
-// 				} else {
-// 					var splash = splashes.children[i-splashStartIndex];
-// 					var geometry = splash.geometry;
-// 					var attributes = geometry.attributes;
-// 					attributes.alpha.array[0] = 1.0-(frame-local[i].start_timestamp)*lerpValue*5;
-// 					attributes.alpha.needsUpdate = true;
-// 				}
-			} else {
-				local[i].visible = false;
-				//local[i].splash = false;
+				createPilgrim(i);
 			}
+// 			if(local[i].start_timestamp < frame && local[i].start_timestamp+start > frame && local[i].splash == false){
+// 				console.log(local[i])
+// 				local[i].splash = true;
+// 				createSplash(i);
+// // 					for(var j = 0; j < userOptions.surfIds.length; j++){
+// // 						if(local[i].surf_id == userOptions.surfIds[j]){
+// // 							personal = local[i];
+// // 							params.speed = 1;
+// // 							console.log("going personal");
+// // 							goPersonal();
+// // 						}
+// // 					}
+// 			}
 		}
 	}
 }
 
 function showSurfCount(){
-	console.log(topUsers.surfCount);
-	createShowcase(topUsers.surfCount.id)
+	if(showcasing != "surfCount"){
+		console.log(topUsers.surfCount);
+		createShowcase(topUsers.surfCount.id);
+		showcasing = "surfCount";
+	} else {
+		scene.remove(showcase);
+		showcasing = "";
+	}
 }
 
 function showWaveCount(){
-	console.log(topUsers.waveCount);
-	createShowcase(topUsers.waveCount.id)
+	if(showcasing != "waveCount"){
+		console.log(topUsers.waveCount);
+		createShowcase(topUsers.waveCount.id);
+		showcasing = "waveCount";
+	} else {
+		scene.remove(showcase);
+		showcasing = "";
+	}
 }
 
 function showDistanceWaves(){
+	if(showcasing != "distanceWaves"){
 	console.log(topUsers.distanceWaves);
 	createShowcase(topUsers.distanceWaves.id);
+	showcasing = "distanceWaves";
+	} else {
+		scene.remove(showcase);
+		showcasing = "";
+	}
 }
 
 function showDistanceTotal(){
+	if(showcasing != "distanceTotal"){
 	console.log(topUsers.distanceTotal);
-	createShowcase(topUsers.distanceTotal.id); 	
+	createShowcase(topUsers.distanceTotal.id); 
+	showcasing = "distanceTotal";
+	} else {
+		scene.remove(showcase);
+		showcasing = "";
+	}	
 }
 
 function showDuration(){
+	if(showcasing != "duration"){
 	console.log(topUsers.duration);
 	createShowcase(topUsers.duration.id);
+	showcasing = "duration";
+	} else {
+		scene.remove(showcase);
+		showcasing = "";
+	}
 }
 
 function showSpeedMax(){
+	if(showcasing != "speedMax"){
 	console.log(topUsers.speedMax);
 	createShowcase(topUsers.speedMax.id);
+	showcasing = "speedMax";
+	} else {
+		scene.remove(showcase);
+		showcasing = "";
+	}
 }
 
 function returnToLanding(){
-	gui.removeFolder("local");
-	landingGui = gui.addFolder('actions');
-	landingGui.add(params,'global');
-	landingGui.add(params,'histogram');
-	landingGui.add(params,'birds_eye');
-	landingGui.add(params,'autoPlay');
-	landingGui.add(params,'user');
-	landingGui.add(params,'local');
-	landingGui.open();
+	scene.remove(localObject);
+	scene.remove(usersObject);
+	scene.remove(grid);
+	scene.remove(pilgrimageObject);
+	scene.remove(personalObject);
+	scene.remove(showcase);
+	scene.remove(splashes);
+	scene.remove(personal);
+	document.getElementById("top-button").onclick = function(){goBirdsEye()};
+	document.getElementById("45-button").onclick = function(){goGlobal()};
+	document.getElementById("front-button").onclick = function(){goHistogram()};
+	$("#personal-gui").slideUp("fast");
+	$("#local-gui").slideUp("fast");
+	$("#topspot-container").slideDown("fast");
+	isPersonal = false;
 	params.camera = camera;
 	var fade = new TWEEN.Tween(fadeOut).to({fade:0.0},2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){
 		swellUniforms.alpha.value = fadeOut.fade;
@@ -493,18 +550,11 @@ function returnToLanding(){
 	followingUser = false;
 	goingLocal = false;
 	TIME_SPACE = "landing";
-	scene.remove(localObject);
-	scene.remove(usersObject);
-	scene.remove(grid);
-	scene.remove(pilgrimageObject);
-	scene.remove(showcase);
-	scene.remove(splashes);
-	scene.remove(personal);
 	camera.up.set( 0, 0, 1 );
 	var cameraTween = new TWEEN.Tween(camera.position).to({ x: width*0.5, y: height*1.8, z: height }, 2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
         camera.lookAt(targPos);
     }).start();
-    var targTween = new TWEEN.Tween(targPos).to({ x: width*0.5, y: height*0, z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
+    var targTween = new TWEEN.Tween(targPos).to({ x: width*0.5, y: height*0.5, z: 0 }, 2000).easing(TWEEN.Easing.Quadratic.InOut).start();
     var zoomTween = new TWEEN.Tween(params).to({zoom:1},2000).easing(TWEEN.Easing.Quadratic.InOut).start();
 	interactive = true;
 
@@ -514,19 +564,80 @@ function returnToLanding(){
 
 }
 
+function localGoGlobal(){
+	console.log("global?");
+	loader.load(
+		// resource URL
+		"../textures/sprites/surf1.png",
+		// Function when resource is loaded
+		function ( texture ) {
+			// do something with the texture
+			localSurfUniforms.texture.value = texture;
+		},
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
+	var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+5*world, z:1.5*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+		camera.lookAt(targPos);
+	}).start();
+	//localSurfUniforms.texture.value = ;
+}
+
+function localGoBirdsEye(){
+	console.log("bird?");
+	loader.load(
+		// resource URL
+		"../textures/sprites/surf2.png",
+		// Function when resource is loaded
+		function ( texture ) {
+			// do something with the texture
+			localSurfUniforms.texture.value = texture;
+		},
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
+	var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+0.0001*world, z:10*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+		camera.lookAt(targPos);
+	}).start();
+	//localSurfUniforms.texture.value = ;
+}
+
+function localGoHistogram(){
+	console.log("hist?");
+	loader.load(
+		// resource URL
+		"../textures/sprites/surf3.png",
+		// Function when resource is loaded
+		function ( texture ) {
+			// do something with the texture
+			localSurfUniforms.texture.value = texture;
+		},
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
+	var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+5*world, z: 0 }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+		camera.lookAt(targPos);
+	}).start();
+	//localSurfUniforms.texture.value = ;
+}
+
 function goPersonal(){
 	exitLocal();
 }
 
 function exitLocal(){
-	goingPersonal = true;
+// 	goingPersonal = true;
 // 	scene.remove(localObject);
 // 	scene.remove(usersObject);
 // 	scene.remove(grid);
 // 	scene.remove(pilgrimageObject);
 // 	scene.remove(showcase);
 // 	scene.remove(splashes);
-	gui.removeFolder('local');
+// 	gui.removeFolder('local');
+// 	$("#local-gui").slideUp("fast");
 // 	localObject = null;
 	personal.data = [];
 	jsonpipe.flow('../local-sources/'+personal.surf_id+'.json', {
@@ -563,9 +674,6 @@ function createPilgrim(index){
 	var lng = +location.longitude.toFixed(4);
 	var p = latLngToPixel(lat,lng);
 
-	var cString = "#"+location.id.substring(0,6);
-	var c1 = new THREE.Color(cString);
-
 	//create pilgrimage bezier
 	if(location.previous_location != null){
 		var name1 = local[index].detected_location_name.split(",");
@@ -574,12 +682,6 @@ function createPilgrim(index){
 			location.previous_location = null;
 			
 		}
-		c1 = new THREE.Color(0xff0000);
-// 		if(name1[name1.length-1] == name2[name2.length-1]){
-// 			c1 = new THREE.Color(0x00ff00);
-// 		} else {
-// 			c1 = new THREE.Color(0xff0000);
-// 		}
 	}
 	if(location.previous_location != null){
 		console.log(location.previous_location[2]);
@@ -604,20 +706,18 @@ function createPilgrim(index){
 		var buffergeometry = new THREE.BufferGeometry();
 		var position = new THREE.Float32Attribute( pVertices.length * 3, 3 ).copyVector3sArray( pVertices );
 		buffergeometry.addAttribute( 'position', position )
-		var alphas = new Float32Array( pVertices.length);
+		var timestamps = new Float32Array( pVertices.length);
+		var indices = new Float32Array( pVertices.length);
 		for(var j = 0; j < pVertices.length; j++){
-			alphas[j] = 0.0;
+			timestamps[j] = location.start_timestamp;
+			indices[j] = j;
 		}
-		buffergeometry.addAttribute( 'alpha', new THREE.BufferAttribute(alphas,1));
-
-		var uniforms = {
-			color:     { type: "c", value: c1  },
-			pointWidth:{ type: "f", value: 1.0},
-		};
+		buffergeometry.addAttribute( 'timestamp', new THREE.BufferAttribute(timestamps,1));
+		buffergeometry.addAttribute( 'curveIndex', new THREE.BufferAttribute(indices,1));
 
 		var shaderMaterial = new THREE.ShaderMaterial( {
 
-			uniforms:       uniforms,
+			uniforms:       pilgrimageUniforms,
 			vertexShader:   document.getElementById( 'pilgrim_vertexshader' ).textContent,
 			fragmentShader: document.getElementById( 'pilgrim_fragmentshader' ).textContent,
 			blending:       THREE.NormalBlending,
@@ -647,16 +747,11 @@ function createSplash(index){
 	var cString = "#"+location.id.substring(0,6);
 	var c1 = new THREE.Color(cString);
 
-	var uniforms = {
-		color:     { type: "c", value: c1 },
-		pointWidth:{ type: "f", value: 2.0},
-	};
-
 	var shaderMaterial = new THREE.ShaderMaterial( {
 
-		uniforms:       uniforms,
-		vertexShader:   document.getElementById( 'pilgrim_vertexshader' ).textContent,
-		fragmentShader: document.getElementById( 'pilgrim_fragmentshader' ).textContent,
+		uniforms:       splashUniforms,
+		vertexShader:   document.getElementById( 'splash_vertexshader' ).textContent,
+		fragmentShader: document.getElementById( 'splash_fragmentshader' ).textContent,
 		blending:       THREE.NormalBlending,
 		depthTest:      false,
 		transparent:    true
@@ -667,6 +762,7 @@ function createSplash(index){
 	var buffergeometry = new THREE.BufferGeometry();
 
 	var position = new Float32Array( 6 );
+	var timestamps = new Float32Array( 2 );
 	var alphas = new Float32Array( 2 );
 
 	for(var j = 0; j < 2; j++){
@@ -676,10 +772,13 @@ function createSplash(index){
 		position[j*3+2] = vertex.z;
 
 		alphas[j] = 1-j;
+
+		timestamps[j] = location.start_timestamp;
 // 				showGeometry.vertices.push(vertex);
 	}
 
 	buffergeometry.addAttribute( 'position', new THREE.BufferAttribute(position,3) )
+	buffergeometry.addAttribute( 'timestamp', new THREE.BufferAttribute(timestamps,3) )
 	buffergeometry.addAttribute( 'alpha', new THREE.BufferAttribute(alphas,1));
 
 	var splash = new THREE.Line( buffergeometry, shaderMaterial );
@@ -696,23 +795,6 @@ function createShowcase(id){
 	showcase.name = "showcase";
 	scene.add(showcase);
 
-// 	var showGeometry = new THREE.Geometry();
-	var showMaterial = new THREE.LineBasicMaterial({color: c1, linewidth: 2, transparent: true});
-	var uniforms = {
-		color:     { type: "c", value: c1 }
-	};
-
-	var shaderMaterial = new THREE.ShaderMaterial( {
-
-		uniforms:       uniforms,
-		vertexShader:   document.getElementById( 'pilgrim_vertexshader' ).textContent,
-		fragmentShader: document.getElementById( 'pilgrim_fragmentshader' ).textContent,
-		blending:       THREE.NormalBlending,
-		depthTest:      false,
-		transparent:    true
-
-	});
-
 	var u;
 	for(var i = 0; i< local.length; i++){
 		if(local[i].id == id) {
@@ -724,23 +806,25 @@ function createShowcase(id){
             var lng = +location.longitude.toFixed(4);
 			var p = latLngToPixel(lat,lng);
 			
-			var position = new Float32Array( 2*3 );
-			var alphas = new Float32Array(2);
+			var positions = new Float32Array( location.wave_count*3 );
+			var colors = new Float32Array( location.wave_count*3);
 
-			for(var j = 0; j < 2; j++){
-				var vertex = new THREE.Vector3(p[0],p[1],j*location.wave_count*0.001*world);
-				position[j*3] = vertex.x;
-				position[j*3+1] = vertex.y;
-				position[j*3+2] = vertex.z;
+			for(var j = 0; j < location.wave_count; j++){
+				var vertex = new THREE.Vector3(p[0],p[1],j*0.001*world);
+				positions[j*3] = vertex.x;
+				positions[j*3+1] = vertex.y;
+				positions[j*3+2] = vertex.z;
 
-				alphas[j] = 1-j;
+				colors[j*3] = c1.r;
+				colors[j*3+1] = c1.g;
+				colors[j*3+2] = c1.b;
 // 				showGeometry.vertices.push(vertex);
 			}
 
-			buffergeometry.addAttribute( 'position', new THREE.BufferAttribute(position,3) )
-			buffergeometry.addAttribute( 'alpha', new THREE.BufferAttribute(alphas,1));
+			buffergeometry.addAttribute( 'position', new THREE.BufferAttribute(positions,3) );
+			buffergeometry.addAttribute( 'color', new THREE.BufferAttribute(colors,3) );
 
-			var showLine = new THREE.Line( buffergeometry, shaderMaterial );
+			var showLine = new THREE.Points( buffergeometry, localSurfMaterial );
 
 // 			var showLine = new THREE.Line(showGeometry,showMaterial);
 			showcase.add(showLine);

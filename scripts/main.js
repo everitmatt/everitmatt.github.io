@@ -3,7 +3,7 @@ var loadingScreen, statsContainer;
 var TIME_SPACE = "loading";
 var targPos;
 var gui;
-var auto = true;
+var auto = false;
 var playing = true;
 var params = {
 	count: 0,
@@ -13,7 +13,13 @@ var params = {
 	timeline: 0,
 	frame: 0,
 	restart: function(){
-		params.count = 0
+		params.count = 0;
+		localStartFrame = startTimestamp;
+		scene.remove(pilgrimageObject);
+		pilgrimageObject = new THREE.Group();
+		scene.add(pilgrimageObject);
+		pilgrimStartIndex = -1;
+		splashStartIndex = -1;
 		userOptions.surfIndex = 0;
 	},
 	play: function(){
@@ -83,6 +89,8 @@ var loadingObject, landingObject, globalObject, localObject, usersObject, person
 
 var surfMaterial;
 var isMouseDown = false;
+var zooming = false;
+// var mouseMovedWhileZooming = false;
 var mouseDown = [];
 var mouseDiff = [];
 var mouseDownTarget = [];
@@ -91,6 +99,13 @@ var mouseDragging = false;
 var mouse = new THREE.Vector3(), raycaster = new THREE.Raycaster(),GLOBAL_INTERSECTED ,LOCAL_INTERSECTED, dir, intersected, intersectedLocals, totalPerc;
 
 var blueMarbleMaterial;
+var localSurfMaterial;
+var localSurfUniforms;
+
+var loader;
+
+var mouseSelectedObject;
+var mouseSelectedIndex = -1;
 
 $(document).ready(function(){
 	loadTextures();
@@ -180,12 +195,12 @@ function initCanvas(){
 	material_depth = new THREE.MeshDepthMaterial();
 
 	//stats
-// 	stats = new Stats();
-// 	stats.domElement.style.position = 'absolute';
-// 	stats.domElement.style.top = '0px';
-// 	stats.domElement.style.right = '0px';
-// 	stats.domElement.style.height = '20px';
-// 	container.appendChild( stats.domElement );
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	stats.domElement.style.right = '0px';
+	stats.domElement.style.height = '20px';
+	container.appendChild( stats.domElement );
 
 	//event listeners
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -194,6 +209,7 @@ function initCanvas(){
 	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 	document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 	document.addEventListener( 'mousewheel', onDocumentMouseScroll, false);
+	document.addEventListener( 'dblclick', onDocumentDoubleClick, false);
 
 	window.addEventListener( 'resize', onWindowResize, false );
 
@@ -236,7 +252,7 @@ function initCanvas(){
 function loadTextures(){
 	initCanvas();
 	// instantiate a loader
-	var loader = new THREE.TextureLoader();
+	loader = new THREE.TextureLoader();
 
 	loader.load(
 		// resource URL
@@ -263,6 +279,40 @@ function loadTextures(){
 			});
 
 			mainApiCall();
+
+		},
+		// Function called when download progresses
+		function ( xhr ) {
+			console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+		},
+		// Function called when download errors
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
+
+	loader.load(
+		// resource URL
+		"../textures/sprites/spark2.png",
+		// Function when resource is loaded
+		function ( texture ) {
+			// do something with the texture
+			localSurfUniforms = {
+				equator: {type: 'f', value: 0.0},
+				time: {type: 'f', value: 0.0 },
+				zoom: {type: 'f', value: 0.0},
+				pointWidth: {type: 'f', value: 20.0*world},
+				texture: {type: 't', value: texture},
+			}
+
+			localSurfMaterial = new THREE.ShaderMaterial( {
+				uniforms: localSurfUniforms,
+				vertexShader:   document.getElementById( 'local_vertexshader' ).textContent,
+				fragmentShader: document.getElementById( 'local_fragmentshader' ).textContent,
+				transparent: true,
+				depthTest: false,
+				blending: THREE.NormalBlending,
+			});
 
 		},
 		// Function called when download progresses
@@ -360,7 +410,9 @@ function animate(time){
 	if(TIME_SPACE == "loading"){
 		updateLoading();
 	} else if (TIME_SPACE == "landing"){
-// 		intersectGlobal();
+		if(params.zoom > 3.99){
+// 			intersectGlobal();	
+		}
 		updateLanding();
 		if(!isMouseDown){
 			timeline.value = params.count*100.0/totalDuration;
@@ -377,7 +429,7 @@ function animate(time){
 		updatePersonal();
 	}
 	render();
-// 	stats.update();
+	stats.update();
 	if(!isMouseDown && playing){
 		params.count+=(Math.pow(2,params.speed));
 	}
@@ -469,9 +521,48 @@ function onDocumentMouseMove( event ) {
 	var infoDiv = document.getElementById("information");
 	infoDiv.style.left = (event.clientX+10) + "px";
 	infoDiv.style.top = (event.clientY-60) + "px";
+	zooming = false;
 	if(isMouseDown){
 		mouseDragging = true;
 		params.count = timeline.value/100*totalDuration;
+	}
+
+	var mouseWorldPos = getXY(event.clientX,event.clientY);
+
+	function getXY(cX, cY){
+		var planeZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+		var pos = raycaster.ray.intersectPlane(planeZ);
+
+		return pos;
+	}
+	scene.remove(mouseSelectedObject);
+	if(TIME_SPACE == "landing" && params.zoom > 3.99){
+		mouseSelectedIndex = -1;
+		var minDist = 1000000;
+		var minVec;
+		for(var i = 0; i < distinctLocations.length; i++){
+			var p = latLngToPixel(distinctLocations[i].latitude,distinctLocations[i].longitude);
+			var pV = new THREE.Vector3(p[0],p[1],0);
+			var dist = mouseWorldPos.distanceTo(pV);
+			if(dist < minDist){
+				mouseSelectedIndex = i;
+				minDist = dist;
+				minVec = pV;
+			}
+		}
+		if(minDist < 15){
+			console.log(distinctLocations[mouseSelectedIndex].detected_location_name);
+			var lMaterial = new THREE.LineBasicMaterial({
+				color: 0xff0000,
+			});
+
+			var lGeometry = new THREE.Geometry();
+
+			lGeometry.vertices.push(mouseWorldPos,minVec);
+
+			mouseSelectedObject = new THREE.Line( lGeometry, lMaterial );
+			scene.add( mouseSelectedObject );
+		}
 	}
 // 		mouseDiff = [(mouseX - mouseDown[0])*world/Math.pow(2,params.zoom)*2,(mouseY - mouseDown[1])*world/Math.pow(2,params.zoom)*2];
 // 		camera.position.x = mouseDownPosition[0] + mouseDiff[0];
@@ -498,8 +589,19 @@ function onDocumentMouseUp( event ) {
 		//params.count*100.0/totalDuration;
 		isMouseDown = false;
 		mouseDragging = false;
+		params.count = timeline.value/100*totalDuration;
 	}
 
+}
+
+function onDocumentDoubleClick(){
+	event.preventDefault();
+	if(TIME_SPACE == "landing"){
+		scene.remove(mouseSelectedObject);
+		if(mouseSelectedIndex != -1){
+			goLocalOnClick(mouseSelectedIndex);
+		}
+	}
 }
 
 function onDocumentTouchStart( event ) {
@@ -532,10 +634,29 @@ function onDocumentMouseScroll( event ) {
 
 	event.preventDefault();
 
-	var scrollValue = event.wheelDelta/120;
-	console.log(event);
+	scene.remove(mouseSelectedObject);
+	if(!zooming && TIME_SPACE == "landing"){
+		targPos = getXY(event.clientX,event.clientY);
+		camera.lookAt(targPos);
+		zooming = true;
+	}
+	
+
+	function getXY(cX, cY){
+		raycaster.setFromCamera(mouse,camera);
+		var planeZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+		var pos = raycaster.ray.intersectPlane(planeZ);
+
+		return pos;
+	}
+
+	var scrollValue = event.wheelDelta/360;
 	var newZoom = constrain(params.zoom + scrollValue,1,14);
 	params.zoom = newZoom;
+	swellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+	if(TIME_SPACE == "local"){
+		localSurfUniforms.zoom.value = Math.pow(2,params.zoom);
+	}
 }
 
 function intersect(){
@@ -614,7 +735,7 @@ function intersect(){
 function intersectGlobal(){
 	var infoDiv = document.getElementById("information");
 	raycaster.setFromCamera(mouse,camera);
-	raycaster.params.Points.threshold = 0.1;
+	raycaster.params.Points.threshold = 10.0;
 
 // 	console.log(raycaster);
 
@@ -623,25 +744,26 @@ function intersectGlobal(){
 // 	scene.add(arrowHelper);
 // 	console.log(raycaster.ray.direction);
 
-	var intersects = raycaster.intersectObject( landingObject);
+	var intersects = raycaster.intersectObject(landingObject);
 	var d, l;
 	if ( intersects.length > 0 ) {
+		console.log("intersect");
 		if ( GLOBAL_INTERSECTED != intersects[ 0 ] ) {
 
 			if ( GLOBAL_INTERSECTED ) {
-				d = landing[GLOBAL_INTERSECTED.index].date;
+				d = landing[GLOBAL_INTERSECTED.index];
 // 				d = new Date((landing[GLOBAL_INTERSECTED.index].start_timestamp - Math.floor(landing[GLOBAL_INTERSECTED.index].longitude/15)*3600)*1000);
-				console.log(d);
+// 				console.log(d);
 
 // 				console.log(GLOBAL_INTERSECTED.object);
 			}
 			GLOBAL_INTERSECTED = intersects[ 0 ];
 
 
-            l = landing[GLOBAL_INTERSECTED.index].location;
-            console.log(l);
+            l = landing[GLOBAL_INTERSECTED.index];
+//             console.log(l);
 			infoDiv.style.visibility = "visible"
-            infoDiv.textContent = l + "\n" + d
+//             infoDiv.textContent = l + "\n" + d
 
 		}
 

@@ -58,11 +58,14 @@
     <script src="../lib/jquery-1.12.0.min.js"></script>
     <script src="../lib/dat.gui.js"></script>
     <script src="../lib/Tween.js"></script>
+<!--     <script src="../lib/chosen.jquery.min.js"></script> -->
     <script src="../lib/jsonpipe.js"></script>
-
+<!--     <script src="../lib/CSS3DRenderer2.js"></script> -->
+<!--     <script src="../scripts/styles.js"></script> -->
 
     <script src="../local-sources/distinct-locations-new.js"></script>
-
+<!--     <script src="../local-sources/sandpolygons.js"></script> -->
+<!--     <script src="../local-sources/coastlinePolygon.js"></script> -->
     <script src="../local-sources/landpolygons50m.js"></script>
     <script src="../local-sources/global-swell-emitters.js"></script>
     
@@ -133,8 +136,6 @@
     }
     </script>
     <script type="x-shader/x-fragment" id="swell_fragmentshader" >
-      precision mediump float;
-      const float filterPixelWidth = 1.4142135623730951;
       const vec4 blank = vec4(0.);
       const vec4 BLUE = vec4( 0.0, 0.5, 1.0, 1.0 );
       const vec4 TEAL = vec4( 0.0, 1.0, 1.0, 1.0);
@@ -167,6 +168,130 @@
         gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord )*vAlpha;
       }
     </script>
+        <script type="x-shader/x-vertex" id="local_vertexshader">
+    attribute vec3 color;
+    attribute float timestamp;
+    
+    uniform float equator;
+    uniform float time;
+    uniform float zoom;
+    uniform float pointWidth;
+
+    varying float vAlpha;
+    varying vec3 vColor;
+      
+    void main() {
+      vAlpha = 1.0;
+      vColor = color;
+      vec3 newPosition = position;
+
+      vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
+
+      gl_PointSize = 0.01 * ( 300.0 / length( mvPosition.xyz ) ) * zoom;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+
+    }
+    </script>
+    <script type="x-shader/x-fragment" id="local_fragmentshader" >
+      uniform sampler2D texture;
+      
+      varying float vAlpha;
+      varying vec3 vColor;
+
+      void main () {
+        if(vAlpha < 0.1) discard;
+    
+        gl_FragColor = vec4(vColor,1.0)*texture2D( texture, gl_PointCoord )*vAlpha;
+      }
+    </script>
+    
+    <script type="x-shader/x-vertex" id="pilgrim_vertexshader">
+
+    attribute float timestamp;
+    attribute float curveIndex;
+      
+    uniform float equator;
+    uniform float time;
+    uniform float zoom;
+    uniform float pointWidth;
+
+    varying float vAlpha;
+
+    void main() {
+      float lerp = 1.0/518400.0;
+      float start = timestamp-518400.0;
+      vAlpha = 0.0;
+      
+      if(start < time){
+        if(curveIndex < (time-start)*lerp*200.0){
+          vAlpha = lerp*(timestamp-time)+0.2;
+        }
+      }
+      if (timestamp < time) {
+        vAlpha = 0.2;
+      }
+      
+      gl_PointSize = pointWidth;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+    }
+
+    </script>
+
+    <script type="x-shader/x-fragment" id="pilgrim_fragmentshader">
+            
+      varying float vAlpha;
+
+      void main() {
+
+        gl_FragColor = vec4( 1.0,0.0,0.0, vAlpha );
+
+      }
+
+    </script>
+
+     <script type="x-shader/x-vertex" id="splash_vertexshader">
+
+    attribute float timestamp;
+      
+    uniform float equator;
+    uniform float time;
+    uniform float zoom;
+    uniform float pointWidth;
+
+    varying float vAlpha;
+
+    void main() {
+      float lerp = 1.0/518400.0;
+      float start = timestamp-518400.0;
+      vAlpha = 0.0;
+      
+      if(start < time){
+          vAlpha = lerp*(timestamp-time);
+      }
+      
+      gl_PointSize = pointWidth;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+    }
+
+    </script>
+
+    <script type="x-shader/x-fragment" id="splash_fragmentshader">
+            
+      varying float vAlpha;
+
+      void main() {
+
+        gl_FragColor = vec4( 1.0,0.0,0.0, vAlpha );
+
+      }
+
+    </script>
+
     <script type="x-shader/x-vertex" id="land_vertexshader">
     
 
@@ -218,48 +343,15 @@
       
       }
     </script>
-    
-    <script type="x-shader/x-vertex" id="pilgrim_vertexshader">
-
-      attribute float alpha;
-
-      uniform float pointWidth;
-
-      varying float vAlpha;
-
-      void main() {
-
-        vAlpha = alpha;
-        gl_PointSize = pointWidth;
-
-        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-      }
-
-    </script>
-
-    <script type="x-shader/x-fragment" id="pilgrim_fragmentshader">
-            
-            uniform vec3 color;
-            
-      varying float vAlpha;
-
-      void main() {
-
-        gl_FragColor = vec4( color, vAlpha );
-
-      }
-
-    </script>
 
   </head>
 
   <body>
   <div id="timeline-container" style="width:100%; height: 200px; z-index: 1; position: absolute">
     <div id="timeline-centered" style="width: 1000px; height: 100%; margin: 0px auto; color: white; text-align: center;">
-      <div style="float:left; width:30%; height: 40px; margin-left: 5%; margin-top: 50px; background-color: grey; opacity: 0.0">global</div>
+<!--      <div style="float:left; width:30%; height: 40px; margin-left: 5%; margin-top: 50px; background-color: grey; opacity: 0.0">global</div>
       <div style="float:left; width:30%; height: 40px; margin-top: 50px; background-color: black; opacity: 0.0">local</div>
-      <div style="float:left; width:30%; height: 40px; margin-right: 5%; margin-top: 50px; background-color: black; opacity: 0.0; margin-bottom: 20px">personal</div>
+      <div style="float:left; width:30%; height: 40px; margin-right: 5%; margin-top: 50px; background-color: black; opacity: 0.0; margin-bottom: 20px">personal</div> -->
     </div>
   </div>
     <div id="login-container">
@@ -271,17 +363,34 @@
     </div>
     <div id="gui-container" style="position:absolute; top: 0px; left: 0px; height:100%; width:250px; background-color: black; z-index:1; opacity: 0.5">
     <div style="height: 40px; width: 100%;margin-top:49px; color: white; text-align:center">
-      <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">top</button>
-      <button style="height:100%;width:32%;float: left;" onClick="goGlobal()">45</button>
-      <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="goHistogram()">front</button>
+      <button id="top-button" style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">top</button>
+      <button id="45-button" style="height:100%;width:32%;float: left;" onClick="goGlobal()">45</button>
+      <button id="front-button" style="height:100%;width:32%;float: left;margin-right:2%" onClick="goHistogram()">front</button>
     </div>
     <div style="height: 40px; width: 100%;color: white; text-align: center">
       <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="params.restart()">start</button>
       <button style="height:100%;width:32%;float: left;" onClick="params.play()">play</button>
       <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">end</button>
     </div>
-    <div style="height: 40px; width: 100%;color: white; text-align: center">
-      <button style="height:100%;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
+    <div id="topspot-container" style="height: 40px; width: 100%;color: white; text-align: center">
+      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="goUser()">follow user</button>
+      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
+      <button id="local-button" style="height:100%;width:96%;float: left;margin:0 2%; display: none" onClick="goLocal()">check it out</button>
+    </div>
+    <div id="personal-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="goPersonal()">personal surf track</button>
+    </div>
+    <div id="local-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSurfCount()">surf count</button>
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showWaveCount()">wave count</button>
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceWaves()">distance waves</button>
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceTotal()">distance total</button>
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDuration()">duration</button>
+      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSpeedMax()">max speed</button>
+      <button style="height:100%;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
+    </div>
+    <div id="location-select-container"style="height: 40px; width: 96%; margin: 0px 2%">
+
     </div>
     </div>
     <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; left: 0px; display:none; margin: 0px 10px; height: 40px">menu</div>
