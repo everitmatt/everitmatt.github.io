@@ -60,6 +60,7 @@
     <script src="../lib/Tween.js"></script>
 <!--     <script src="../lib/chosen.jquery.min.js"></script> -->
     <script src="../lib/jsonpipe.js"></script>
+  <script src="../lib/jquery.csv.js"></script>
 <!--     <script src="../lib/CSS3DRenderer2.js"></script> -->
 <!--     <script src="../scripts/styles.js"></script> -->
 
@@ -348,7 +349,7 @@
 
   <body>
   <div id="timeline-container" style="width:100%; height: 200px; z-index: 1; position: absolute">
-    <div id="timeline-centered" style="width: 1000px; height: 100%; margin: 0px auto; color: white; text-align: center;">
+    <div id="timeline-centered" style="width: 800px; height: 100%; margin: 50px auto; color: white; text-align: center;">
 <!--      <div style="float:left; width:30%; height: 40px; margin-left: 5%; margin-top: 50px; background-color: grey; opacity: 0.0">global</div>
       <div style="float:left; width:30%; height: 40px; margin-top: 50px; background-color: black; opacity: 0.0">local</div>
       <div style="float:left; width:30%; height: 40px; margin-right: 5%; margin-top: 50px; background-color: black; opacity: 0.0; margin-bottom: 20px">personal</div> -->
@@ -358,10 +359,10 @@
         <div id="login">
           <div style="width: 100%; text-align: center; color: white">Welcome Chat</div>
           <div style="width: 100%; text-align: center; color: white">loading stuff...</div>
-            <div id = "loading-bar"></div>
+            <div id ="loading-bar"></div>
         </div>
     </div>
-    <div id="gui-container" style="position:absolute; top: 0px; left: 0px; height:100%; width:250px; background-color: black; z-index:1; opacity: 0.5">
+    <div id="gui-container" style="position:absolute; top: 0px; left: -250px; height:100%; width:250px; background-color: black; z-index:1; opacity: 0.5;">
     <div style="height: 40px; width: 100%;margin-top:49px; color: white; text-align:center">
       <button id="top-button" style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">top</button>
       <button id="45-button" style="height:100%;width:32%;float: left;" onClick="goGlobal()">45</button>
@@ -373,8 +374,9 @@
       <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">end</button>
     </div>
     <div id="topspot-container" style="height: 40px; width: 100%;color: white; text-align: center">
-      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="goUser()">follow user</button>
       <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
+      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="goUser()">follow user</button>
+      
       <button id="local-button" style="height:100%;width:96%;float: left;margin:0 2%; display: none" onClick="goLocal()">check it out</button>
     </div>
     <div id="personal-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
@@ -394,7 +396,7 @@
     </div>
     </div>
     <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; left: 0px; display:none; margin: 0px 10px; height: 40px">menu</div>
-    <div id="information" style="position: fixed; width:200px; height:50px; background-color: white; z-index: 1; visibility: hidden"></div>
+    <div id="information" style="position: fixed; height:50px; background-color: white; z-index: 1; opacity: 0.5; visibility: hidden"></div>
     <div id="information2" style="position: fixed; width:200px; height:50px; background-color: grey; z-index: 1; display: none; opaity: 0.5"></div>
     <select id="location-select" style="visibility: hidden;"  onchange="goSelectedLocation(this.value)"></select>
   </body>

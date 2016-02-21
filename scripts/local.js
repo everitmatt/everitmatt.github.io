@@ -376,12 +376,6 @@ function initLocal() {
 		};
 
     console.log(scene);
-    console.log(camera);
-    console.log(local);
-    console.log(users);
-    console.log(topUsers);
-    console.log(bounds);
-    console.log(tBounds);
 }
 
 function updateLocal(){
@@ -540,6 +534,7 @@ function returnToLanding(){
 	$("#personal-gui").slideUp("fast");
 	$("#local-gui").slideUp("fast");
 	$("#topspot-container").slideDown("fast");
+	$('#location-select-container').slideDown("fast");
 	isPersonal = false;
 	params.camera = camera;
 	var fade = new TWEEN.Tween(fadeOut).to({fade:0.0},2000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){

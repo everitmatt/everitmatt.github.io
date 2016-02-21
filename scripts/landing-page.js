@@ -23,7 +23,7 @@ function initLanding() {
 	targPos = new THREE.Vector3(width*0.5,height*0.5,200);
 	camera.lookAt(targPos);
 	camera.updateProjectionMatrix();
-	$("#login-container").fadeOut("slow");
+	
 	scene.fog = new THREE.FogExp2( 0xffffff, 0.0025 );
 //     scene.fog = null;
 
@@ -39,7 +39,7 @@ function initLanding() {
 // 			$("#gui-container").animate({left: "0px"},500);
 // 		});
 // 	});
-
+	
 // 	$("#gui-container").mouseleave(function(){
 // 		$(this).animate({left: "-250px"},500,function(){
 // 			$("#menu-icon").fadeIn("fast");
@@ -47,13 +47,7 @@ function initLanding() {
 // 	});
 
 
-	timeline = document.createElement("INPUT");
-    timeline.setAttribute("type", "range");
-    timeline.style.width = "90%";
-    timeline.style.margin = "0px 5%";
-    timeline.step = 0.1;
-    timeline.value = 0;
-    document.getElementById("timeline-centered").appendChild(timeline);
+	
 	
 	createSelect();
 
@@ -131,6 +125,7 @@ function initLanding() {
         var scales = new Float32Array(landing.length);
         var swellSizes = new Float32Array(landing.length);
         var targets = new Float32Array(landing.length*3);
+
         for(var i = 0; i < landing.length; i++){
         	var s = landing[i];
         	var isUser = false;
@@ -197,7 +192,7 @@ function initLanding() {
             targets[ i*3 + 1 ] = vertex.y;
             targets[ i*3 + 2 ] = vertex.z;
             
-            timestamps[i] = parseFloat(s.start_timestamp) ;
+            timestamps[i] = s.start_timestamp ;
             s.date = new Date(s.start_timestamp*1000);
 
             scales[i] = z*world*0.5;
@@ -220,7 +215,7 @@ function initLanding() {
     }
 
 	function createSelect(){
-		var select = document.getElementById("location-select")
+		var select = document.getElementById("location-select");
 		select.style.width = "100%";
 		select.style.margin = '10px 0px';
 		for(var i = 0; i<distinctLocations.length;i++){
@@ -252,10 +247,19 @@ function initLanding() {
 // // 	params.local = function(){goLocal();}
 // // 	landingGui.add(params,'local');
 // 	landingGui.open();
+	$("#gui-container").animate({left: "0px"},1000);
+	$("#login-container").fadeOut("slow");
+	
+	timeline = document.createElement("INPUT");
+    timeline.setAttribute("type", "range");
+    timeline.style.width = "90%";
+    timeline.style.margin = "0px 5%";
+    timeline.step = 0.1;
+    timeline.value = 0;
+    document.getElementById("timeline-centered").appendChild(timeline);
+
 
 	goGlobal();
-
-	console.log(landing);
 	console.log(scene);
 	console.log(userOptions);
 }
@@ -386,6 +390,7 @@ function autoPlay(){
 
 	camera.up.set( 0, 0, 1 );
 	var num = Math.floor(Math.random()*30+1);
+	document.getElementById("location-select").selectedIndex = num;
 	autoLocation = distinctLocations[num];
 	console.log(num+": "+autoLocation.detected_location_name);
 	var targLocation = latLngToPixel(autoLocation.latitude,autoLocation.longitude);
@@ -570,6 +575,7 @@ function goLocal(){
 	$('#topspot-container').slideUp("fast");
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
+	$('#location-select-container').slideUp("fast");
 
 	goingLocal = true;
 	params.speed = 11;
@@ -585,8 +591,10 @@ function goLocal(){
 }
 
 function goLocalOnClick(i){
+	$('#topspot-container').slideUp("fast");
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
+	$('#location-select-container').slideUp("fast");
 
 	goingLocal = true;
 	params.speed = 11;
@@ -602,19 +610,12 @@ function queryLanding(locationName, callback){
 		}
 
 	}
-	callback();
+	callback(locationName);
 }
 
-function exitLanding(){
-	var name;
+function exitLanding(name){
 	var geometry = landingObject.geometry;
 	var attributes = geometry.attributes;
-	if(autoplaying) {
-		name = autoLocation.detected_location_name;
-	}
-	if(followingUser) {
-		name = userLocation.detected_location_name;
-	}
 	console.log(name);
 
 	initLocal();

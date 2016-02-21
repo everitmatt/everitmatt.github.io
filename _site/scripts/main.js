@@ -93,6 +93,7 @@ var zooming = false;
 // var mouseMovedWhileZooming = false;
 var mouseDown = [];
 var mouseDiff = [];
+var mouseZoomTarg;
 var mouseDownTarget = [];
 var mouseDownPosition = [];
 var mouseDragging = false;
@@ -107,9 +108,25 @@ var loader;
 var mouseSelectedObject;
 var mouseSelectedIndex = -1;
 
+var zoomHelper;
+var infoDiv;
+
 $(document).ready(function(){
-	loadTextures();
-// 	mainApiCall();
+
+	if (!webgl_support) {
+		// the browser doesn't even know what WebGL is
+		window.location = "http://get.webgl.org";
+	} else {
+		loadTextures();
+	}
+
+	function webgl_support() { 
+	   try{
+			var canvas = document.createElement( 'canvas' ); 
+			return !! window.WebGLRenderingContext && ( 
+				 canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) );
+		   }catch( e ) { return false; } 
+	 };
 });
 
 var map;
@@ -136,6 +153,8 @@ function initCanvas(){
 	container.style.position = 'absolute';
 	container.style.top = '0px';
 	$("#webgl-container").animate({opacity:'1'},5000);
+
+	infoDiv = document.getElementById("information");
 
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 10000);
 	camera.up.set( 0, 0, 1 );
@@ -331,24 +350,41 @@ function loadTextures(){
       
 function mainApiCall(){
 	
-	database = [];
+// 	database = [];
 	var chunkCount = 0;
+	var lerp = 100/250000;
 	var loadingBar = document.getElementById("loading-bar");
+
+// 	$.ajax({
+// 		url: "../local-sources/minified-surfs.csv",
+// 		success: function (csvd) {
+// 			landing = $.csv.toObjects(csvd);
+// 		},
+// 		dataType: "text",
+// 		complete: function () {
+// 			console.log(landing);
+// 			exitLoading();
+// 			// call a function on complete 
+// 		}
+// 	});
+	
 	jsonpipe.flow('../local-sources/minified-surfs.json', {
 		"delimiter": "\n", // String. The delimiter separating valid JSON objects; default is "\n\n"
 		"success": function(data) {
 			// Do something with this JSON chunk
+			loadingBar.style.width = chunkCount*lerp + "%";
 			landing.push(data);
+			chunkCount++;
 
 		},
 		"error": function(errorMsg) {
 			console.log(errorMsg);
 		},
 		"complete": function(statusText) {
-			console.log(landing);
+			console.log("complete");
 			exitLoading();
 		},
-		"timeout": 60000, // Number. Set a timeout (in milliseconds) for the request
+		"timeout": 120000, // Number. Set a timeout (in milliseconds) for the request
 		"method": "GET", // String. The type of request to make (e.g. "POST", "GET", "PUT"); default is "GET"
 		"headers": { // Object. An object of additional header key/value pairs to send along with request
 			"X-Requested-With": "XMLHttpRequest"
@@ -519,8 +555,8 @@ function onDocumentMouseMove( event ) {
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 	var infoDiv = document.getElementById("information");
-	infoDiv.style.left = (event.clientX+10) + "px";
-	infoDiv.style.top = (event.clientY-60) + "px";
+	infoDiv.style.left = (event.clientX+5) + "px";
+	infoDiv.style.top = (event.clientY+5) + "px";
 	zooming = false;
 	if(isMouseDown){
 		mouseDragging = true;
@@ -536,7 +572,8 @@ function onDocumentMouseMove( event ) {
 		return pos;
 	}
 	scene.remove(mouseSelectedObject);
-	if(TIME_SPACE == "landing" && params.zoom > 3.99){
+	infoDiv.style.visibility = "hidden";
+	if(TIME_SPACE == "landing" && params.zoom > 3.99 && !goingLocal && !isMouseDown){
 		mouseSelectedIndex = -1;
 		var minDist = 1000000;
 		var minVec;
@@ -551,6 +588,8 @@ function onDocumentMouseMove( event ) {
 			}
 		}
 		if(minDist < 15){
+			infoDiv.textContent = distinctLocations[mouseSelectedIndex].detected_location_name;
+			infoDiv.style.visibility = "visible";
 			console.log(distinctLocations[mouseSelectedIndex].detected_location_name);
 			var lMaterial = new THREE.LineBasicMaterial({
 				color: 0xff0000,
@@ -562,6 +601,8 @@ function onDocumentMouseMove( event ) {
 
 			mouseSelectedObject = new THREE.Line( lGeometry, lMaterial );
 			scene.add( mouseSelectedObject );
+		} else {
+// 			infoDiv.style.visibility = "hidden";
 		}
 	}
 // 		mouseDiff = [(mouseX - mouseDown[0])*world/Math.pow(2,params.zoom)*2,(mouseY - mouseDown[1])*world/Math.pow(2,params.zoom)*2];
@@ -633,14 +674,7 @@ function onDocumentTouchMove( event ) {
 function onDocumentMouseScroll( event ) {
 
 	event.preventDefault();
-
 	scene.remove(mouseSelectedObject);
-	if(!zooming && TIME_SPACE == "landing"){
-		targPos = getXY(event.clientX,event.clientY);
-		camera.lookAt(targPos);
-		zooming = true;
-	}
-	
 
 	function getXY(cX, cY){
 		raycaster.setFromCamera(mouse,camera);
@@ -656,6 +690,21 @@ function onDocumentMouseScroll( event ) {
 	swellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
 	if(TIME_SPACE == "local"){
 		localSurfUniforms.zoom.value = Math.pow(2,params.zoom);
+	}
+
+	camera.zoom = Math.pow(2,params.zoom);
+	camera.updateProjectionMatrix();
+
+	if(!zooming && TIME_SPACE == "landing"){
+		if(event.wheelDelta > 0){
+			mouseZoomTarg = getXY(event.clientX,event.clientY);
+			mouseZoomTarg.sub(targPos);
+			mouseZoomTarg.divideScalar(3.85);
+			targPos.add(mouseZoomTarg);
+		}
+		
+		camera.position.x = targPos.x;
+		camera.lookAt(targPos); 
 	}
 }
 
