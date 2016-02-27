@@ -463,10 +463,10 @@
      }
       
     void main() {
-      vAlpha = 0.0;
-      if(timestamp<time){
-        vAlpha = 0.5;
-      }
+      vAlpha = 0.5;
+      //if(timestamp<time){
+      //  vAlpha = 0.5;
+      //}
       vec3 newPosition = position;
       vColor = vec3(0.0,0.0,0.0);
       if(stat == 0.0) vColor = vec3(0.0,1.0-remap(speed),remap(speed));

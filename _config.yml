@@ -5,7 +5,6 @@ email: everit.matt@me.com
 description: "Matthew Everitt Design"
 baseurl: "http://everittcreative.me"
 url: ""
-
 # Build settings
 markdown: kramdown
 permalink: none

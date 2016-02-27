@@ -220,15 +220,14 @@ function initLocal() {
 			var c1 = new THREE.Color(cString);
 
 			var pGeometry = new THREE.BufferGeometry();
-
 			var positions = new Float32Array(location.wave_count*3);
-			var timestamps = new Float32Array(location.wave_count);
+			var timestamps = new Float32Array(location.wave_count*1);
 			var colors = new Float32Array(location.wave_count*3);
-			var waveCounts = new Float32Array(location.wave_count);
-			var waveDistances = new Float32Array(location.wave_count);
+			var waveCounts = new Float32Array(location.wave_count*1);
+			var waveDistances = new Float32Array(location.wave_count*1);
 	// 		var totalDistances = new Float32Array(local.length);
-			var durations = new Float32Array(location.wave_count);
-			var topSpeeds = new Float32Array(location.wave_count);
+			var durations = new Float32Array(location.wave_count*1);
+			var topSpeeds = new Float32Array(location.wave_count*1);
 
 			for(var j = 0; j < location.wave_count; j++){
 				positions[j*3] = p[0];
@@ -883,8 +882,8 @@ function createPilgrim(index){
 		var buffergeometry = new THREE.BufferGeometry();
 		var position = new THREE.Float32Attribute( pVertices.length * 3, 3 ).copyVector3sArray( pVertices );
 		buffergeometry.addAttribute( 'position', position )
-		var timestamps = new Float32Array( pVertices.length);
-		var indices = new Float32Array( pVertices.length);
+		var timestamps = new Float32Array( pVertices.length*1);
+		var indices = new Float32Array( pVertices.length*1);
 		for(var j = 0; j < pVertices.length; j++){
 			timestamps[j] = location.start_timestamp;
 			indices[j] = j;
@@ -985,7 +984,7 @@ function createShowcase(id){
 			
 			var positions = new Float32Array( location.wave_count*3 );
 			var colors = new Float32Array( location.wave_count*3);
-			var pointWidths = new Float32Array( location.wave_count );
+			var pointWidths = new Float32Array( location.wave_count *1);
 
 			for(var j = 0; j < location.wave_count; j++){
 				var vertex = new THREE.Vector3(p[0],p[1],j*0.001*world);
