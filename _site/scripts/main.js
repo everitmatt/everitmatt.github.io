@@ -1,9 +1,9 @@
-var container, camera, cssCamera, localCamera, scene, cssScene, renderer, cssRenderer, material_depth;
+var container, camera, cssCamera, localCamera, orthoCamera, scene, cssScene, renderer, cssRenderer, material_depth;
 var loadingScreen, statsContainer;
 var TIME_SPACE = "loading";
 var targPos;
 var gui;
-var auto = false;
+var auto = true;
 var playing = true;
 var params = {
 	count: 0,
@@ -15,11 +15,6 @@ var params = {
 	restart: function(){
 		params.count = 0;
 		localStartFrame = startTimestamp;
-		scene.remove(pilgrimageObject);
-		pilgrimageObject = new THREE.Group();
-		scene.add(pilgrimageObject);
-		pilgrimStartIndex = -1;
-		splashStartIndex = -1;
 		userOptions.surfIndex = 0;
 	},
 	play: function(){
@@ -36,7 +31,7 @@ var params = {
 
 var userOptions = {
 	searchGPSId: '546a8e195101c0076728c57a',
-	surfIds: ['562a98b86ba2a21100b30ea8','5625c5d82ec0af1100dfc700','5635dffb1716481100732228'],
+	surfIds: ['562a98b86ba2a21100b30ea8','5625c5d82ec0af1100dfc700','5635dffb1716481100732228','568b13052acbc811009b7d37'],
 	surfIndex: 0,
 	locationIndices: [],
 	timestamps: []
@@ -51,12 +46,30 @@ var proIds = [
 	'53478b4a5101c021783a4381',
 	'53478bad4f01c01f25e4aec9'
 ];
+//Ocean
+//0x253069
+//0x2881c3
+//0x37a0d9
+//0x52c9f4
+//0xc8e9ed
+
+//land
+//0x707d34
+//0xcdcd93
+//0xd7b3a0
+//0x2e3523
+
+//pink
+//0xed1c7e
+//green
+//0x69bd45
 
 var palette = {
 	background: 0xffffff,
 	background_alpha: 0.0,
-	landOutline: 0xaaaaaa,
-	landFill: 0xaaaaaa,
+	landOutline: 0xDCE6E6,
+	landFill: 0xe6f0f0,
+
 }
 
 var count = 0;
@@ -101,7 +114,15 @@ var mouse = new THREE.Vector3(), raycaster = new THREE.Raycaster(),GLOBAL_INTERS
 
 var blueMarbleMaterial;
 var localSurfMaterial;
+var personalMaterial;
 var localSurfUniforms;
+var globalPilgrimageUniforms;
+var pilgrimageUniforms;
+var localSwellUniforms;
+var splashUniforms;
+var personalUniforms;
+var personalWaveUniforms;
+var personalSwellUniforms;
 
 var loader;
 
@@ -152,11 +173,13 @@ function initCanvas(){
 	container.style.opacity = '0';
 	container.style.position = 'absolute';
 	container.style.top = '0px';
+	container.style.background= "linear-gradient(to bottom, rgb(255, 255, 230) 10%, rgb(255, 255, 255) 75%)";
 	$("#webgl-container").animate({opacity:'1'},5000);
 
 	infoDiv = document.getElementById("information");
 
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 10000);
+// 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 10000);
+	camera = new THREE.OrthographicCamera( -window.innerWidth , window.innerWidth , window.innerHeight , -window.innerHeight, 1, 10000 );
 	camera.up.set( 0, 0, 1 );
 	camera.position.x = window.innerWidth/2.0;
 	camera.position.y = window.innerHeight;
@@ -164,6 +187,8 @@ function initCanvas(){
 	targPos = new THREE.Vector3(window.innerWidth/2,window.innerHeight/2,0);
 	camera.lookAt(targPos);
 	params.camera = camera;
+
+	interactive = true;
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2( palette.background, 0.005 );
@@ -219,7 +244,7 @@ function initCanvas(){
 	stats.domElement.style.top = '0px';
 	stats.domElement.style.right = '0px';
 	stats.domElement.style.height = '20px';
-	container.appendChild( stats.domElement );
+// 	container.appendChild( stats.domElement );
 
 	//event listeners
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -273,6 +298,74 @@ function loadTextures(){
 	// instantiate a loader
 	loader = new THREE.TextureLoader();
 
+	globalPilgrimageUniforms = {
+		equator: {type: 'f', value: 0.0},
+		time: {type: 'f', value: 0.0 },
+		zoom: {type: 'f', value: 0.0},
+		alpha: {type: 'f', value: 0.0},
+	}
+
+	localSwellUniforms = {
+		equator: {type: 'f', value: 0.0},
+		time: {type: 'f', value: 0.0 },
+		zoom: {type: 'f', value: 0.0},
+		alpha: {type: 'f', value: 0.0},
+		direction: {type: 'f', value: 0.0},
+	}
+
+	personalSwellUniforms = {
+		equator: {type: 'f', value: 0.0},
+		time: {type: 'f', value: 0.0 },
+		zoom: {type: 'f', value: 0.0},
+		alpha: {type: 'f', value: 0.0},
+		direction: {type: 'f', value: 0.0},
+	}
+
+	pilgrimageUniforms = {
+			equator: {type: 'f', value: 0.0},
+			time: {type: 'f', value: 0.0 },
+			zoom: {type: 'f', value: 0.0},
+			pointWidth: {type: 'f', value: 20.0*world},
+		};
+
+	splashUniforms = {
+			equator: {type: 'f', value: 0.0},
+			time: {type: 'f', value: 0.0 },
+			zoom: {type: 'f', value: 0.0},
+			pointWidth: {type: 'f', value: 20.0*world},
+		};
+
+// 	loader.load(
+// 		// resource URL
+// 		"../textures/world.topo.bathy.200412.3x21600x10800.jpg",
+// 		// Function when resource is loaded
+// 		function ( texture ) {
+// 			// do something with the texture
+
+// 			blueMarbleMaterial = new THREE.ShaderMaterial( {
+// 				uniforms: {
+// 					texture: {type: 't', value: texture}
+// 					},
+// 				vertexShader:   document.getElementById( 'bluemarble_vertexshader' ).textContent,
+// 				fragmentShader: document.getElementById( 'bluemarble_fragmentshader' ).textContent,
+// 				transparent: true,
+// 				depthTest: false,
+// 				blending: THREE.NormalBlending,
+// 			});
+
+// 			mainApiCall();
+
+// 		},
+// 		// Function called when download progresses
+// 		function ( xhr ) {
+// 			console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+// 		},
+// 		// Function called when download errors
+// 		function ( xhr ) {
+// 			console.log( 'An error happened' );
+// 		}
+// 	);
+
 	loader.load(
 		// resource URL
 		"../textures/sprites/spark1.png",
@@ -284,6 +377,7 @@ function loadTextures(){
 				time: {type: 'f', value: 0.0 },
 				zoom: {type: 'f', value: 0.0},
 				alpha: {type: 'f', value: 0.0},
+				drop: {type: 'f', value: 1.0},
 				texture: {type: 't', value: texture},
 				pointWidth: {type: 'f', value: 20.0*world}
 			}
@@ -312,7 +406,7 @@ function loadTextures(){
 
 	loader.load(
 		// resource URL
-		"../textures/sprites/spark2.png",
+		"../textures/sprites/spark1.png",
 		// Function when resource is loaded
 		function ( texture ) {
 			// do something with the texture
@@ -320,8 +414,11 @@ function loadTextures(){
 				equator: {type: 'f', value: 0.0},
 				time: {type: 'f', value: 0.0 },
 				zoom: {type: 'f', value: 0.0},
-				pointWidth: {type: 'f', value: 20.0*world},
 				texture: {type: 't', value: texture},
+				alpha: {type: 'f', value: 0.0},
+				stat: {type: 'f', value: 0.0},
+				min: {type: 'f', value: 0.0},
+				max: {type: 'f', value: 0.0},
 			}
 
 			localSurfMaterial = new THREE.ShaderMaterial( {
@@ -332,6 +429,26 @@ function loadTextures(){
 				depthTest: false,
 				blending: THREE.NormalBlending,
 			});
+
+			personalUniforms = {
+				equator: {type: 'f', value: 0.0},
+				time: {type: 'f', value: 0.0 },
+				zoom: {type: 'f', value: 0.0},
+				texture: {type: 't', value: texture},
+				stat: {type: 'f', value: 0.0},
+				min: {type: 'f', value: 0.0},
+				max: {type: 'f', value: 0.0},
+			}
+
+			personalMaterial = new THREE.ShaderMaterial( {
+				uniforms: personalUniforms,
+				vertexShader:   document.getElementById( 'personal_vertexshader' ).textContent,
+				fragmentShader: document.getElementById( 'personal_fragmentshader' ).textContent,
+				transparent: true,
+				depthTest: false,
+				blending: THREE.NormalBlending,
+			});
+
 
 		},
 		// Function called when download progresses
@@ -368,7 +485,7 @@ function mainApiCall(){
 // 		}
 // 	});
 	
-	jsonpipe.flow('../local-sources/minified-surfs.json', {
+	jsonpipe.flow('../local-sources/searchGPSData-minified.json', {
 		"delimiter": "\n", // String. The delimiter separating valid JSON objects; default is "\n\n"
 		"success": function(data) {
 			// Do something with this JSON chunk
@@ -463,12 +580,19 @@ function animate(time){
 		}
 	} else if(TIME_SPACE == "personal"){
 		updatePersonal();
+		if(!isMouseDown){
+			timeline.value = params.count*100.0/totalDuration;
+		}
 	}
 	render();
 	stats.update();
 	if(!isMouseDown && playing){
-		params.count+=(Math.pow(2,params.speed));
+		params.count+=params.speed;
 	}
+	if(timeline != undefined){
+		$("#date").css({left:10+timeline.value*0.8+"%"});
+	}
+
 }
 
 function render(){
@@ -498,6 +622,7 @@ function render(){
 		renderer.setClearColor(palette.background,palette.background_alpha);
 // 		renderer.autoClear = false;
 // 		cssRenderer.render( cssScene, params.camera );
+// 		scene.fog.density = 4.0;
 		renderer.render( scene, params.camera);
 		
 
@@ -523,7 +648,7 @@ function updateLoading(){
 function exitLoading(){
 	//fadeout
 	if(auto){
-		userOptions.searchGPSId = proIds[2];
+		userOptions.searchGPSId = proIds[Math.floor((Math.random() * 7))];
 	}
 
 	scene.remove(loadingObject);
@@ -550,11 +675,11 @@ function onWindowResize() {
 
 function onDocumentMouseMove( event ) {
 // 	event.preventDefault();
+	raycaster.setFromCamera(mouse,camera);
 	mouseX = event.clientX - windowHalfX;
 	mouseY = event.clientY - windowHalfY;
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-	var infoDiv = document.getElementById("information");
 	infoDiv.style.left = (event.clientX+5) + "px";
 	infoDiv.style.top = (event.clientY+5) + "px";
 	zooming = false;
@@ -571,6 +696,7 @@ function onDocumentMouseMove( event ) {
 
 		return pos;
 	}
+
 	scene.remove(mouseSelectedObject);
 	infoDiv.style.visibility = "hidden";
 	if(TIME_SPACE == "landing" && params.zoom > 3.99 && !goingLocal && !isMouseDown){
@@ -588,11 +714,13 @@ function onDocumentMouseMove( event ) {
 			}
 		}
 		if(minDist < 15){
-			infoDiv.textContent = distinctLocations[mouseSelectedIndex].detected_location_name;
+			$("#information #location").text(distinctLocations[mouseSelectedIndex].detected_location_name);
+// 			infoDiv.textContent = distinctLocations[mouseSelectedIndex].detected_location_name;
 			infoDiv.style.visibility = "visible";
 			console.log(distinctLocations[mouseSelectedIndex].detected_location_name);
 			var lMaterial = new THREE.LineBasicMaterial({
-				color: 0xff0000,
+				color: palette.landOutline,
+				transparent: true
 			});
 
 			var lGeometry = new THREE.Geometry();
@@ -602,6 +730,52 @@ function onDocumentMouseMove( event ) {
 			mouseSelectedObject = new THREE.Line( lGeometry, lMaterial );
 			scene.add( mouseSelectedObject );
 		} else {
+			$("#information #location").text("");
+			$("#information #waveCount").text("");
+			$("#information #distanceWaves").text("");
+			$("#information #duration").text("");
+			$("#information #topSpeed").text("");
+// 			infoDiv.style.visibility = "hidden";
+		}
+	}
+	if(TIME_SPACE == "local" && params.zoom > 3.99 && !isMouseDown){
+		mouseSelectedIndex = -1;
+		var minDist = 1000000;
+		var minVec;
+		for(var i = 0; i < local.length; i++){
+			var p = latLngToPixel(local[i].latitude,local[i].longitude);
+			var pV = new THREE.Vector3(p[0],p[1],0);
+			var dist = mouseWorldPos.distanceTo(pV);
+			if(dist < minDist){
+				mouseSelectedIndex = i;
+				minDist = dist;
+				minVec = pV;
+			}
+		}
+		if(minDist < 0.04){
+			$("#information #location").text("");
+			$("#information #waveCount").text("wave_count: "+local[mouseSelectedIndex].wave_count);
+			$("#information #distanceWaves").text("distance_waves: "+local[mouseSelectedIndex].distance_waves);
+			$("#information #duration").text("duration: "+local[mouseSelectedIndex].duration);
+			$("#information #topSpeed").text("max_speed: "+local[mouseSelectedIndex].speed_max);
+			infoDiv.style.visibility = "visible";
+			var lMaterial = new THREE.LineBasicMaterial({
+				color: palette.landOutline,
+				transparent: true
+			});
+
+			var lGeometry = new THREE.Geometry();
+
+			lGeometry.vertices.push(mouseWorldPos,minVec);
+
+			mouseSelectedObject = new THREE.Line( lGeometry, lMaterial );
+			scene.add( mouseSelectedObject );
+		} else {
+			$("#information #location").text("");
+			$("#information #waveCount").text("");
+			$("#information #distanceWaves").text("");
+			$("#information #duration").text("");
+			$("#information #topSpeed").text("");
 // 			infoDiv.style.visibility = "hidden";
 		}
 	}
@@ -630,7 +804,9 @@ function onDocumentMouseUp( event ) {
 		//params.count*100.0/totalDuration;
 		isMouseDown = false;
 		mouseDragging = false;
-		params.count = timeline.value/100*totalDuration;
+		if(TIME_SPACE != "personal"){
+			params.count = timeline.value/100*totalDuration;
+		}
 	}
 
 }
@@ -685,17 +861,23 @@ function onDocumentMouseScroll( event ) {
 	}
 
 	var scrollValue = event.wheelDelta/360;
-	var newZoom = constrain(params.zoom + scrollValue,1,14);
+	var newZoom = constrain(params.zoom + scrollValue,1,20);
 	params.zoom = newZoom;
-	swellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+	if(TIME_SPACE == "landing"){
+		swellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+		globalPilgrimageUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+	}
 	if(TIME_SPACE == "local"){
 		localSurfUniforms.zoom.value = Math.pow(2,params.zoom);
+		localSwellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+	}
+	if(TIME_SPACE == "personal"){
+		personalSwellUniforms.zoom.value = Math.pow(2,params.zoom);
+		personalSwellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
 	}
 
-	camera.zoom = Math.pow(2,params.zoom);
-	camera.updateProjectionMatrix();
 
-	if(!zooming && TIME_SPACE == "landing"){
+	if(!zooming && TIME_SPACE == "landing" && !histogram){
 		if(event.wheelDelta > 0){
 			mouseZoomTarg = getXY(event.clientX,event.clientY);
 			mouseZoomTarg.sub(targPos);
@@ -706,6 +888,9 @@ function onDocumentMouseScroll( event ) {
 		camera.position.x = targPos.x;
 		camera.lookAt(targPos); 
 	}
+
+	camera.zoom = Math.pow(2,params.zoom);
+	camera.updateProjectionMatrix();
 }
 
 function intersect(){

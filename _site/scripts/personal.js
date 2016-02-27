@@ -9,10 +9,19 @@ var targVel = new THREE.Vector3(0, 0, 0),
 var intersects;
 var onWave = false;
 var replaySpeed = 1;
+
+var coastlineObject;
+var sandObject;
+var personalSwellObject;
+var waveObject;
+var waveThreshold = 10.0;
+var personalTimeDiff = 0.0;
 // var mouse = new THREE.Vector2(), raycaster = new THREE.Raycaster(),INTERSECTED,activeParticle, dir, intersectedIndex = -1, cleared = true;
 
 function initPersonal() {
 // 	TIME_SPACE = "personal"
+// 	$("#steplist").fadeOut("fast");
+	personalUniforms.stat.value = 0.0, personalUniforms.min.value = 0.0, personalUniforms.max.value = 10.0;
 
 	bounds = {
 		topLeft: {
@@ -29,35 +38,55 @@ function initPersonal() {
 		}
 	};
 
+	loader.load(
+		// resource URL
+		"../textures/sprites/surf2.png",
+		// Function when resource is loaded
+		function ( texture ) {
+			// do something with the texture
+			personalUniforms.texture.value = texture;
+		},
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
+
+	console.log(personal.data);
+
+	personalTimeDiff = personal.data[0].date-personal.surfs[0].start_timestamp;
+
 	//particle geometry
 	function createParticles(){
-		//particle shader
+		personalObject = new THREE.Group();
+		personalObject.name = "personalObject";
 
-		var pMaterial = new THREE.PointsMaterial();
-// 		var pMaterial = new THREE.ShaderMaterial( {
-// 	        vertexShader:   document.getElementById( 'vertexshader' ).textContent,
-// 	        fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-// 	        transparent:    true
-// 	    });
-
-	    var wMaterial = new THREE.LineBasicMaterial({
-	        // color: 0x00ff00,
-	        vertexColors: THREE.VertexColors,
-	        linewidth: 3,
-	    });
-
+		waveObject = new THREE.Group();
+		waveObject.name = "waveObject";
 
 		var vertices = new Float32Array( personal.data.length * 3 - 30 );
-	    var typedColors = new Float32Array( personal.data.length * 3 - 30);
-	    var alphas = new Float32Array( personal.data.length * 1 - 10);
-	    var scales = new Float32Array( personal.data.length * 1 - 10);
+		var ptimestamps = [];
+// 		new Float32Array( personal.data.length - 10 );
+		var speeds = new Float32Array( personal.data.length - 10 );
+		var accelerations = new Float32Array( personal.data.length * 3 - 30 );
+		var rotations = new Float32Array( personal.data.length * 3 - 30 );
 
-	  	var step = 1/40;
+		var waveGeometry;
+		var waveMaterial = new THREE.LineBasicMaterial({
+			linewidth: 2,
+			vertexColors: THREE.VertexColors,
+			transparent: true,
+			depthTest: false
+		});
+
+	  	var step = 1/50.0;
 
 	  	var wGeometry, colors;
 	  	var currentLocation = [0.0,0.0,0.0];
 	  	var waveCount = 0;
+	  	var onWave = false;
+	  	var prev = {vertex: 0, color: 0};
 // 	  	var pGeometry = new THREE.Geometry();
+
 	  	for(var i = 0; i < personal.data.length; i++){
 			var s = personal.data[i];
 
@@ -68,67 +97,74 @@ function initPersonal() {
 			if(lng < bounds.bottomRight.x) bounds.bottomRight.x = lng;
 			if(lat > bounds.topLeft.y) bounds.topLeft.y = lat;
 			if(lat < bounds.bottomRight.y) bounds.bottomRight.y = lat;
-	        //check to see if new location, if new create lerped vertices, if not new do nothing;
-	        if(currentLocation[0] != location[0] || currentLocation[1] != location[1] || currentLocation[2] != location[2]){
-	        	//find the datum count till the next location update
-	      		var datumCount = 0;
-	        	for(var j = i; j < personal.data.length; j++){
-	        		var sf = personal.data[j];
-	        		var fLocation = [sf.latitude, sf.longitude, sf.altitude];
-	        		if(location[0] != fLocation[0] || location[1] != fLocation[1] || location[2] != fLocation[2]){
-	        			datumCount = j-i;
-	        			break;
-	        		}
-	        	}
+			
+			var p = latLngToPixel(s.latitude,s.longitude);
+			var vertex = new THREE.Vector3(p[0],p[1],0);
+			ptimestamps[i] = i;
 
-	        	//find the final vertex location
-	        	var fS = personal.data[i+datumCount];
-	        	// var finalLocation = [fS.lat,fs.lng];
+			if(s.speed < waveThreshold && !onWave){
+				prev.vertex = vertex;
+				var c1 = new THREE.Color(0x0000ff);
+				var c2 = new THREE.Color(0x00ff00);
+				c1.lerp(c2,s.speed*step);
+				prev.color = c1;
 
-	        	//create THREE.Vector3's
-// 	        	var startPoint = [convertToRange(s.longitude,xBounds,[0,window.innerWidth]),convertToRange(s.latitude,yBounds,[0,window.innerHeight])];
-	        	var startPoint = latLngToPixel(s.latitude,s.longitude);
-	        	var startVertex = new THREE.Vector3(startPoint[0],startPoint[1],0);
-// 	        	var finalPoint = [convertToRange(fS.longitude,xBounds,[0,window.innerWidth]),convertToRange(fS.latitude,yBounds,[0,window.innerHeight])];
-	        	var finalPoint = latLngToPixel(fS.latitude,fS.longitude);
-	        	var finalVertex = new THREE.Vector3(finalPoint[0],finalPoint[1],0);
-	        	var lerpVal = 1/datumCount;
-	        	var lerp = 0;
-	        	//create geometry for each datum point with lerped locations
-	        	for(var j = i; j<i+datumCount; j++){
-	        		var lS = personal.data[j];
+				vertices[ i*3 ] = +vertex.x.toFixed(4);
+				vertices[ i*3 + 1 ] = +vertex.y.toFixed(4);
+				vertices[ i*3 + 2 ] = vertex.z;
 
-	        		var vertex = new THREE.Vector3();
-	        		vertex.lerpVectors(startVertex,finalVertex,lerp);	
-	        		lerp += lerpVal;
-	        		var c1 = new THREE.Color(0x00ff00);
-	    			var c2 = new THREE.Color(0xff0000);
-	        		c1.lerp(c2,lS.speed*step);
-			  		vertices[ j*3 + 0 ] = vertex.x;
-					vertices[ j*3 + 1 ] = vertex.y;
-					vertices[ j*3 + 2 ] = vertex.z;
+				speeds[i] = s.speed;
 
-					typedColors[ j*3 + 0 ] = c1.r;
-					typedColors[ j*3 + 1 ] = c1.g;
-					typedColors[ j*3 + 2 ] = c1.b;
+				accelerations[ i*3 ] = s.xAccel;
+				accelerations[ i*3 + 1 ] = s.yAccel;
+				accelerations[ i*3 + 2 ] = s.zAccel;
 
-					alphas[j] = 1.0;
+				rotations[ i*3 ] = s.pitch;
+				rotations[ i*3 + 1 ] = s.roll;
+				rotations[ i*3 + 2 ] = s.yaw;
 
-					scales[j] = 5+lS.speed*0.2;
-	        	}
-	        	currentLocation = location;
-	        }
+
+			} else if (s.speed < waveThreshold && onWave){
+				onWave = false;
+
+				var line = new THREE.Line(waveGeometry,waveMaterial, THREE.LineSegments);
+				waveObject.add(line);
+			}
+			else if(!onWave){
+				onWave = true;
+				waveGeometry = new THREE.Geometry();
+
+				waveGeometry.vertices.push(prev.vertex);
+				waveGeometry.colors.push(prev.color);
+
+
+				waveGeometry.vertices.push(vertex);
+				var c1 = new THREE.Color(0x0000ff);
+				var c2 = new THREE.Color(0x00ff00);
+				c1.lerp(c2,s.speed*step);
+				waveGeometry.colors.push(c1);
+			} else if(onWave){
+				waveGeometry.vertices.push(vertex);
+
+				var c1 = new THREE.Color(0x0000ff);
+				var c2 = new THREE.Color(0x00ff00);
+				c1.lerp(c2,s.speed*step);
+				waveGeometry.colors.push(c1);
+			}
 	    }
+	    var timestamps = new Float32Array(ptimestamps);
+	    console.log(timestamps);
 	    var pGeometry = new THREE.BufferGeometry();
 	    pGeometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-	    pGeometry.addAttribute( 'color', new THREE.BufferAttribute( typedColors, 3 ) );
-	    pGeometry.addAttribute( 'alpha', new THREE.BufferAttribute(alphas,1));
-	    pGeometry.addAttribute( 'scale', new THREE.BufferAttribute(scales,1));
+	    pGeometry.addAttribute( 'timestamp', new THREE.BufferAttribute( timestamps, 1 ) );
+	    pGeometry.addAttribute( 'speed', new THREE.BufferAttribute(speeds,1));
+	    pGeometry.addAttribute( 'acc', new THREE.BufferAttribute(accelerations,3));
+	    pGeometry.addAttribute( 'rot', new THREE.BufferAttribute(rotations,3));
 
-	    personalObject = new THREE.Line( pGeometry,wMaterial);
-	    personalObject.name = "surfs";
+	    var points = new THREE.Points( pGeometry,personalMaterial);
+	    personalObject.add(points);
+	    personalObject.add(waveObject);
 
-	    scene.add( personalObject );
 	}
 
 	function createGrid(){
@@ -147,75 +183,75 @@ function initPersonal() {
 		scene.add(plane);
 	}
 
-// 	function createSand(){
-// 		var group = new THREE.Group();
-// 		group.name = "sand";
-// 		scene.add(group);
-// 		var sLineMaterial = new THREE.LineBasicMaterial({
-//         	color: 0xfff000,
-//         	linewidth: 2,
-//         	linejoin: "round" 
-//     	});
+	function createSand(){
+		sandObject = new THREE.Group();
+		sandObject.name = "sand";
+		var sLineMaterial = new THREE.LineBasicMaterial({
+        	color: 0x707d34,
+        	linewidth: 2,
+        	linejoin: "round" 
+    	});
 
-//     	var sMeshMaterial = new THREE.MeshBasicMaterial({
-//         	color: 0xffff00,
-//     	});
+    	var sMeshMaterial = new THREE.MeshBasicMaterial({
+        	color: 0xffff00,
+    	});
 
-//     	var sl = sand.features;
-// 		for(var i = 0; i < sl.length;i++){
-// 			var s = sl[i].geometry.coordinates[0];
-// 			var isWithinBounds = false;
-// 			for(var j = 0; j < s.length; j++){
-// 				var p = s[j];
-// 				if(checkBounds(p)){
-// 					isWithinBounds = true;
-// 					break;
-// 				}
-// 				isWithinBounds= false;
-// 			}
-// 			if(isWithinBounds){
-// 				var sPoints = [];
-// 				var sGeometry = new THREE.Geometry();
-// 				for(var j = 0; j < s.length; j++){
-// 					var p = s[j];
-// 					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
-// // 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
-// 					vertex = new THREE.Vector3(point[0],point[1],0);
-// 					sGeometry.vertices.push(vertex);
-// 					sPoints.push(vertex);
-// 				}
+    	var sl = sand.features;
+		for(var i = 0; i < sl.length;i++){
+			var s = sl[i].geometry.coordinates[0];
+			var isWithinBounds = false;
+			for(var j = 0; j < s.length; j++){
+				var p = s[j];
+				if(checkBounds(p)){
+					isWithinBounds = true;
+					break;
+				}
+				isWithinBounds= false;
+			}
+			if(isWithinBounds){
+				var sPoints = [];
+				var sGeometry = new THREE.Geometry();
+				for(var j = 0; j < s.length; j++){
+					var p = s[j];
+					var point = latLngToPixel(p[1],p[0]);
+// 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
+					vertex = new THREE.Vector3(point[0],point[1],0);
+					sGeometry.vertices.push(vertex);
+					sPoints.push(vertex);
+				}
 // 				var sShape = new THREE.Shape(sPoints);
 // 				var sShapeGeometry = new THREE.ShapeGeometry(sShape);
 // 				var sMesh = new THREE.Mesh(sShapeGeometry,sMeshMaterial);
 // 				sMesh.name = "sand";
-// 				group.add(sMesh);
-// 				var sLine = new THREE.Line( sGeometry, sLineMaterial);
-// 				sLine.name = "sand";
-// 				group.add(sLine);
-// 			}
-// 		}
-// 	}
+// 				sandObject.add(sMesh);
+				var sLine = new THREE.Line( sGeometry, sLineMaterial);
+				sLine.name = "sand";
+				sandObject.add(sLine);
+			}
+		}
+	}
 
-// 	function createCoastline(){
-// 		var group = new THREE.Group();
-// 		group.name = "coastline"
-// 		scene.add(group);
-// 		var cMaterial = new THREE.LineBasicMaterial({
-//         	color: 0x0000f0,
-//         	linewidth: 2,
-//         	linejoin: "round" 
-//     	});
+	function createCoastline(){
+		scene.remove(coastlineObject);
+		coastlineObject = new THREE.Group();
+		coastlineObject.name = "coastline"
+		var cMaterial = new THREE.LineBasicMaterial({
+        	color: palette.landOutline,
+        	linewidth: 2,
+        	linejoin: "round" 
+    	});
 
-//     	var cMeshMaterial = new THREE.MeshBasicMaterial({
-//         	color: 0x0000ff,
-//     	});
+    	var cMeshMaterial = new THREE.MeshBasicMaterial({
+        	color: 0x0000ff,
+    	});
 
-// 		var cl = coastline.features;
-// 		for(var i = 0; i < cl.length;i++){
-// 			if(cl[i].geometry.type == "MultiPolygon"){
-// 				var cG = cl[i].geometry.coordinates;
-// 				for(var j = 0; j < cG.length; j++){
-// 					var c = cG[j][0];
+		var cl = coastline.features;
+		for(var i = 0; i < cl.length;i++){
+			if(cl[i].geometry.type == "MultiPolygon"){
+				var cG = cl[i].geometry.coordinates;
+				for(var j = 0; j < cG.length; j++){
+					var c = cG[j][0];
+					isWithinBounds = true;
 // 					for(var k = 0; k < c.length; k++){
 // 						var p = c[k];
 // 						if(checkBounds(p)){
@@ -224,82 +260,150 @@ function initPersonal() {
 // 						}
 // 						isWithinBounds= false;
 // 					}
-// 				}
-// 			} else {
-// 				var c = cl[i].geometry.coordinates[0];
-// 				var isWithinBounds = false;
-// 				for(var j = 0; j < c.length; j++){
-// 					var p = c[j];
+				}
+			} else {
+				var c = cl[i].geometry.coordinates[0];
+				var isWithinBounds = false;
+				for(var j = 0; j < c.length; j++){
+					var p = c[j];
+					isWithinBounds = true;
 // 					if(checkBounds(p)){
 // 						isWithinBounds = true;
 // 						break;
 // 					}
 // 					isWithinBounds= false;
-// 				}
-// 			}
-// 			if(isWithinBounds){
-// // 				var cPoints = [];
-// 				var cGeometry = new THREE.Geometry();
-// 				for(var j = 0; j < c.length; j++){
-// 					var p = c[j];
+				}
+			}
+			if(isWithinBounds){
+// 				var cPoints = [];
+				var cGeometry = new THREE.Geometry();
+				for(var j = 0; j < c.length; j++){
+					var p = c[j];
+					var point = latLngToPixel(p[1],p[0]);
 // 					var point = [convertToRange(p[0],xBounds,[0,window.innerWidth]),convertToRange(p[1],yBounds,[0,window.innerHeight])];
-// // 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
-// 					vertex = new THREE.Vector3(point[0],point[1],0);
-// 					cGeometry.vertices.push(vertex);
-// // 					cPoints.push(vertex);
-// 				}
-// // 				var cShape = new THREE.Shape(cPoints);
-// // 				var cShapeGeometry = new THREE.ShapeGeometry(cShape);
-// // 				var cMesh = new THREE.Mesh(cShapeGeometry,cMeshMaterial);
-// // 				cMesh.name = "coastline";
-// // 				group.add(cMesh);
-// 				var cLine = new THREE.Line( cGeometry, cMaterial);
-// 				cLine.name = "coastline";
-// 				group.add(cLine);
-// 			}
-// 		}
-// 	}
-
-	function createSwell(){
+// 					var point = latLngToPixelWithZoom(p[1],p[0],testZoom);
+					vertex = new THREE.Vector3(point[0],point[1],0);
+					cGeometry.vertices.push(vertex);
+// 					cPoints.push(vertex);
+				}
+// 				var cShape = new THREE.Shape(cPoints);
+// 				var cShapeGeometry = new THREE.ShapeGeometry(cShape);
+// 				var cMesh = new THREE.Mesh(cShapeGeometry,cMeshMaterial);
+// 				cMesh.name = "coastline";
+// 				group.add(cMesh);
+				var cLine = new THREE.Line( cGeometry, cMaterial);
+				cLine.name = "coastline";
+				coastlineObject.add(cLine);
+			}
+		}
 	}
 
 	function createSurfer(){
 
 	}
 
+
 	// createGrid();
-// 	createSand();
-// 	createCoastline();
+	createSand();
+	createCoastline();
 	createParticles();
+
+	scene.add(sandObject);
+	scene.add(coastlineObject);
+	scene.add(personalObject);
 
 // 	params.count = 0;
 	console.log(scene);
 	var tBounds = [bounds.topLeft.y+(bounds.bottomRight.y-bounds.topLeft.y)/2,bounds.topLeft.x+(bounds.bottomRight.x-bounds.topLeft.x)/2];
 
-	t = latLngToPixel(personal.latitude,personal.longitude);
+	t = latLngToPixel(personal.surfs[0].latitude,personal.surfs[0].longitude);
+
+	function createPersonalSwell(){
+    	var pSGeometry = new THREE.PlaneGeometry( 0.5, 0.5);
+    	var pSMaterial = new THREE.ShaderMaterial({
+    		uniforms:       personalSwellUniforms,
+			vertexShader:   document.getElementById( 'localSwell_vertexshader' ).textContent,
+			fragmentShader: document.getElementById( 'localSwell_fragmentshader' ).textContent,
+			blending:       THREE.NormalBlending,
+			depthTest: 		false,
+			transparent:    true
+
+    	});
+// 		var lSMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe: true, transparent: true} );
+		personalSwellObject = new THREE.Mesh( pSGeometry, pSMaterial );
+		personalSwellObject.name = "localSwellObject";
+		personalSwellObject.position.set(t[0],t[1],0);
+    }
 	
-	var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+10*world, z:1.5*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
+	var cameraTween = new TWEEN.Tween(camera.position).to({ x: t[0], y: t[1]+0.0001*world, z:10*world }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function() {
 		camera.lookAt(targPos);
 	}).onComplete(function(){
 		interactive = false;
 		scene.remove(selectedObject);
+		scene.remove(mapObject);
+		scene.remove(pilgrimageObject);
+		scene.remove(localObject);
+		params.speed = 1;
+// 		if(personal.swell_direction != undefined){
+// 			localSwellUniforms.direction.value = calculateSwellDirection(personal.swell_direction);
+// 		}
+		TIME_SPACE = "personal";
+		params.count = (personal.data[0].date-personalTimeDiff)-startTimestamp;
 	}).start();
 	var targTween = new TWEEN.Tween(targPos).to({ x: t[0], y: t[1], z: 0.0 }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){
 		camera.lookAt(targPos);
 	}).start();
+	var zoomTween = new TWEEN.Tween(params).to({zoom:17},1000).easing(TWEEN.Easing.Quadratic.In).start();
+
+	$("#goPersonal-gui").slideUp("fast");
+	$("#local-gui").slideUp("fast");
+	$("#personal-gui").slideDown("fast");
 }
 
 function updatePersonal(){
+	var d = new Date((startTimestamp+params.count)*1000);
+	$("#date").text(dateFormat(d, "yyyy, mmmm dS, h:MM:ss TT"));
 	camera.zoom = Math.pow(2,params.zoom);
 	camera.updateProjectionMatrix();
-// 	updateCamera(params.count);
-// 	updateParticle(params.count);
-// 	camera.up.set( 0, 0, 1 );
-//     camera.position.x = camPos.x;
-// 	camera.position.y =	camPos.y;
-// 	camera.position.z = 200;
-// // 	targPos = new THREE.Vector3(cameraX,t[1]-100,0);
-// 	camera.lookAt(targPos);
+	
+	localSurfUniforms.time.value = startTimestamp+params.count;
+	localSurfUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+	localSwellObject.position.set(t[0],t[1],0.0);
+	localSwellObject.scale.set(0.1,0.1,1.0);
+	localSwellObject.rotation.z = Math.PI/2.0-localSwellUniforms.direction.value;
+
+	personalSwellUniforms.time.value = startTimestamp+params.count;
+	personalSwellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+// 	personalSwellUniforms.rotation.z = Math.PI/2.0-personalSwellUniforms.direction.value;
+
+	personalSwellUniforms.time.value = startTimestamp+params.count;
+	personalSwellUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+
+	personalUniforms.time.value = startTimestamp+params.count-personal.surfs[0].start_timestamp;
+	personalUniforms.zoom.value = Math.pow(2,params.zoom)/(params.zoom*0.5);
+	//speed
+// 	personalUniforms.stat.value = 0.0, personalUniforms.min.value = 0.0, personalUniforms.max.value = 10.0;
+// 	personalUniforms.stat.value = 1.0, personalUniforms.min.value = -30.0, personalUniforms.max.value = 30.0;
+// 	personalUniforms.stat.value = 2.0, personalUniforms.min.value = -30.0, personalUniforms.max.value = 40.0;
+// 	personalUniforms.stat.value = 3.0, personalUniforms.min.value = -20.0, personalUniforms.max.value = 30.0;
+	//pitch
+// 	personalUniforms.stat.value = 4.0, personalUniforms.min.value = 0, personalUniforms.max.value = Math.PI/2.0;
+	//direction
+// 	personalUniforms.stat.value = 6.0, personalUniforms.min.value = -Math.PI, personalUniforms.max.value = Math.PI;
+	
+	
+}
+
+function showSpeed(){
+	personalUniforms.stat.value = 0.0, personalUniforms.min.value = 0.0, personalUniforms.max.value = 10.0;
+}
+
+function showPitch(){
+	personalUniforms.stat.value = 4.0, personalUniforms.min.value = 0, personalUniforms.max.value = Math.PI/2.0;
+}
+
+function showYaw(){
+	personalUniforms.stat.value = 6.0, personalUniforms.min.value = -Math.PI, personalUniforms.max.value = Math.PI;
 }
 
 
@@ -373,7 +477,9 @@ function intersectSurfData(raycaster){
 function checkBounds(loc){
 	var x = 0.1;
 
-  	if(loc[0] < xBounds[1]+x && loc[0] > xBounds[0]-x && loc[1] < yBounds[1]+x && loc[1] > yBounds[0]-x){
+	
+
+  	if(loc[0] < bounds.bottomRight.x && loc[0] > bounds.topLeft.x && loc[1] < bounds.bottomRight.y && loc[1] > bounds.topLeft.y){
     	return true;
   	}
   	return false;
