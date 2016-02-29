@@ -1,732 +1,165 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <title>Data for Surf's Sake</title>
-    <style>
-      html, body{
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        cursor: crosshair;
-        overflow: hidden;
-        font-family: Helvetica, sans-serif;
-      }
-      #login-container {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height:400px;
-        display: none;
-        position: absolute;
-        top: 25%;
-        z-index:1;
-      }
-      #login {
-        margin: 0px auto;
-        padding: 0;
-        width: 301px;
-        position: relative;
-        opacity: 0.5;
-        background-color: #000000;
-      }
-      #start {
-        margin: 0;
-        padding: 0;
-        width: 100&;
-        height: 50px;
-        position: relative;
-        opacity: 1.0;
-        background-color: #000000;
-      }
-      #loading-bar {
-        margin: 0;
-        padding: 0;
-        width: 0%;
-        height: 3px;
-        position: relative;
-        opacity: 1.0;
-        background-color: #0000ff;
-      }
-      .hidden
-      {
-          pointer-events:none;
-      }
-      input[type=range] {
-      -webkit-appearance: none;
-      margin: 10px 0;
-      width: 100%;
-      color: transparent;
-      background-color: transparent;
-    }
-    input[type=range]:focus {
-      outline: none;
-    }
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%;
-      height: 40px;
-      cursor: pointer;
-      animate: 0.2s;
-      box-shadow: 0px 0px 0px #000000;
-      background: transparent;
-      border-radius: 1px;
-      border: 0px solid #000000;
-      border-bottom: 2px solid #A1D0FF;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      box-shadow: 0px 0px 0px #000000;
-      border: 1px solid #2497E3;
-      height: 50px;
-      width: 2px;
-/*      border-radius: 25px; */
-      background: #A1D0FF;
-      cursor: pointer;
-      -webkit-appearance: none;
-      margin-top: -5px;
-    }
-    input[type=range]::-moz-range-track {
-      width: 100%;
-      height:40px;
-      cursor: pointer;
-      animate: 0.2s;
-      box-shadow: 0px 0px 0px #000000;
-    background: #A1D0FF;
-      border-radius: 1px;
-      border: 0px solid #000000;
-    }
-    input[type=range]::-moz-range-thumb {
-      box-shadow: 0px 0px 0px #000000;
-/*      border: 1px solid #2497E3; */
-      height: 50px;
-      width: 2px;
-/*      border-radius: 25px; */
-      background: #A1D0FF;
-      cursor: pointer;
-    }
-    input[type=range]::-ms-track {
-      width: 100%;
-      height: 40px;
-      cursor: pointer;
-      animate: 0.2s;
-      background: #A1D0FF;
-      border-color: transparent;
-      color: transparent;
-    }
-    input[type=range]::-ms-thumb {
-      box-shadow: 0px 0px 0px #000000;
-/*      border: 1px solid #2497E3; */
-      height: 50px;
-      width: 2px;
-/*      border-radius: 25px; */
-      background: #A1D0FF;
-      cursor: pointer;
-    } */
-    </style>
-    <script src="../lib/stats.js"></script>
-    <script src="../lib/three.min.js"></script>
-    <script src="../lib/jquery-1.12.0.min.js"></script>
-    <script src="../lib/date-format.js"></script>
-    <script src="../lib/dat.gui.js"></script>
-    <script src="../lib/Tween.js"></script>
-<!--     <script src="../lib/chosen.jquery.min.js"></script> -->
-    <script src="../lib/jsonpipe.js"></script>
-<!--  <script src="../lib/jquery.csv.js"></script> -->
-<!--     <script src="../lib/CSS3DRenderer2.js"></script> -->
-<!--     <script src="../scripts/styles.js"></script> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Matthew Everitt Design | Gone Surfing</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Matthew Everitt Design">
+    <link rel="canonical" href="/data-for-surfs-sake/">
 
-    <script src="../local-sources/distinct-locations-new.js"></script>
-    <script src="../local-sources/sandpolygons.js"></script>
-    <script src="../local-sources/coastlinePolygon.js"></script>
-    <script src="../local-sources/landpolygons50m.js"></script>
-    <script src="../local-sources/global-swell-emitters.js"></script>
-    
-    <script src="../scripts/landing-page.js"></script>
-    <script src="../scripts/local.js"></script>
-    <script src="../scripts/personal.js"></script>
-    <script src="../scripts/main.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <meta name="keywords" content="matthew everitt, matthew, everitt, design, interative, media, portfolio, wellington, new zealand">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
 
-    <script src="../shaders/BokehShader2.js"></script>
-    <script type="x-shader/x-vertex" id="swell_vertexshader">
-    attribute float scale;
-    attribute float swellSize;
-    attribute float timestamp;
-    attribute vec3 target;
-    
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float alpha;
-    uniform float drop;
-    uniform float pointWidth;
+    <script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    varying float vAlpha;
-    varying float vSwell;
+	  ga('create', 'UA-62647504-1', 'auto');
+	  ga('send', 'pageview');
 
-    vec3 emitter;
-    float x;
-    float y;
-      
-    void main() {
-      float lerp = 1.0/518400.0;
-      float start = timestamp-518400.0;
-      vAlpha = 0.0;
-      vSwell = 1.0/10.0*swellSize;
-      vec3 newPosition = position;
-      
-      if(start-500000.0 < time){
-        vAlpha = 0.75;
-        if(position.y > equator){
-          x = position.x + (20.0 - vSwell*10.0) * cos((time+timestamp)*-0.00005*(vSwell+0.1));
-          y = position.y + (20.0 - vSwell*10.0) * sin((time+timestamp)*-0.00005*(vSwell+0.1));
-          newPosition = vec3(x,y,position.z);
-        } else {
-          x = position.x + (20.0 - vSwell*10.0) * cos((time+timestamp)*0.00005*(vSwell+0.1));
-          y = position.y + (20.0 - vSwell*10.0) * sin((time+timestamp)*0.00005*(vSwell+0.1));
-          newPosition = vec3(x,y,position.z);
-        }
-        emitter = newPosition;
-      }
-      if(start < time){
-        vAlpha = 0.5;
-        vec3 dir = target-emitter;
-        float l2 = 1.0-lerp*(timestamp-time);
-        newPosition = emitter+dir*l2;
-      }
-      if(timestamp < time){
-        newPosition = vec3(target.x,target.y,scale/zoom*drop);
-      }
-      if(alpha < 0.0){
-        vAlpha = 1.0+alpha;
-      }
-
-      vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
-
-      gl_PointSize = 1.0+equator*0.04 * (vSwell*2.0+1.0) * ( 200.0 / length( mvPosition.xyz ) );
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
-
-    }
+	</script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".projects").click( function() {
+                $("#post-links2").slideUp('fast');
+                $("#post-links1").slideDown('slow');
+            });
+            $(".thesis").click( function() {
+                $("#post-links1").slideUp('fast');
+                $("#post-links2").slideDown('slow');
+            });
+        });
     </script>
-    <script type="x-shader/x-fragment" id="swell_fragmentshader" >
-      const vec4 blank = vec4(0.);
-      const vec4 BLUE = vec4( 0.0, 0.5, 1.0, 1.0 );
-      const vec4 TEAL = vec4( 0.0, 1.0, 1.0, 1.0);
-      const vec4 GREEN = vec4( 0.0, 1.0, 0.0, 1.0 );
-      const vec4 YELLOW = vec4( 1.0, 1.0, 0.0, 1.0);
-      const vec4 RED = vec4( 1.0, 0.0, 0.0, 1.0 );
-      uniform sampler2D texture;
-      
-      varying float vAlpha;
-      varying float vSwell;
+</head>
 
-      float remap(float minval, float maxval, float curval){
-        return (curval - minval)/(maxval - minval);
-      }
 
-      void main () {
-        if(vAlpha < 0.1) discard;
+    <body style="background-image: url('/assets/background.png')">
 
-        //if(vSwell < 0.25){
-          gl_FragColor = mix (BLUE,GREEN, remap(0.0,1.0, vSwell));
-        /*} else if(vSwell < 0.5){
-          gl_FragColor = mix (TEAL,GREEN, remap(0.25,0.5, vSwell));
-        } else if(vSwell < 0.75){
-          gl_FragColor = mix (GREEN,YELLOW, remap(0.5,0.75, vSwell));
-        }
-        else {
-          gl_FragColor = mix (YELLOW,RED, remap(0.75,1.0, vSwell));
-        }*/
-        //gl_FragColor = vec4(color,1.0);
-        gl_FragColor = vec4(gl_FragColor.xyz,vAlpha) * texture2D( texture, gl_PointCoord );
-      }
-    </script>
-        <script type="x-shader/x-vertex" id="local_vertexshader">
-    attribute vec3 color;
-    attribute float timestamp;
-    attribute float waveCount;
-    attribute float waveDistance;
-    //attribute float totalDistance;
-    attribute float duration;
-    attribute float topSpeed;
-    
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float min;
-    uniform float max;
-    uniform float stat;
+    <header class="site-header">
 
-    varying vec3 vColor;
-    varying float vAlpha;
-
-    float remap(float curval){
-      return (curval - min)/(max - min);
-     }
-      
-    void main() {
-      float lerp = 1.0/518400.0;
-      float start = timestamp-518400.0;
-      vColor = color;
-      if(stat == 2.0) vColor = vec3(0.0,0.5+0.5*remap(waveDistance),1.0-remap(waveDistance));
-      if(stat == 3.0) vColor = vec3(0.0,0.5+0.5*remap(duration),1.0-remap(duration));
-      if(stat == 4.0) vColor = vec3(0.0,0.5+0.5*remap(topSpeed),1.0-remap(topSpeed));
-      vAlpha = 1.0;
-      vec3 newPosition = position;
-
-      vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
-      /*gl_PointSize = 0.005 * zoom;
-      if(stat == 1.0) gl_PointSize = remap(waveCount)*0.1 * zoom;
-      if(stat == 2.0) gl_PointSize = remap(waveDistance)*0.1 * zoom;
-      if(stat == 3.0) gl_PointSize = remap(duration)*0.1 *  zoom;
-      if(stat == 4.0) gl_PointSize = remap(topSpeed)*0.1 *  zoom;*/
-
-      gl_PointSize = 0.005 * zoom;
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
-
-    }
-    </script>
-    <script type="x-shader/x-fragment" id="local_fragmentshader" >
-      uniform sampler2D texture;
-      uniform float alpha;
-      varying vec3 vColor;
-      varying float vAlpha;
-
-      void main () {
-        gl_FragColor = vec4(vColor,vAlpha)*texture2D( texture, gl_PointCoord );
-        if(alpha < 0.0){
-          gl_FragColor = vec4(vColor,alpha+1.0)*texture2D( texture, gl_PointCoord );
-        }
-    
-      }
-    </script>
-    
-    <script type="x-shader/x-vertex" id="pilgrim_vertexshader">
-
-    attribute float timestamp;
-    attribute float curveIndex;
-      
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float pointWidth;
-
-    varying float vAlpha;
-    varying float vIndex;
-
-    void main() {
-      float lerp = 1.0/518400.0;
-      float start = timestamp-518400.0;
-      vAlpha = 0.0;
-      vIndex = curveIndex;
-      
-      if(start < time){
-        if(curveIndex < (time-start)*lerp*200.0){
-          vAlpha = lerp*(timestamp-time)+0.2;
-        }
-      }
-      if (timestamp < time) {
-        vAlpha = 0.2;
-      }
-      
-      gl_PointSize = pointWidth;
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-fragment" id="pilgrim_fragmentshader">
-
-    varying float vAlpha;
-    varying float vIndex;
-
-    void main() {
-
-      gl_FragColor = vec4( 0.0,1.0-1.0/200.0*vIndex,1.0/200.0*vIndex, vAlpha );
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-vertex" id="gPilgrim_vertexshader">
-
-    attribute float timestamp;
-    attribute float curveIndex;
-      
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float alpha;
-
-    varying float vAlpha;
-    varying float vIndex;
-
-    void main() {
-      float lerp = 1.0/300000.0;
-      float start = timestamp-300000.0;
-      vAlpha = 0.0;
-      vIndex = curveIndex;
-      
-      if(start < time){
-        if(curveIndex < (time-start)*lerp*100.0){
-          vAlpha = lerp*(timestamp+300000.0-time)+0.1;
-        }
-      }
-      if (timestamp+300000.0 < time) {
-        vAlpha = 0.1;
-      }
-      if(alpha < 0.0){
-        vAlpha = 0.1+alpha;
-      }
-
-      vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-      gl_PointSize = 0.01 * ( 300.0 / length( mvPosition.xyz ) ) * zoom;
-    
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-fragment" id="gPilgrim_fragmentshader">
-    const vec4 BLUE = vec4( 0.0, 0.5, 1.0, 1.0 );
-        const vec4 GREEN = vec4( 0.0, 1.0, 0.0, 1.0);
-    varying float vAlpha;
-    varying float vIndex;
-
-    float remap(float minval, float maxval, float curval){
-      return (curval - minval)/(maxval - minval);
-      }
-
-    void main() {
-      
-      //gl_FragColor = vec4( 1.0/100.0*vIndex,1.0-0.5/100.0*vIndex,0.5/100.0*vIndex, vAlpha );
-      gl_FragColor = vec4( 0.0,1.0-0.5/100.0*vIndex,1.0/100.0*vIndex, vAlpha );
-    }
-
-  </script>
-
-  <script type="x-shader/x-vertex" id="localSwell_vertexshader">
-      
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float direction;
-
-    varying vec2 vUv;
-
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-fragment" id="localSwell_fragmentshader">
-    varying vec2 vUv;
-
-    void main() {
-
-      if(mod(vUv.y,0.006) <= 0.002){
-        gl_FragColor = vec4( 0.9,0.94,0.94, 1.0-1.0*vUv.x*2.0 );
-      } else {
-        discard;
-      }
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-vertex" id="personal_vertexshader">
-    attribute float timestamp;
-    attribute float speed;
-    attribute vec3 acc;
-    attribute vec3 rot;
-    
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float min;
-    uniform float max;
-    uniform float stat;
-
-    varying float vAlpha;
-    varying vec3 vColor;
-
-    float remap(float curval){
-      return (curval - min)/(max - min);
-     }
-      
-    void main() {
-      vAlpha = 0.5;
-      //if(timestamp<time){
-      //  vAlpha = 0.5;
-      //}
-      vec3 newPosition = position;
-      vColor = vec3(0.0,0.0,0.0);
-      if(stat == 0.0) vColor = vec3(0.0,1.0-remap(speed),remap(speed));
-      if(stat == 1.0) vColor = vec3(0.0,1.0-remap(acc.x),remap(acc.x));
-      if(stat == 2.0) vColor = vec3(0.0,1.0-remap(acc.y),remap(acc.y));
-      if(stat == 3.0) vColor = vec3(0.0,1.0-remap(acc.z),remap(acc.z));
-      if(stat == 4.0) vColor = vec3(0.0,1.0-remap(rot.x),remap(rot.x));
-      if(stat == 5.0) vColor = vec3(0.0,1.0-remap(rot.y),remap(rot.y));
-      if(stat == 6.0) vColor = vec3(0.0,1.0-remap(rot.z),remap(rot.z));
-
-      vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
-
-      gl_PointSize = 0.001 * zoom;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
-
-    }
-    </script>
-    <script type="x-shader/x-fragment" id="personal_fragmentshader" >
-      uniform sampler2D texture;
-      
-      varying float vAlpha;
-    varying vec3 vColor;
-      void main () {
-        if(vAlpha < 0.1) discard;
-    
-        gl_FragColor = vec4(vColor,vAlpha)*texture2D( texture, gl_PointCoord );
-      }
-    </script>
-
-    <script type="x-shader/x-vertex" id="personalWave_vertexshader">
-    attribute float timestamp;
-    attribute float speed;
-    attribute vec3 acc;
-    attribute vec3 rot;
-    
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float min;
-    uniform float max;
-    uniform float stat;
-
-    varying float vAlpha;
-    varying vec3 vColor;
-
-    float remap(float curval){
-      return (curval - min)/(max - min);
-     }
-      
-    void main() {
-      vAlpha = 0.0;
-      if(timestamp<time){
-        vAlpha = 0.5;
-      }
-      vec3 newPosition = position;
-      vColor = vec3(0.0,0.0,0.0);
-      if(stat == 0.0) vColor = vec3(0.0,1.0-remap(speed),remap(speed));
-      if(stat == 1.0) vColor = vec3(0.0,1.0-remap(acc.x),remap(acc.x));
-      if(stat == 2.0) vColor = vec3(0.0,1.0-remap(acc.y),remap(acc.y));
-      if(stat == 3.0) vColor = vec3(0.0,1.0-remap(acc.z),remap(acc.z));
-      if(stat == 4.0) vColor = vec3(0.0,1.0-remap(rot.x),remap(rot.x));
-      if(stat == 5.0) vColor = vec3(0.0,1.0-remap(rot.y),remap(rot.y));
-      if(stat == 6.0) vColor = vec3(0.0,1.0-remap(rot.z),remap(rot.z));
-
-      gl_PointSize = 0.001 * zoom;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
-
-    }
-    </script>
-    <script type="x-shader/x-fragment" id="personalWave_fragmentshader" >
-      
-      varying float vAlpha;
-    varying vec3 vColor;
-      void main () {
-        if(vAlpha < 0.1) discard;
-    
-        gl_FragColor = vec4(vColor,vAlpha);
-      }
-    </script>
-
-     <script type="x-shader/x-vertex" id="splash_vertexshader">
-
-    attribute float timestamp;
-      
-    uniform float equator;
-    uniform float time;
-    uniform float zoom;
-    uniform float pointWidth;
-
-    varying float vAlpha;
-
-    void main() {
-      float lerp = 1.0/518400.0;
-      float start = timestamp-518400.0;
-      vAlpha = 0.0;
-      
-      if(start < time){
-          vAlpha = lerp*(timestamp-time);
-      }
-      
-      gl_PointSize = pointWidth;
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-fragment" id="splash_fragmentshader">
-
-    varying float vAlpha;
-
-    void main() {
-
-      gl_FragColor = vec4( 1.0,0.0,0.0, vAlpha );
-
-    }
-
-  </script>
-
-  <script type="x-shader/x-vertex" id="land_vertexshader">
-    
-
-      void main() {
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-
-      }
-    </script>
-    <script type="x-shader/x-fragment" id="land_fragmentshader" >
-      void main () {
-          gl_FragColor = vec4(1.0,1.0,1.0,1.0);
-
-          if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) <= 1.0 || mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) <= 1.0) {
-                gl_FragColor = vec4(0.0, 0.0, 1.0, 0.1);
-          } else { discard ;}
-
-          //if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) <= 1.0) {
-          //      gl_FragColor = vec4(0.0, 0.0, 1.0, 0.1);
-          //}
-      }
-    </script>
-
-    <script type="x-shader/x-vertex" id="bluemarble_vertexshader">
-      //uniform sampler2D texture;
-      varying vec2 vUv;
-      //varying float vDis;
-      //vec3 newPosition;
-      void main() {
-
-        vUv = uv;
-
-        //vec4 tex = texture2D(texture,vUv);
-        //vDis = (0.30*tex.r + 0.59*tex.g + 0.11*tex.b)*10.0-4.0;
-        //if(vDis > 0.0){
-        //  newPosition = position;
-        //} else {
-        //  newPosition = position+normal*vDis;
-        //}
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-
-      }
-    </script>
-    <script type="x-shader/x-fragment" id="bluemarble_fragmentshader" >
-    uniform sampler2D texture;
-    varying vec2 vUv;
-    //varying float vDis;
-    void main () {
-      //gl_FragColor = mix(texture2D(texture, vUv),vec4(0.0,0.5,1.0,1.0),0.5);
-      gl_FragColor = mix(texture2D(texture, vUv),vec4(0.0,0.0,0.0,1.0),0.5);
-      
-      }
-    </script>
-
-  </head>
-
-  <body>
-  <div id="timeline-container" style="width:100%; height: 200px; z-index: 1; position: absolute; bottom:0px; background-color:white ">
-    <div id="timeline-centered" style="width: 100%; height: 100%; margin: 50px auto; text-align: center;">
-      <div id="date" style="position:absolute; height: 10px; top: 10px; left: 10%; color:black"> </div>
-      <input id="timeline" type="range" style="width:80%;margin:0px 10%;"  step="0.1" value ="0">
-<!--      <div style="float:left; width:30%; height: 40px; margin-left: 5%; margin-top: 50px; background-color: grey; opacity: 0.0">global</div>
-      <div style="float:left; width:30%; height: 40px; margin-top: 50px; background-color: black; opacity: 0.0">local</div>
-      <div style="float:left; width:30%; height: 40px; margin-right: 5%; margin-top: 50px; background-color: black; opacity: 0.0; margin-bottom: 20px">personal</div> -->
-    </div>
+  <div class="wrap">
+    <ul>
+      <li><a class="site-title" href="">Matthew Everitt Design</a></li>
+    </ul>
   </div>
-    <div id="login-container">
-        <div id="login">
-          <div style="width: 100%; text-align: center; color: white">Welcome Chat</div>
-          <div style="width: 100%; text-align: center; color: white">loading stuff...</div>
-            <div id ="loading-bar"></div>
-        </div>
-    </div>
-    <div id="location-name-container" style="position:absolute; top: 50px; left: 0px; height:35%; width:300px; z-index:1; text-align: left;">
-      <div style="
-        height:80px;width:96%;
-        float: left;
-        margin:0 10%;
-        font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -1px;
-      line-height: 100px;"
-    >GONE SURFING</div>
-<!--      <div id="date" style="height:40px;width:96%;float: left;margin:0 10%"></div> -->
-      <div id="location-name" style="height:40px;width:96%;float: left;margin:0 10%"></div>
-      
-    </div>
-    <div id="gui-container" style="position:absolute; top: 50px; right: -250px; height:35%; width:250px ; z-index:1; opacity: 0.5;">
-    <div style="height: 40px; width: 100%;margin-top:49px; color: white; text-align:center">
-      <button id="top-button" style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">top</button>
-      <button id="45-button" style="height:100%;width:32%;float: left;" onClick="goGlobal()">45</button>
-      <button id="front-button" style="height:100%;width:32%;float: left;margin-right:2%" onClick="goHistogram()">front</button>
-    </div>
-    <div style="height: 40px; width: 100%;color: white; text-align: center">
-      <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="params.restart()">start</button>
-      <button style="height:100%;width:32%;float: left;" onClick="params.play()">play</button>
-      <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">end</button>
-    </div>
-    <div id="topspot-container" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 20px">
-      <button id="storm-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="showStorm()">swell emitters</button>
-      <button id="pilg-button" style="height:100%;width:96%;float: left;margin:0 2%; margin-bottom: 20px" onClick="showPilg()">pilgrimage</button>
-      
-      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
-      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="goUser()">follow user</button>
-      
-      <button id="local-button" style="height:100%;width:96%;float: left;margin:0 2%; display: none" onClick="goLocal()">check it out</button>
-    </div>
-    <div id="goPersonal-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="goPersonal()">personal surf track</button>
-    </div>
-    <div id="local-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 20px; display: none">
-<!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSurfCount()">surf count</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showWaveCount()">wave count</button>
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceWaves()">distance waves</button>
-<!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceTotal()">distance total</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDuration()">duration</button>
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSpeedMax()">max speed</button>
-      <button style="height:100%;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
-    </div>
-    <div id="personal-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
-<!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSurfCount()">surf count</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSpeed()">speed</button>
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showPitch()">pitch</button>
-<!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceTotal()">distance total</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showYaw()">yaw</button>
-      <button style="height:100%;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
-    </div>
-    <div id="location-select-container"style="height: 40px; width: 96%; margin: 0px 2%">
+  <div class="navigation">
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          <a class="page-link" href="/bio/">Bio</a>
+        
+          <a class="page-link" href="/feed.xml"></a>
+        
+          <a class="page-link" href="/"></a>
+        
+          <a class="page-link" href="/research/">Research</a>
+        
+          <a class="page-link" href="/data-for-surfs-sake/">Gone Surfing</a>
+        
+        <a class="thesis" href="#">Data For Surf's Sake</a>
+        <nav class="post-nav">
+          <div class="trigger">
+            <div class="post-links" id="post-links2">
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/introduction">+ Introduction</a>
+                  
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/literature-review">+ Literature</a>
+                  
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/design-experiments">+ Experiments</a>
+                  
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/design">+ Design</a>
+                  
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/discussion">+ Discussion</a>
+                  
+              
+            </div>
+          </div>
+        </nav>
+        <a class="projects" href="#">Projects</a>
+        <nav class="post-nav">
+          <div class="trigger">
+            <div class="post-links" id="post-links1">
+              
+                
+                    <a class="post-link" href="/gallery/01headbanger.html">+ Headbanger</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/02g-nome.html">+ g-nome</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/03houdini.html">+ Houdini</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/04seis8.html">+ Seis8</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/05flanuer.html">+ Flanuer</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/06graffiti.html">+ Graffiti</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/07october.html">+ October</a>
+                  
+              
+                
+                    <a class="post-link" href="/gallery/08instant.html">+ Instant</a>
+                  
+              
+            </div>
+          </div>
+        </nav>
+      </div>
+    </nav>
+  </div>
+</header>
 
-    </div>
-    </div>
-    <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; left: 0px; display:none; margin: 0px 10px; height: 40px">menu</div>
-    <div id="information" style="position: fixed;  z-index: 1; opacity: 0.5; visibility: hidden">
-      <div id="location"></div>
-    <div id="waveCount"></div>
-    <div id="distanceWaves"></div> 
-    <div id="duration"></div>
-    <div id="topSpeed"></div>
-    </div>
-    <div id="information2" style="position: fixed; width:200px; height:50px;  z-index: 1; display: none; opaity: 0.5"></div>
-    <select id="location-select" style="visibility: hidden;"  onchange="goSelectedLocation(this.value)"></select>
-  </body>
 
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <article class="post-content">
+  <p>Application goes here.</p>
+
+  </article>
+
+</div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrap">
+    <ul>
+      <li><a  href="mailto:everitt.matt@me.com">everitt.matt@me.com</a></li>
+      <li>&copy; Matthew Everitt</li>
+    </ul>
+  </div>
+
+</footer>
+
+
+    </body>
 </html>

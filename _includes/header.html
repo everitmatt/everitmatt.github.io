@@ -11,20 +11,34 @@
         {% for page in site.pages %}
           <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
         {% endfor %}
-        <a class="projects" href="#">Projects</a>
-      </div>
-    </nav>
-    <nav class="post-nav">
-      <div class="trigger">
-        <div class="post-links">
-          {% for post in site.categories.gallery reversed %}
-            {% if post.title != page.title %}
-                <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">+ {{ post.title }}</a>
-              {% else %}
-                <div style="color: #ff9100">{{ post.title }}</div>
-              {% endif %}
-          {% endfor %}
-        </div>
+        <a class="thesis" href="#thesis">Data For Surf's Sake</a>
+        <nav class="post-nav">
+          <div class="trigger">
+            <div class="post-links" id="post-links2">
+              {% for post in site.categories.thesis reversed %}
+                {% if post.title != page.title %}
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">+ {{ post.title }}</a>
+                  {% else %}
+                    <div style="color: #ff9100">{{ post.title }}</div>
+                  {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </nav>
+        <a class="projects" href="#project">Projects</a>
+        <nav class="post-nav">
+          <div class="trigger">
+            <div class="post-links" id="post-links1">
+              {% for post in site.categories.gallery reversed %}
+                {% if post.title != page.title %}
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">+ {{ post.title }}</a>
+                  {% else %}
+                    <div style="color: #ff9100">{{ post.title }}</div>
+                  {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </nav>
       </div>
     </nav>
   </div>

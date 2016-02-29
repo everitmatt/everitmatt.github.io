@@ -5,8 +5,8 @@
     <description>Matthew Everitt Design</description>
     <link>http://everittcreative.me/</link>
     <atom:link href="http://everittcreative.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 27 Feb 2016 18:22:10 +1300</pubDate>
-    <lastBuildDate>Sat, 27 Feb 2016 18:22:10 +1300</lastBuildDate>
+    <pubDate>Mon, 29 Feb 2016 18:57:54 +1300</pubDate>
+    <lastBuildDate>Mon, 29 Feb 2016 18:57:54 +1300</lastBuildDate>
     <generator>Jekyll v3.1.1</generator>
     
       <item>
@@ -162,60 +162,60 @@ Created using: After Effects, Premier Pro, Maya&lt;/p&gt;
       </item>
     
       <item>
-        <title>Deformable Human Modelling from Medical Image Scans</title>
-        <description>
+        <title>References</title>
+        <description>&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+
+&lt;h3 id=&quot;figures&quot;&gt;Figures&lt;/h3&gt;
 </description>
-        <pubDate>Sun, 10 Jun 2012 01:11:08 +1200</pubDate>
-        <link>http://everittcreative.me/research/test-research.html</link>
-        <guid isPermaLink="true">http://everittcreative.me/research/test-research.html</guid>
+        <pubDate>Mon, 09 Jun 2014 00:00:00 +1200</pubDate>
+        <link>http://everittcreative.me/data-for-surfs-sake/references</link>
+        <guid isPermaLink="true">http://everittcreative.me/data-for-surfs-sake/references</guid>
         
         
-        <category>research</category>
+        <category>thesis</category>
         
       </item>
     
       <item>
-        <title>WETA SCHOLARSHIP</title>
-        <description>&lt;p&gt;Weta Digital has established a PhD scholarship to support postgraduate research in computer graphics at Victoria University of Wellington. Research under the scholarship may take place in the School of Design and/or the School of Engineering and Computer Science.&lt;/p&gt;
+        <title>Discussion</title>
+        <description>&lt;h2 id=&quot;discussion&quot;&gt;Discussion&lt;/h2&gt;
 
-&lt;p&gt;METHOD OF APPLICATION&lt;/p&gt;
+&lt;p&gt;This research found that designing a data visualisation of the surfing subculture involves a iterative approach where the designer is able to respond to, and develop, a criteria based on research into that cultural group. Engaging in the context of the database, in this instance the surfing subculture, allows for the development of a hierarchy of information that promotes different levels of engagement, interaction, and understanding. &lt;/p&gt;
 
-&lt;p&gt;Applicants must meet the entry requirements for PhD study at Victoria University. Please refer to the Faculty of Graduate Research, www.victoria.ac.nz/fgr.&lt;/p&gt;
+&lt;p&gt;The hierarchy of information within the SearchGPS database was developed into a structure which communicated specific aspects of the databases context. Global, local, and personal views of the structure visualised the hierarchy, pilgrimage, and experience aspects of the surfing subculture. &lt;/p&gt;
 
-&lt;p&gt;Applicants must have a strong background in design and/or computer science with an emphasis on computer graphics.&lt;/p&gt;
+&lt;p&gt;These aspects were the result of using the cultural criteria this research defined through the Literature Review in Computational Information Design process (Fry, 2011). The process both consolidated some aspects, developed others, and highlighted new ones. The research process then used the macro, relationship, micro model defined by Lima (2011) to develop the global, local, personal structure of the final design.&lt;/p&gt;
 
-&lt;p&gt;Applications will be accepted with other PhD applications on dates established by the Faculty of Graduate Research.&lt;/p&gt;
+&lt;p&gt;Limitations of this research were evident in both the data collected and the technology used in the visualisation. The SearchGPS database only represents the group of surfers willing to embrace technology during their surfing experience and share it with others. Those who are not so inclined to share their surfing with online, could be more likely to share the experience on a more personal level. As Stranger (2011) discusses in his description of the surfing band, these surfers thrive of the shared experience with others in their small group, rather than those in a tribe or the surfing nation. The extreme of those not willing to use these technologies could be described as soul surfers, a development of the early counterculture to the surfing subculture which rejected materialism and the work then play aspect (Booth, 1995). Although not as prevalent as they were in the 1950’s, these surfers could be seen as the most inaccessible group of the surfing substructure.&lt;/p&gt;
 
-&lt;p&gt;New PhD applicants should complete the PhD Admission and Scholarship application form, and clearly indicate they wish to apply for the Weta Digital Scholarship in Computer Graphics.&lt;/p&gt;
+&lt;p&gt;In some ways, this research aimed to negotiate the tension between these extremes of the surfing subculture by generating a representation of the surfing community in a way that respected the more hedonistic nature of surfing. This respect was developed both from the researcher’s personal experience of the subculture and the information from the Literature Review. &lt;/p&gt;
 
-&lt;p&gt;Applications will be considered by a panel consisting of representatives from both Weta Digital and Victoria University.&lt;/p&gt;
+&lt;p&gt;Technically, the final web application relies on computer specifications that all users may not meet. Using WebGL requires a user to have a graphics card installed on the computer and also requires a browser with WebGL enabled. When working with web based designs, they need to be compatible across many web browsers and devices. Further work on this design would focus on making the Gone Surfing more compatible with less powerful devices.&lt;/p&gt;
 
-&lt;p&gt;Preference will be given to candidates who have subject matter expertise and to those who demonstrate the ability to work on open- ended questions within the framework of real-world industry deadlines.&lt;/p&gt;
+&lt;p&gt;Further improvements to the application could be made in the rendering of the world map and local coastlines. The Gone Surfing visualisation uses vector based shape files to render the world map at a low resolution. This resolution is inadequate when the visualisation enters the local view as the definition of certain coastal features are not communicated. However, for surf spots located in New Zealand a higher resolution shape file was used to demonstrate more accurately where people were surfing. For example, surfs at Ohope Beach, New Zealand, are located either at West End, or The Heads, two local surf breaks. Therefore, using the higher resolution coastline the visualisation communicates whether surfers are surfing at the either breaks. &lt;/p&gt;
 
-&lt;p&gt;TOTAL VALUE &amp;amp; TENURE&lt;/p&gt;
+&lt;p&gt;The resolution of the map is important for identifying separate surf breaks within a surf spot because of the way swell conditions affect each break. In the previous example two breaks were identified within a surf spot. The Heads, a surf break that breaks on the sandbar generated by a river mouth, usually creates a better wave from an easterly swell. Whereas, West End, a beach break on the opposite side of the peninsula, usually creates a better wave on a North Westerly swell.&lt;/p&gt;
 
-&lt;p&gt;The scholarship will provide:&lt;/p&gt;
+&lt;p&gt;This research could contribute to current research being undertaken to evaluate national significance of surf spots by generating detailed wave analysis of the breaks. Currently in New Zealand research is being undertaken to evaluate surf spots of national significance for a government policy backing their protection (eCoast Marine, 2015). As part of the project a company, eCoast, is employing the use of searchGPS surf watches to gather baseline data to create detailed descriptions of the surf spot both physically and culturally. Using the visualisation as a tool we can visually communicate local knowledge of the breaks, the pilgrimage of surfers to that surf spot both internationally and nationally, and also generate a visual breakdown of the wave.&lt;/p&gt;
 
-&lt;p&gt;— Victoria University PhD fees for 3 (maximum 4) years. 
-— A stipend at the rate of $25,000 per annum for the period of supported enrolment. 
-— Opportunities for casual employment at Weta Digital or in the local film industry may be available to suitable candidates.&lt;/p&gt;
+&lt;p&gt;The company behind Trace (2014) implemented a similar analysis at Lower Trestles, an iconic surf break in San Diego, California. From November 2014 to April 2015, Trace was able to capture data from eight professional surfers, this data was then generated into a heat map which could be overlaid on a Google Map to show where the surfers gained speed, and performed manoeuvres such as a turn or an aerial (Transworld Business, 2015). The aim for Trace was to was to depict wave patterns and performance trends to contribute to the athlete’s performance. Their results proved that the right-handed break produced a longer ride with more manoeuvres, and the left-handed break equated in a more vertical style of surfing with smaller turn angles.&lt;/p&gt;
 
-&lt;p&gt;ACCOUNTABILITY&lt;/p&gt;
+&lt;p&gt;The analysis of a surf spot is important in understanding the hierarchy of surfers in the water. For example, the tribes which develop in smaller local communities usually consist of unspoken pecking orders among surfers. The local view of the visualisation this attempted to communicate this aspect using location and wave count. Only using these variables was a limitation. Therefore, a more reliable ranking system for each surf could be implemented, by incorporating the distance travelled on waves, the wave count in relation to the duration, top speed. A good surfer may catch only a few waves of high quality. Whereas, a newer surfer may catch more waves, but of lower quality. Furthermore, a beginner surfer would catch very few waves.&lt;/p&gt;
 
-&lt;p&gt;A scholarship holder will be responsible for meeting the periodic reporting requirements of Victoria University, and a formal report to Weta Digital biannually.&lt;/p&gt;
+&lt;p&gt;Another potential avenue for this research to go further is the integration of other types of media within the visualisation. As mentioned in the literature 360 degree cameras have been used to capture the experience of riding a wave. If the personal view of the application contains a 360 video of the specific surf spot, viewers could immerse themselves in a virtual reality experience of that surf spot. The personal aspect of the application attempted to recreate this experience digitally by placing a camera in the point of view of the surfer. However, including the video would provide a truly immersive experience.&lt;/p&gt;
 
-&lt;p&gt;FIND OUT MORE&lt;/p&gt;
+&lt;p&gt;There is also an opportunity to link the visualisation with surfing media posted on social media. Many of the top surfers in the World Surfing League rankings have a strong social media presence, posting short clips to websites weekly for consumption by the surfing community. These surf sessions could be linked with the surfs contained in the visualisation.
+For example, a video of a professional surfer surfing Shipsterns, a large wave break in Tasmania, Australia while using the SearchGPS Watch was featured online in September, 2015 (Stabmag). While following the professional surfer in the web application, the surf session is evident. Ideally, the viewer would be able to access an external link to the video to further enhance the visualisation.&lt;/p&gt;
 
-&lt;p&gt;Please visit VUW Scholarship Website for further information about the Computer Graphics programme.&lt;/p&gt;
+&lt;p&gt;This research highlighted the ability of visualisation as a tool to translate quantified statistics of the surfing community into visual information about the subculture. Some of the members of the surfing subculture are aware of the hierarchical, nomadic, and experiential aspects of their culture. However, many observers of the subculture are unaware of these aspects. Through interactive data visualisation these subcultural aspects can be communicated to generate knowledge of a somewhat mysterious group of individuals.&lt;/p&gt;
+
 </description>
-        <pubDate>Wed, 10 Aug 2011 00:11:08 +1200</pubDate>
-        <link>http://everittcreative.me/processing/scholarships/weta-scholarship.html</link>
-        <guid isPermaLink="true">http://everittcreative.me/processing/scholarships/weta-scholarship.html</guid>
+        <pubDate>Mon, 09 Jun 2014 00:00:00 +1200</pubDate>
+        <link>http://everittcreative.me/data-for-surfs-sake/discussion</link>
+        <guid isPermaLink="true">http://everittcreative.me/data-for-surfs-sake/discussion</guid>
         
         
-        <category>processing</category>
-        
-        <category>scholarships</category>
+        <category>thesis</category>
         
       </item>
     

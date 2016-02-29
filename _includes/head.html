@@ -24,10 +24,13 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $(".projects").click( function() {
-                    $(".post-links").slideDown('slow', function() { 
-
-                    });
-                });
+                $("#post-links2").slideUp('fast');
+                $("#post-links1").slideDown('slow');
+            });
+            $(".thesis").click( function() {
+                $("#post-links1").slideUp('fast');
+                $("#post-links2").slideDown('slow');
+            });
         });
     </script>
 </head>

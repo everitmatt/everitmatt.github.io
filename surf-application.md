@@ -1,6 +1,6 @@
 ---
-layout: application
-title: Data For Surf's Sake
-permalink : /data-for-surfs-sake/
+layout: page
+title: Gone Surfing
+permalink : /gone-surfing/
 ---
-Application goes here.
+[Application]({{ site.baseurl}}/gone-surfing/application)

@@ -27,10 +27,13 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $(".projects").click( function() {
-                    $(".post-links").slideDown('slow', function() { 
-
-                    });
-                });
+                $("#post-links2").slideUp('fast');
+                $("#post-links1").slideDown('slow');
+            });
+            $(".thesis").click( function() {
+                $("#post-links1").slideUp('fast');
+                $("#post-links2").slideDown('slow');
+            });
         });
     </script>
 </head>
@@ -56,49 +59,88 @@
 	        
 	          <a class="page-link" href="http://everittcreative.me/research/">Research</a>
 	        
-	          <a class="page-link" href="http://everittcreative.me/data-for-surfs-sake/">Data For Surf's Sake</a>
+	          <a class="page-link" href="http://everittcreative.me/gone-surfing/">Gone Surfing</a>
 	        
+	        <a class="thesis">Data For Surf's Sake</a>
+	        <nav class="post-nav">
+	          <div class="trigger">
+	            <div class="post-links" id="post-links2">
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/preface">+ Preface</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/introduction">+ Introduction</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/literature-review">+ Literature</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/design-experiments">+ Experiments</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/design">+ Design</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/conclusion">+ Conclusion</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/discussion">+ Discussion</a>
+	                  
+	              
+	                
+	                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/references">+ References</a>
+	                  
+	              
+	            </div>
+	          </div>
+	        </nav>
 	        <div class="projects">Projects</div>
-	      </div>
-	    </nav>
-
-	    <nav class="post-nav">
-	      <div class="trigger">
-	        <div class="post-links">
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/01headbanger.html">+ Headbanger</a>
-		          	
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/02g-nome.html">+ g-nome</a>
-		          	
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/03houdini.html">+ Houdini</a>
-		          	
-		        
-		        	
-						<div style="color: #ff9100">+ Seis8</div>
-		          	
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/05flanuer.html">+ Flanuer</a>
-		          	
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/06graffiti.html">+ Graffiti</a>
-		          	
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/07october.html">+ October</a>
-		          	
-		        
-		        	
-		          		<a class="post-link" href="http://everittcreative.me/gallery/08instant.html">+ Instant</a>
-		          	
-		        
-		    </div>
+	        <nav class="post-nav">
+		      <div class="trigger">
+		        <div class="post-links" id="post-links1">
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/01headbanger.html">+ Headbanger</a>
+			          	
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/02g-nome.html">+ g-nome</a>
+			          	
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/03houdini.html">+ Houdini</a>
+			          	
+			        
+			        	
+							<div style="color: #ff9100">+ Seis8</div>
+			          	
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/05flanuer.html">+ Flanuer</a>
+			          	
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/06graffiti.html">+ Graffiti</a>
+			          	
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/07october.html">+ October</a>
+			          	
+			        
+			        	
+			          		<a class="post-link" href="http://everittcreative.me/gallery/08instant.html">+ Instant</a>
+			          	
+			        
+			    </div>
+		      </div>
+		    </nav>
 	      </div>
 	    </nav>
 	  </div>
@@ -151,7 +193,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-  	$(".post-links").slideDown('slow', function() {
+  	$("#post-links1").slideDown('slow', function() {
   			
   	});
   });

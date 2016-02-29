@@ -1,0 +1,104 @@
+---
+layout: thesis-post
+title:  Literature
+category: thesis
+permalink: /data-for-surfs-sake/literature-review
+---
+
+## Literature Review
+
+This research project created an interactive data visualisation of a surfer’s experience over time. This was achieved using existing wearable technologies to collect data and a mixture of web based visualisation tools to create visualisations that illustrate the relationships within the database. The literature reviewed in this section explores the areas of data visualisation and the surfing subculture that were analysed for their relevance to the final design in the experimentation stage. This section also analyses visual precedents relevant to the design development.
+
+### Data Visualisation
+
+Researching an efficient process of data visualisation for visualising complex networks is important for understanding large datasets and the relationships they contain. An efficient method of visualisation allows for quick design iterations of the datasets and the ability to evaluate the relevance of the data in relation to the aims of the data visualisation. Visualising complex networks on different scales such as micro, relationship, and macro allows different patterns to be seen and explored (Lima, 2011). The literature included provides a framework for an efficient and flexible data visualisation process by Fry (2004). Lima’s (2011) work covers the visualisation of complex networks and defines different scales and the information they contain.
+
+Fry’s (2004) defines a process which combines the fields of information visualisation, data mining and graphic design into a singular process: Computational Information Design (Fry, 2004). He defines the process as: acquire, parse, filter, mine, represent, refine, and interact.
+
+
+Computation Information Design - Fry, 2004.
+
+Computation Information Design provides a solution for the individual to approach data visualisation, rather than making it into an interdisciplinary field. Fry (2004) suggests, to be able to understand the data, one must understand the handling of the data from start to finish. Typically the process would contain the fields of computer science (acquire and parse), statistics (filter and mine), graphic design (represent and refine), and human computer interaction (interact). By merging these fields he attempts to make the process of data visualisation more efficient and flexible. As part of his dissertation Fry (2004) co-developed Processing, an open source programming language designed “to simplify the computational process for beginners, and can be used as a sketching platform by more advanced users”. This was used as the main tool for visualisation experiments.
+
+The consolidation of these fields and the efficiency and flexibility of this process were an important factor in the progress of this design thesis. As Fry (2004) suggests, the initial format of the data will often drive the next step in the process and so on, so that the representation of the data is a result of the statistical analysis, not the initial question. Therefore, the ability to efficiently ’sketch’ data visualisations allowed swift experimentation with different data capture and visualisation methods. This ‘sketching’ method granted the efficient exploration of the surfing dataset and attempted to reveal patterns and relationships which cannot be seen in the initial data. The visual methods utilised in the exploration of this data were derived from Lima’s (2011) principles of Complex Network Visualisation and other successful visual examples such as Just Landed (Thorpe, 2009).
+
+Figure #. Just Landed (Thorpe, 2009)
+
+The visualisation of complex networks can be achieved through a combination of common visual principles and more specific multivariate principles. The principles that should be considered during the visualisation process are: start with a question, look for relevancy, enable multivariate analysis, embrace time, enrich your vocabulary, expose grouping, maximise scaling, and manage intricacy (Lima, 2011). The specific principles which were used in the design experimentation stage are analysed below.
+
+The first principle relevant to this research explains the importance of enabling multivariate analysis. Due to the complex nature of the dataset being generated, a multivariate analysis is critical “to the holistic understanding of the depicted topology” (Lima, 2011). For instance, the database contains surfs which consist of many variables: time, location, duration, wave count, swell conditions, among many others. The multivariate approach should allow users to identify certain behaviours. For example, whether a big swell on the north shore of Hawaii is related to a rise in the number of people surfing there.
+
+Embracing time is the second principle of note and it is important in the animation of the visualisation. Lima (2011) proposes that by properly measuring time, “it would provide us with a comprehensive understanding of the social group’s changing dynamics”. The data retrieved from Rip Curl spans a year, and has values which change daily and others which change at a rate of milliseconds. These differences in time scales can illustrate the dynamics of the surfing community on a global level (the increase in surfing during summer seasons), on a local level (the pilgrimage of surfers to a surf spot), and on a personal level (the amount of time spent paddling compared to riding waves).
+
+Exposing grouping is one of the most important principles described, and works in conjunction with maximising scaling. Lima (2011) builds his grouping principle off of Gestalt psychology, specifically, the rules of perceptual organization. He identifies similarity, proximity, and common fate as particularly important laws.
+
+The law of similarity asserts that elements that are similar - either in terms of color, shape or size - are perceived to be more related than elements that are dissimilar.
+
+The law of proximity states that elements that are close together are perceived as being more related than elements that are farther apart.
+
+The law of common fate proclaims that elements that move simultaneously in the same direction and at the same speed are perceived as being more related than elements that are stationary or that move in different directions. (Lima, 2011)
+
+The ability to visually group surfers by location or other factors can identify patterns of surfer movements and will most likely expose popular surf spots around the world.
+
+Finally, maximising scaling allows the design to be arranged into views which will emphasise specific relationships within the visualisations. Lima identifies 3 views, macro, relationship, and micro. The first view, macro, should be the entry point to the visualisation and “highlight certain clusters, as well as isolated groups (Lima, 2011)”. The relationship view should allow the analysis of the relationships between the surfers. The micro view is for insight into an individual surfer’s qualitative attributes. “this qualitative exposure helps clarify the reasons behind the overall connectivity of the pattern (Lima, 2011)”. These views relate to the refine section of Computational Information Design in which the hierarchy of information becomes important in communicating the desired aspects. The refinement of information based on these three views developed into the global, local, and personal views of the final design.
+
+Lima’s (2011) principles of network visualisation provide this project with a set guidelines that will assist in the layout of the final design framework, and in the communication of key relationships within the database. These principles will be used in conjunction with Fry’s efficient and flexible (2006) process of visualisation in the design experimentation stage of this project. This stage will hope to identify certain technologies and the effectiveness of certain visual methods in communicating aspects of the surfing subculture.
+
+### Surfing Subculture
+
+The complex network under investigation is that of data being generated by surfers around the world. The surfing subculture is a complex system of individuals and groups, its surface consisting of the recognisable symbols and attitudes of surfing, and its substructure, consisting of different levels of neo-tribal groups (Stranger, 2011). These neo-tribes categorise the surfing community based on the shared experience of searching for surf, territory and shared culture, and the common understanding of the transcendent experience.
+
+Stranger (2011) categorises surfing’s grounded neo-tribes into bands, tribes, and the surfing nation, each group being an abstraction of the previous. A band of surfers usually consist of two to six surfers of similar ability and the same ‘surfer type’ (hardcore, core, recreational), their formation generally spawns from shared surfing experiences during ‘the search’ for the perfect wave. This group usually belongs to a wider community defined as a tribe, which gets its definition based on territory and shared local culture. The surfing nation is the global level of these tribes and is constructed by surfing media’s presentation of surfing styles and attitudes.
+
+
+The shared nature of the surfing experience, a feeling of being one with nature, is the foundation of these tribes. Stranger (2011) analyses this experience in comparison to Csiksgentmihalyi’s theory of flow (1988) and Lyng’s (1990) edge work interpretation of flow. The theories describe ‘the zone’ that can be achieved through a balance of motivation and ability. Stranger (2011) explains the common points between two, “that a distortion of time can be involved and that the experience can involve feelings of oneness with the objective surroundings.” 
+
+Another important aspect used in this research is a surfer’s pilgrimage to experience new or revered waves. Booth (1995) uses the term the search to define a surfer’s desire to find the perfect wave. Stranger (2011) attributes the myth of the search to surf films such as the Endless Summer by Bruce Brown. This drive by popular culture to fuel the myth is continued in the present by surf companies such as Rip Curl. Stranger (2011) mentions their Search product line focuses on the experience that is the foundation of the surfing subculture. The desire to surf new waves and enhance experience can inspire a surfer to explore new territory both nationally and internationally.
+
+Identifying aspects of the surfer’s pilgrimage to surf spots,  and local hierarchies generated a criteria for the design stages of this project. As part of the design experiments this cultural criteria was developed with the information gained from the experiments. The hierarchy and pilgrimage aspects were explored with the macro and relationship views proposed by Lima (2011). Furthermore, in the design experiment section of this research, a surfer’s experience with the waves at specific locations was visualised, this represented a micro view of the database.
+
+### Design Precedent
+
+The design precedents section analyses technological and visual techniques used with action sports trackers and time-based, data-driven media. This includes the SearchGPS Watch (Rip Curl, 2014) and other action sports trackers such as Trace (2015), also new media experiments such as Your Year (AKQA, 2014) and Force of Nature (FIELD, 2015). Also, this section reviews contemporary methods of capturing surfing media and attempts to identify successful aspects to be taken forward into the design. 
+
+Part of this research explores the concept of consolidating databases created from wearable technologies used by surfers. A example of wearable technology is the SearchGPS Watch, an action sports tracker to record a surf session. The watch uses Global Positioning Systems (GPS) to track your movements and uses this data to keep track of statistics such as duration, wave count, longest wave, max speed, and distance travelled. 
+
+The Trace is a similar action sports tracker which is mounted on the surfer’s surfboard. This device is similar to SearchGPS Watch. However, it also contains sensors which record the orientation of the surfboard. This extra layer of data allows the device to calculate when a manoeuvre such as a turn or aerial is being performed by the surfer.
+
+// table of statistics captured by each device.
+
+The action sports trackers mentioned provide feedback to the user by synchronising with a computer or smartphone application. Once the device has transferred the information, the surf session can be reviewed by viewing the surf track overlaid onto Google Map. The applications also allow users to share the surf with friends.
+
+The design of the SearchGPS application shows location, max speed and wave count in a preview of the surf. This suggests that these statistics were valued more highly than others such as, distance travelled, and longest wave. This hierarchy of information is explored further in the design stages of this research by analysing the variables ability to be communicated visually.
+
+
+
+Figure #. SearchGPS App (Rip Curl, 2014)
+
+Your Year (AKQA, 2014) and Force of Nature (FIELD, 2015) are examples of using sports tracking data to drive a media experience. These media experiences demonstrate the relationship between time, and how the data is refined, in order to effectively communicate the desired message. Your Year compresses a year of running data from a user into a one and a half minute, data-driven animation. Force of Nature on the other hand, is real-time experience driven by the user running on a treadmill.
+
+The first example, Your Year, features a refined representation of the database. It refined the statistics from every run a user took that year to generate a clip from 1500 animation clips (AKQA, 2014). This refinement highlighted particular aspects of the data such as personal bests or least active day of the week. In contrast, the Force of Nature experience features less refinement of the data, to create a more direct representation of the user. There is less need for refinement because of the user’s ability to interpret their actions as direct drivers of the visualisation.
+
+
+Figure #. Your Year (Nike, 2014)
+
+
+Figure #. Force of Nature (FIELD, 2015)
+
+The previous designs demonstrate a relationship between time and the level of detail of data being used or captured, and also include a relationship between the detail of the data and the way in which it is being presented. For example, the Your Year project uses a stylised representation of the runner and their environment, showing different views to illustrate location and weather. Whereas the Force of Nature project is a direct representation of the runner projected directly in front of them, abstracted by the speed and colour data that is being captured. This relationship can be seen as a more detailed level of data requires a more realistic representation of its form. For example, the detailed data captured from a surf session could be visualised using methods similar to current surf media to represent it more accurately.
+
+Current surfing media have begun to utilise drones to capture surfing from different perspectives (Pipeline Winter, 2013) and 360 degree cameras to create virtual surfing experiences (GoPro, 2015). These methods of filming provide precedents for methods of viewing the database created, specifically the detailed data captured during a surf. When visualising the data in a virtual environment, virtual cameras can be created to imitate these real cameras.
+
+### Design Methodology
+
+Through the process of this research it became evident that unconventional ethnography through data visualisation of the surfing community was being conducted. Therefore, an interpretation of an ethnographic approach was used for this project.  The research used an ethnographic strategy of inquiry to develop a qualitative analysis of a quantitative database. The qualitative analysis was conducted using iterative design sketches to establish hierarchies and relationships within the quantitative databases’ created by surfers. The methods utilised are based on an ethnographic interpretation of a strategy of inquiry proposed by Knigge and Cope (2005), Grounded Visualisation.
+
+An important aspect of ethnographic research methods is the researcher’s participation in the activities. This element is from a constructivist worldview in which the researcher recognises that the researcher’s own background shapes their interpretation (Crewel, 2009). The researcher for this project has been a member of the surfing community for over 20 years. Therefore, the implicit knowledge of the surfing subculture developed over this period has shaped this research significantly. Aspects of the culture already known to the researcher such as hierarchies within local communities, popular surf spots, and knowledge of surf breaks were validated through literature.
+
+This research uses ethnographic methods to investigate the visualisation of the surfing subculture. The methods include observation of participants activity through data capture, and attempting to understand patterns that emerge through data visualisation. Typically ethnography focuses on the collection of qualitative observational data of a cultural group (Crewel, 2009). This research focuses on the creation of visual sketches as qualitative data. However, these sketches are based on a quantitative digital representation of the surfing cultural group rather than direct observation. The knowledge gained from direct observation is already known to the researcher due their significant immersion in the surfing community.
+
+Knigge and Cope (2005) propose a method which utilises commonalities between grounded theory and visualisation to build an approach they call grounded visualisation. These are: they are both exploratory, they are both iterative and recursive, both enable the simultaneous consideration of particular instances and general patterns, and both encourage multiple views and perspectives for building knowledge. Knigge and Cope (2005) conclude, “The combination of qualitative and quantitative data, together with a commitment to iterative, reflexive rounds of analysis, enables research to be attuned to multiple subjectivities, truths, and meanings.” The similarities between the steps outlined here and Computational Information Design support the applicability of these methods. 
+
+The commonalities identified by Knigge and Cope (2005) between grounded theory and visualisation can also be found between ethnography and visualisation. For example, Crewel (2009) describes ethnography as being flexible and evolving in response to experiences in the field. Where ethnography differs from grounded theory is that ethnography does not attempt to generate theory which is grounded in the view of the participants (Crewel, 2009). This difference can be accommodated in this project as the aim is not to generate theories of surfing subculture, but rather visualise the theories of the surfing subculture identified in the literature review.
+
+The steps outlined by Knigge and Cope (2005) as part of a case study are as follows: exploring the data, exploring the area, mapping connections and context, and further iteration of analysis and data collection. These steps have been reworked for this project so that they relate to the Computational Information Design process (Fry, 2004). They are as follows: capturing the data, exploring the data, mapping connections and context, and continued iteration of analysis and data collection. These steps define the process used in the design experimentation stage of this project.
