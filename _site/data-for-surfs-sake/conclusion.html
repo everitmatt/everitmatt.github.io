@@ -170,7 +170,12 @@
 
 		  </article>
 
+		  <div class="thesis-post-images">
+
+		  </div>
+
 		</div>
+
       </div>
     </div>
     <footer class="site-footer">
@@ -190,17 +195,12 @@
 <script type="text/javascript">
   $(document).ready(function() {
   		$("#post-links2").slideDown("fast");
+  		$("img").each(function(){
+  			var top = $(this).position().top;
+  			$(this).css({top:top});
+  			$(".thesis-post-images").append(this);
+  		})
 
-  		// $(".site-header").fadeTo("slow",0.25);
-  		// $(".site-footer").fadeTo("slow",0.25);
-  		// $(".site-header").mouseenter(function() {
-  		// 	$(this).fadeTo("fast",1.0);
-  		// 	$(".site-footer").fadeTo("fast",1.0);
-
-  		// });
-  		// $(".site-header").mouseleave(function() {
-  		// 	$(this).fadeTo("slow",0.25);
-  		// 	$(".site-footer").fadeTo("slow",0.25);
-  		// });
+//   		$('img').fadeOut("fast");
   });
 </script>
