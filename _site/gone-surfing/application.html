@@ -29,7 +29,7 @@
         width: 301px;
         position: relative;
         opacity: 0.5;
-        background-color: #000000;
+/*         background-color: #000000; */
       }
       #start {
         margin: 0;
@@ -652,12 +652,17 @@
       <div style="float:left; width:30%; height: 40px; margin-right: 5%; margin-top: 50px; background-color: black; opacity: 0.0; margin-bottom: 20px">personal</div> -->
     </div>
   </div>
-    <div id="login-container">
-        <div id="login">
-          <div style="width: 100%; text-align: center; color: white">Welcome Chat</div>
-          <div style="width: 100%; text-align: center; color: white">loading stuff...</div>
-            <div id ="loading-bar"></div>
+    <div id="login-container" style="text-align: center; color: white;">
+        <div id="login" style="width: 720px; margin-bottom: 20px;">
+          <div style="width: 94%; margin: 0px 3%; background-color: black;">Welcome Chat</div>
+          <div style="width: 94%; margin: 0px 3%; background-color: black;">loading stuff...</div>
+            <div id ="loading-bar" style="width: 94%; margin: 0px 3%;"></div>
         </div>
+<!--         <div id="initial-menu" style="width: 720px; height: 300px; margin: 0px auto; opacity: 0.5; display: none;">
+          <div id="follow-pro" style="width: 30%; height: 100%;float: left; background-color: black; margin-left: 3%" onClick="goUser()">follow a pro!</div>
+            <div id="explore" style="width: 30%; height: 100%;float: left;background-color: black; margin-left: 2%" onClick="hideMenu()">explore!</div>
+            <div id="search-login" style="width: 30%; height: 100%;float: left;background-color: black; margin-left: 2%">login to searchGPS! not available</div>
+        </div> -->
     </div>
     <div id="location-name-container" style="position:absolute; top: 50px; left: 0px; height:35%; width:300px; z-index:1; text-align: left;">
       <div style="
@@ -684,40 +689,43 @@
       <button style="height:100%;width:32%;float: left;" onClick="params.play()">play</button>
       <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">end</button>
     </div>
-    <div id="topspot-container" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 20px">
-      <button id="storm-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="showStorm()">swell emitters</button>
-      <button id="pilg-button" style="height:100%;width:96%;float: left;margin:0 2%; margin-bottom: 20px" onClick="showPilg()">pilgrimage</button>
+    <div id="topspot-container" style="height: 220px;width: 100%;color: white; text-align: center; margin-top: 20px">
+      <button id="storm-button" style="height:40px;width:96%;float: left;margin:0 2%" onClick="showStorm()">swell emitters</button>
+      <button id="pilg-button" style="height:40px;width:96%;float: left;margin:0 2%; margin-bottom: 20px" onClick="showPilg()">pilgrimage</button>
       
-      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
-      <button id="topspot-button" style="height:100%;width:96%;float: left;margin:0 2%" onClick="goUser()">follow user</button>
+      <button id="topspot-button" style="height:40px;width:96%;float: left;margin:0 2%" onClick="autoPlay()">top surf spot</button>
+      <button id="topspot-button" style="height:40px;width:96%;float: left;margin:0 2%" onClick="goUser()">follow user</button>
       
-      <button id="local-button" style="height:100%;width:96%;float: left;margin:0 2%; display: none" onClick="goLocal()">check it out</button>
+      <button id="local-button" style="height:40px;width:96%;float: left;margin:0 2%; display: none" onClick="goLocal()">check it out</button>
     </div>
-    <div id="goPersonal-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="goPersonal()">personal surf track</button>
+    <div id="goPersonal-gui" style="width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="goPersonal()">personal surf track</button>
     </div>
-    <div id="local-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 20px; display: none">
+    <div id="local-gui" style="height: 220px; width: 100%;color: white; text-align: center; margin-top: 20px; display: none">
 <!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSurfCount()">surf count</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showWaveCount()">wave count</button>
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceWaves()">distance waves</button>
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showWaveCount()">wave count</button>
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showDistanceWaves()">distance waves</button>
 <!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceTotal()">distance total</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDuration()">duration</button>
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSpeedMax()">max speed</button>
-      <button style="height:100%;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showDuration()">duration</button>
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showSpeedMax()">max speed</button>
+      <button style="height:40px;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
     </div>
-    <div id="personal-gui" style="height: 40px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
+    <div id="personal-gui" style="height: 220px; width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
 <!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSurfCount()">surf count</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSpeed()">speed</button>
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showPitch()">pitch</button>
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showSpeed()">speed</button>
+      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showPitch()">pitch</button>
 <!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceTotal()">distance total</button> -->
-      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showYaw()">yaw</button>
-      <button style="height:100%;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
+<!--      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showYaw()">yaw</button> -->
+      <button style="height:40px;width:96%;float: left;margin:10px 2%" onClick="returnToLanding()">exit</button>
     </div>
     <div id="location-select-container"style="height: 40px; width: 96%; margin: 0px 2%">
 
     </div>
+    <div id="key"style="position: relative; width: 100%; margin: 40px 0px; padding: 0px 40px;">
+      <img src="../local-sources/swell-key.png"/>
     </div>
-    <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; left: 0px; display:none; margin: 0px 10px; height: 40px">menu</div>
+    </div>
+    <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; right: 0px; display:none; margin: 0px 10px; height: 40px">Menu</div>
     <div id="information" style="position: fixed;  z-index: 1; opacity: 0.5; visibility: hidden">
       <div id="location"></div>
     <div id="waveCount"></div>

@@ -158,9 +158,9 @@ function initLocal() {
 
 		localSurfUniforms.equator.value = height/2;
 // 		localSurfUniforms.pointWidth.value = 20.0*world;
-		localSurfUniforms.stat.value = 0.0;
-		localSurfUniforms.min.value = -10.0;
-		localSurfUniforms.max.value = 150.0;
+		localSurfUniforms.stat.value = 2.0;
+		localSurfUniforms.min.value = 0.0;
+		localSurfUniforms.max.value = 2000.0;
 
 		var timeCenter = document.getElementById("timeline-centered");
 		var steplist = document.getElementById("steplist");
@@ -444,13 +444,15 @@ function initLocal() {
 	});
 	var jump = new TWEEN.Tween(fadeOut).to({drop:1.1},100).easing(TWEEN.Easing.Quadratic.Out).chain(drop).start();
 
-	$("#menu-icon").click(function(){
-		$(this).fadeOut("fast",function(){
-			$("#gui-container").animate({left: "0px"},500);
-		});
-	});
+// 	$("#menu-icon").click(function(){
+// 		$(this).fadeOut("fast",function(){
+// 			$("#gui-container").animate({right: "0px"},500);
+// 		});
+// 	});
 	
-	$("#gui-container").mouseleave();
+// 	$("#gui-container").mouseleave(function(){
+// 		$(this).animate({right: "-250px"},500);
+// 	});
 	
 	if(isPersonal){
 		console.log(personal);
@@ -458,6 +460,8 @@ function initLocal() {
 	}
 
 	$("#local-gui").slideDown("fast");
+
+	$("#key img").attr("src","../local-sources/distance-key.png");
 
 	document.getElementById("top-button").onclick = function(){localGoBirdsEye()};
 	document.getElementById("45-button").onclick = function(){localGoGlobal()};
@@ -592,6 +596,7 @@ function showWaveCount(){
 }
 
 function showDistanceWaves(){
+	$("#key img").attr("src","../local-sources/distance-key.png");
 	if(showcasing != "distanceWaves"){
 		localSurfUniforms.stat.value = 2.0;
 		localSurfUniforms.min.value = 0.0;
@@ -619,6 +624,7 @@ function showDistanceWaves(){
 // }
 
 function showDuration(){
+	$("#key img").attr("src","../local-sources/duration-key.png");
 	if(showcasing != "duration"){
 		localSurfUniforms.stat.value = 3.0;
 		localSurfUniforms.min.value = 0.0;
@@ -634,6 +640,7 @@ function showDuration(){
 }
 
 function showSpeedMax(){
+	$("#key img").attr("src","../local-sources/speed-key.png");
 	if(showcasing != "speedMax"){
 		localSurfUniforms.stat.value = 4.0;
 		localSurfUniforms.min.value = 10.0;
@@ -652,7 +659,7 @@ function showSpeedMax(){
 function returnToLanding(){
 	scene.remove(globalPilgrimageObject);
 	scene.remove(localSwellObject);
-	
+		
 	scene.remove(usersObject);
 	scene.remove(grid);
 	scene.remove(pilgrimageObject);
@@ -672,6 +679,7 @@ function returnToLanding(){
 	$("#local-gui").slideUp("fast");
 	$("#topspot-container").slideDown("fast");
 	$('#location-select-container').slideDown("fast");
+	$("#key img").attr("src","../local-sources/swell-key.png");
 // 	$("#location-name").text("");
 	isPersonal = false;
 	params.camera = camera;

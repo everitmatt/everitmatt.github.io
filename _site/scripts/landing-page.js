@@ -36,18 +36,22 @@ function initLanding() {
 
 	var customContainer = document.getElementById('gui-container');
 // 	customContainer.appendChild(gui.domElement);
-
+// 	$("#menu-icon").fadeIn("fast");
 // 	$("#menu-icon").click(function(){
-// 		$(this).fadeOut("fast",function(){
-// 			$("#gui-container").animate({right: "0px"},500);
+// 		$(this).fadeOut(50,function(){
+// 			$("#gui-container").animate({right: "0px"},200);
 // 		});
 // 	});
+
+$("#gui-container").animate({right: "0px"},200);
 	
 // 	$("#gui-container").mouseleave(function(){
-// 		$(this).animate({right: "-250px"},500,function(){
+// 		$(this).animate({right: "-250px"},200,function(){
 // 			$("#menu-icon").fadeIn("fast");
 // 		});
 // 	});
+
+	
 
 
 	
@@ -125,6 +129,17 @@ function initLanding() {
 		globalPilgrimageObject = new THREE.Group();
 		globalPilgrimageObject.name = "globalPilgrimageObject";
 		scene.add(globalPilgrimageObject);
+
+		var timeCenter = document.getElementById("timeline-centered");
+		var steplist = document.getElementById("user-steplist");
+		if( steplist != undefined ) steplist.remove();
+		var steplist = document.createElement("div");
+		steplist.id = "user-steplist";
+		steplist.style.width = "80%";
+		steplist.style.height = "10px";
+		steplist.style.margin = "0px 10%";
+		steplist.style.position = "absolute";
+		steplist.style.display = "none";
 		
 		globalPilgrimageUniforms.alpha.value = 0.1;
 		var gPMAterial = new THREE.ShaderMaterial({
@@ -154,6 +169,26 @@ function initLanding() {
 			var pLat, pLng;
 
             var z = 0;
+
+            if(isUser){
+
+            	var shape = document.createElement("div");
+            	shape.style.top = "0px";
+				shape.style.left = (s.start_timestamp-startTimestamp)*100.0/totalDuration + "%";
+				shape.style.position = "absolute";
+				shape.style.borderRadius = "3px";
+				shape.style.width = "6px";
+				shape.style.height = "6px";
+				var c1 = new THREE.Color("rgb(0%, 50%, 100%)");
+				var c2 = new THREE.Color("rgb(0%, 100%, 0%)");
+				var col = 1.0/10.0*s.swell_size;
+				c1.lerp(c2,col);
+				shape.style.backgroundColor = "#"+c1.getHexString();
+				shape.style.opacity = "1.0";
+
+				steplist.appendChild(shape);
+            }
+
 			if(s.hasOwnProperty("detected_location_name")){
 				var name1 = s.detected_location_name;
 				var prevName1 = s.previous_location;
@@ -257,6 +292,8 @@ function initLanding() {
 
             swellSizes[i] = s.swell_size;
         }
+        timeCenter.appendChild(steplist);
+
         geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
         geometry.addAttribute( 'timestamp', new THREE.BufferAttribute( timestamps, 1 ) );
         geometry.addAttribute( 'scale', new THREE.BufferAttribute(scales,1));
@@ -288,8 +325,9 @@ function initLanding() {
 		
 	}
 
-	$("#gui-container").animate({right: "0px"},1000);
-	$("#login-container").fadeOut("slow");
+// 	$("#gui-container").animate({right: "0px"},1000);
+	$("#login").fadeOut("slow");
+	$("#initial-menu").fadeIn("fast");
 	
 	timeline = document.getElementById("timeline");
 
@@ -497,6 +535,7 @@ function autoPlay(){
 function goSelectedLocation(num){
 	$('#local-button').slideDown("fast");
 	$('#information2').fadeOut("fast");
+	$("#user-steplist").fadeOut("fast");
 	scene.remove(selectedObject);
 	histogram = false;
 	followingUser = false;
@@ -542,6 +581,8 @@ function goSelectedLocation(num){
 function goUser(){
 	$('#local-button').slideDown("fast");
 	$('#information2').fadeOut("fast");
+	$("#initial-menu").fadeOut("slow");
+	$("#user-steplist").fadeIn("fast");
 	scene.remove(selectedObject);
 	histogram = false;
 	autoplaying = false;
@@ -590,6 +631,7 @@ function goBirdsEye(){
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	$("#location-name").text("");
+	$("#user-steplist").fadeOut("fast");
 	autoplaying = false;
 	followingUser = false;
 	camera.up.set( 0, 0, 1 );
@@ -611,6 +653,7 @@ function goHistogram(){
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	$("#location-name").text("");
+	$("#user-steplist").fadeOut("fast");
 	histogram = true;
 	autoplaying = false;
 	followingUser = false;
@@ -634,6 +677,7 @@ function goGlobal(){
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	$("#location-name").text("");
+	$("#user-steplist").fadeOut("fast");
 	histogram = false;
 	autoplaying = false;
 	followingUser = false;
@@ -664,6 +708,7 @@ function goLocal(){
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	$('#location-select-container').slideUp("fast");
+	$("#user-steplist").fadeOut("fast");
 	histogram = false;
 	goingLocal = true;
 	var fade = new TWEEN.Tween(fadeOut).to({fade:-1.0},1000).easing(TWEEN.Easing.Quadratic.InOut).start();
@@ -682,6 +727,7 @@ function goLocalOnClick(i){
 	$('#local-button').slideUp("fast");
 	$('#information2').fadeOut("fast");
 	$('#location-select-container').slideUp("fast");
+	$("#user-steplist").fadeOut("fast");
 	histogram = false;
 	goingLocal = true;
 	var fade = new TWEEN.Tween(fadeOut).to({fade:-1.0},1000).easing(TWEEN.Easing.Quadratic.InOut).start();

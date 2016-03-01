@@ -27,6 +27,17 @@ layout: home
 	</article>
 
 </div>
+<div class="thesis-info">
+	<article>
+		{% for post in site.categories.thesis %}
+		{% if post.info %}
+			<article class="post-content" style="left:100%">
+			  {{ post.content }}
+			</article>
+		{% endif %}
+		{% endfor %}
+	</article>
+</div>
 
 <script type="text/javascript">
   $(document).ready(function() {

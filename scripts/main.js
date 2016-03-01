@@ -133,21 +133,15 @@ var zoomHelper;
 var infoDiv;
 
 $(document).ready(function(){
-
-	if (!webgl_support) {
+	console.log("is chrome: " + !!window.chrome);
+	console.log("is safari: " + !!window.safari);
+	var canvas = document.createElement( 'canvas' );
+	if (canvas.getContext( 'webgl' ) == null && canvas.getContext( 'experimental-webgl' ) == null) {
 		// the browser doesn't even know what WebGL is
 		window.location = "http://get.webgl.org";
 	} else {
 		loadTextures();
 	}
-
-	function webgl_support() { 
-	   try{
-			var canvas = document.createElement( 'canvas' ); 
-			return !! window.WebGLRenderingContext && ( 
-				 canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) );
-		   }catch( e ) { return false; } 
-	 };
 });
 
 var map;
@@ -1070,4 +1064,11 @@ function toScreenXY ( position ) {
     return { x: ( pos.x + 1 ) * width / 2 ,
          y: ( - pos.y + 1) * height / 2 };
 
+}
+
+function hideMenu(){
+	$("#initial-menu").fadeOut("slow");
+	$("#menu-icon").fadeOut("fast",function(){
+		$("#gui-container").animate({right: "0px"},1000);
+	});
 }

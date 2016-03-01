@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Matthew Everitt Design | Gone Surfing</title>
+    <title>Matthew Everitt Design | Data For Surf’s Sake</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Matthew Everitt Design">
     <link rel="canonical" href="/data-for-surfs-sake/">
@@ -31,6 +31,9 @@
                 $("#post-links1").slideDown('slow');
             });
             $(".thesis").click( function() {
+            	$(".home").animate({opacity:0.0},500,function(){
+            		$("#thesis-info").animate({left:"0px"});
+            	});
                 $("#post-links1").slideUp('fast');
                 $("#post-links2").slideDown('slow');
             });
@@ -60,12 +63,20 @@
         
           <a class="page-link" href="/research/">Research</a>
         
-          <a class="page-link" href="/data-for-surfs-sake/">Gone Surfing</a>
+          <a class="page-link" href="/gone-surfing/">Gone Surfing</a>
         
-        <a class="thesis" href="#">Data For Surf's Sake</a>
+        <a class="thesis" href="#thesis">Data For Surf's Sake</a>
         <nav class="post-nav">
           <div class="trigger">
             <div class="post-links" id="post-links2">
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/preface">+ Preface</a>
+                  
+              
+                
+                    <div style="color: #ff9100">Data For Surf’s Sake</div>
+                  
               
                 
                     <a class="post-link" href="/data-for-surfs-sake/introduction">+ Introduction</a>
@@ -84,13 +95,21 @@
                   
               
                 
+                    <a class="post-link" href="/data-for-surfs-sake/conclusion">+ Conclusion</a>
+                  
+              
+                
                     <a class="post-link" href="/data-for-surfs-sake/discussion">+ Discussion</a>
+                  
+              
+                
+                    <a class="post-link" href="/data-for-surfs-sake/references">+ References</a>
                   
               
             </div>
           </div>
         </nav>
-        <a class="projects" href="#">Projects</a>
+        <a class="projects" href="#project">Projects</a>
         <nav class="post-nav">
           <div class="trigger">
             <div class="post-links" id="post-links1">
@@ -141,7 +160,7 @@
       <div class="post">
 
   <article class="post-content">
-  <p>Application goes here.</p>
+  <p>Thesis info</p>
 
   </article>
 

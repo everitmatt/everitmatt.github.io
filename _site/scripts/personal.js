@@ -358,6 +358,7 @@ function initPersonal() {
 	$("#goPersonal-gui").slideUp("fast");
 	$("#local-gui").slideUp("fast");
 	$("#personal-gui").slideDown("fast");
+	$("#key img").attr("src","../local-sources/speed2-key.png");
 }
 
 function updatePersonal(){
@@ -395,16 +396,19 @@ function updatePersonal(){
 }
 
 function showSpeed(){
+	$("#key img").attr("src","../local-sources/speed2-key.png");
 	personalUniforms.stat.value = 0.0, personalUniforms.min.value = 0.0, personalUniforms.max.value = 10.0;
 }
 
 function showPitch(){
+	$("#key img").attr("src","../local-sources/pitch-key.png");
 	personalUniforms.stat.value = 4.0, personalUniforms.min.value = 0, personalUniforms.max.value = Math.PI/2.0;
 }
 
-function showYaw(){
-	personalUniforms.stat.value = 6.0, personalUniforms.min.value = -Math.PI, personalUniforms.max.value = Math.PI;
-}
+// function showYaw(){
+// 	$("#key img").attr("src","../local-sources/yaw-key.png");
+// 	personalUniforms.stat.value = 6.0, personalUniforms.min.value = -Math.PI, personalUniforms.max.value = Math.PI;
+// }
 
 
 function updateCamera(frameNumber){
