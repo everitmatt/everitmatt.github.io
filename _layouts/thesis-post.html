@@ -72,8 +72,10 @@
 
       </div>
     </div>
+    
     {% include footer.html %}
-    </body>	
+    </body>
+    <div class="showcase"></div>
 </html>
 
 <script type="text/javascript">
@@ -84,7 +86,40 @@
   			var link = $(this).attr("alt");
   			$(this).attr("id",link);
   			$(".thesis-post-images").append(this);
-  		})
+  		});
+
+  		$(".thesis-post-images img").click(function(){
+  			var showCase = $(".showcase").empty();
+  			var styles = {
+  				position: "fixed",
+  				top: "0px",
+  				left: "0px",
+  				width: "100%",
+  				height: "100%"
+  			}
+  			showCase.css(styles);
+  			var div = $("<div></div>");
+  			var styles = {
+  				position: "relative",
+  				width: "1000px",
+  				margin: "100px auto"
+  			}
+  			div.css(styles);
+  			var img = $("<img/>").attr("src",$(this).attr("src"));
+  			var styles = {
+  				position: "relative",
+  			}
+  			img.css(styles);
+  			div.append(img)
+  			showCase.append(div);
+  			$("window").append(showCase);
+  			$(".page-content, .site-header, .site-footer").fadeTo("fast",0.1);
+  			showCase.fadeIn("fast");
+  		});
+  		$(".showcase").click(function(){
+  			$(this).fadeOut("fast");
+  			$(".page-content, .site-header, .site-footer").fadeTo("fast",1.0);
+  		});
 
   });
 </script>

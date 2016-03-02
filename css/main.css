@@ -359,14 +359,25 @@ p {
   .thesis-post iframe {
     width: 100%; }
   .thesis-post .thesis-post-images {
-    position: absolute;
-    left: 500px;
-    top: 0px; }
+    position: fixed;
+    width: 40%;
+    left: 800px;
+    top: 150px; }
     .thesis-post .thesis-post-images img {
       position: relative;
-      max-width: 500px;
+      max-width: 20%;
       max-height: 510px;
       height: auto;
-      margin-left: 40px; }
+      margin-left: 40px;
+      border: 1px solid white;
+      -webkit-transition: 0.25s;
+      -moz-transition: 0.25s;
+      transition: 0.25s; }
+    .thesis-post .thesis-post-images img:hover {
+      border: 1px solid #dddddd; }
+
+.showcase img {
+  max-width: 100%;
+  height: auto; }
 
 /*# sourceMappingURL=main.css.map */

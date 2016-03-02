@@ -312,12 +312,22 @@ p
 	iframe
 		width: 100%
 	.thesis-post-images
-		position: absolute
-		left: 500px
-		top: 0px
+		position: fixed
+		width: 40%
+		left: 800px
+		top: 150px
 		img
 			position: relative
-			max-width: 500px
+			max-width: 20%
 			max-height: 510px
 			height: auto
 			margin-left: 40px
+			border: 1px solid white
+			@include transition( .25s)
+		img:hover
+			border: 1px solid #dddddd
+
+.showcase
+	img
+		max-width: 100%
+		height: auto
