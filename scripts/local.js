@@ -696,14 +696,14 @@ function returnToLanding(){
         camera.lookAt(targPos);
     }).start();
 	var fadeTween = new TWEEN.Tween(localSurfUniforms.alpha).to({ value: -1.0 }, 1000).easing(TWEEN.Easing.Quadratic.InOut).onComplete(function(){
-		scene.remove(localObject);
 		params.speed = 1500;
+		scene.remove(localObject);
+		scene.add(mapObject);
+		scene.add(landingObject);
+		scene.add(globalPilgrimageObject);
 	}).start();
     var zoomTween = new TWEEN.Tween(params).to({zoom:4},2000).easing(TWEEN.Easing.Quadratic.InOut).start();
 	interactive = true;
-	scene.add(mapObject);
-	scene.add(landingObject);
-	scene.add(globalPilgrimageObject);
 
 	var geometry = landingObject.geometry;
 	var attributes = geometry.attributes;

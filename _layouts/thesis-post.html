@@ -81,10 +81,10 @@
   		$("#post-links2").slideDown("fast");
   		$("img").each(function(){
   			var top = $(this).position().top;
-  			$(this).css({top:top});
+  			var link = $(this).attr("alt");
+  			$(this).attr("id",link);
   			$(".thesis-post-images").append(this);
   		})
 
-//   		$('img').fadeOut("fast");
   });
 </script>

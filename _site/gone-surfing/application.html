@@ -121,6 +121,18 @@
 /*      border-radius: 25px; */
       background: #A1D0FF;
       cursor: pointer;
+    }
+/*    button {
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+      background-color: transparent;
+        color: black;
+        font-size: 12px;
+/*        border: 0.5px solid black; /* Green */ */
+    }
+
+    button:hover {
+      background-color: grey; /* Green */
     } */
     </style>
     <script src="../lib/stats.js"></script>
@@ -256,6 +268,7 @@
     uniform float min;
     uniform float max;
     uniform float stat;
+    uniform float alpha;
 
     varying vec3 vColor;
     varying float vAlpha;
@@ -280,6 +293,10 @@
       if(stat == 2.0) gl_PointSize = remap(waveDistance)*0.1 * zoom;
       if(stat == 3.0) gl_PointSize = remap(duration)*0.1 *  zoom;
       if(stat == 4.0) gl_PointSize = remap(topSpeed)*0.1 *  zoom;*/
+
+      if(alpha < 0.0){
+        vAlpha = 1.0+alpha;
+      }
 
       gl_PointSize = 0.005 * zoom;
 
@@ -675,19 +692,29 @@
       line-height: 100px;"
     >GONE SURFING</div>
 <!--      <div id="date" style="height:40px;width:96%;float: left;margin:0 10%"></div> -->
-      <div id="location-name" style="height:40px;width:96%;float: left;margin:0 10%"></div>
+      <div id="location-name" style="height:20px;width:96%;float: left;margin:0 10%; border-bottom: 2px solid black; padding-top: 20px"></div>
       
     </div>
-    <div id="gui-container" style="position:absolute; top: 50px; right: -250px; height:35%; width:250px ; z-index:1; opacity: 0.5;">
-    <div style="height: 40px; width: 100%;margin-top:49px; color: white; text-align:center">
-      <button id="top-button" style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">top</button>
+    <div id="key"style="position:absolute; top: 50px; right: 0px; height:250px; width:170px ; z-index:1; opacity: 0.5; margin: 50px 0px; padding: 0px 40px;">
+      <img src="../local-sources/swell-key.png"/>
+    </div>
+  <div id="menu-icon" style="font-size: 18px;position: absolute; z-index:1; top: 200px; left: 0px; display:none; height: 40px; width: 210px; padding-left:30px">MENU</div>
+    <div id="gui-container" style="position:absolute; top: 250px; left: 0px; width:250px ; z-index:1; opacity: 0.5; display: none; margin-left: 30px">
+    <div style="height: 40px; width: 100%; color: white; text-align:center">
+      <button id="top-button" style="height:100%;width:32%;float: left;margin-left:2%" onClick="goBirdsEye()">TOP</button>
       <button id="45-button" style="height:100%;width:32%;float: left;" onClick="goGlobal()">45</button>
-      <button id="front-button" style="height:100%;width:32%;float: left;margin-right:2%" onClick="goHistogram()">front</button>
+      <button id="front-button" style="height:100%;width:32%;float: left;margin-right:2%" onClick="goHistogram()">FRONT</button>
     </div>
     <div style="height: 40px; width: 100%;color: white; text-align: center">
-      <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="params.restart()">start</button>
-      <button style="height:100%;width:32%;float: left;" onClick="params.play()">play</button>
-      <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">end</button>
+      <button style="height:100%;width:32%;float: left;margin-left:2%" onClick="params.restart()">
+        <img src="../local-sources/start.svg" height="14"/>
+      </button>
+      <button id="play-pause"style="height:100%;width:32%;float: left;" onClick="params.play()">
+        <img src="../local-sources/pause.svg" height="18"/>
+      </button>
+      <button style="height:100%;width:32%;float: left;margin-right:2%" onClick="params.end()">
+        <img src="../local-sources/end.svg" height="14"/>
+      </button>
     </div>
     <div id="topspot-container" style="height: 220px;width: 100%;color: white; text-align: center; margin-top: 20px">
       <button id="storm-button" style="height:40px;width:96%;float: left;margin:0 2%" onClick="showStorm()">swell emitters</button>
@@ -701,9 +728,9 @@
     <div id="goPersonal-gui" style="width: 100%;color: white; text-align: center; margin-top: 40px; display: none">
       <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="goPersonal()">personal surf track</button>
     </div>
-    <div id="local-gui" style="height: 220px; width: 100%;color: white; text-align: center; margin-top: 20px; display: none">
+    <div id="local-gui" style="height: 220px; width: 100%;color: white; text-align: center; margin-top: 30px; display: none">
 <!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showSurfCount()">surf count</button> -->
-      <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showWaveCount()">wave count</button>
+<!--      <buttoqn style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showWaveCount()">wave count</button> -->
       <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showDistanceWaves()">distance waves</button>
 <!--      <button style="height:100%;width:96%;float: left;margin:0px 2%" onClick="showDistanceTotal()">distance total</button> -->
       <button style="height:40px;width:96%;float: left;margin:0px 2%" onClick="showDuration()">duration</button>
@@ -721,17 +748,15 @@
     <div id="location-select-container"style="height: 40px; width: 96%; margin: 0px 2%">
 
     </div>
-    <div id="key"style="position: relative; width: 100%; margin: 40px 0px; padding: 0px 40px;">
-      <img src="../local-sources/swell-key.png"/>
     </div>
-    </div>
-    <div id="menu-icon" style="position: absolute; z-index:1; top: 90px; right: 0px; display:none; margin: 0px 10px; height: 40px">Menu</div>
+    
     <div id="information" style="position: fixed;  z-index: 1; opacity: 0.5; visibility: hidden">
       <div id="location"></div>
     <div id="waveCount"></div>
     <div id="distanceWaves"></div> 
     <div id="duration"></div>
     <div id="topSpeed"></div>
+    <div id="previous"></div>
     </div>
     <div id="information2" style="position: fixed; width:200px; height:50px;  z-index: 1; display: none; opaity: 0.5"></div>
     <select id="location-select" style="visibility: hidden;"  onchange="goSelectedLocation(this.value)"></select>

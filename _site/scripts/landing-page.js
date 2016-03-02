@@ -36,14 +36,15 @@ function initLanding() {
 
 	var customContainer = document.getElementById('gui-container');
 // 	customContainer.appendChild(gui.domElement);
-// 	$("#menu-icon").fadeIn("fast");
-// 	$("#menu-icon").click(function(){
+	$("#menu-icon").fadeIn("fast");
+	$("#menu-icon").click(function(){
+		$("#gui-container").slideToggle("slow");
 // 		$(this).fadeOut(50,function(){
 // 			$("#gui-container").animate({right: "0px"},200);
 // 		});
-// 	});
+	});
 
-$("#gui-container").animate({right: "0px"},200);
+// $("#gui-container").animate({right: "0px"},200);
 	
 // 	$("#gui-container").mouseleave(function(){
 // 		$(this).animate({right: "-250px"},200,function(){
@@ -737,7 +738,7 @@ function goLocalOnClick(i){
 function queryLanding(locationName, callback){
 	local = [];
 	for(var i = 0; i < landing.length; i++){
-		if(landing[i].detected_location_name == locationName && landing[i].speed_max < 35){
+		if(landing[i].detected_location_name == locationName && landing[i].speed_max < 35 && landing[i].wave_count > 0){
 			local.push(landing[i]);
 		}
 

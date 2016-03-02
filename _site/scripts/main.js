@@ -20,8 +20,10 @@ var params = {
 	play: function(){
 		if(playing){
 			playing = false;
+			$("#play-pause img").attr("src","../local-sources/play.svg");
 		} else {
 			playing = true;
+			$("#play-pause img").attr("src","../local-sources/pause.svg");
 		}
 	},
 	end: function(){
@@ -729,6 +731,7 @@ function onDocumentMouseMove( event ) {
 			$("#information #distanceWaves").text("");
 			$("#information #duration").text("");
 			$("#information #topSpeed").text("");
+			$("#information #previous").text("");
 // 			infoDiv.style.visibility = "hidden";
 		}
 	}
@@ -752,6 +755,12 @@ function onDocumentMouseMove( event ) {
 			$("#information #distanceWaves").text("distance_waves: "+local[mouseSelectedIndex].distance_waves);
 			$("#information #duration").text("duration: "+local[mouseSelectedIndex].duration);
 			$("#information #topSpeed").text("max_speed: "+local[mouseSelectedIndex].speed_max);
+			if(local[mouseSelectedIndex].previous_location != null){
+				$("#information #previous").text("previous_location: "+local[mouseSelectedIndex].previous_location[2]);
+			} else {
+				$("#information #previous").text("");
+			}
+			
 			infoDiv.style.visibility = "visible";
 			var lMaterial = new THREE.LineBasicMaterial({
 				color: palette.landOutline,
@@ -770,6 +779,7 @@ function onDocumentMouseMove( event ) {
 			$("#information #distanceWaves").text("");
 			$("#information #duration").text("");
 			$("#information #topSpeed").text("");
+			$("#information #previous").text("");
 // 			infoDiv.style.visibility = "hidden";
 		}
 	}
