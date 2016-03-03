@@ -158,7 +158,7 @@
     <script src="../scripts/personal.js"></script>
     <script src="../scripts/main.js"></script>
 
-    <script src="../shaders/BokehShader2.js"></script>
+<!--     <script src="../shaders/BokehShader2.js"></script> -->
     <script type="x-shader/x-vertex" id="swell_vertexshader">
     attribute float scale;
     attribute float swellSize;
@@ -388,7 +388,7 @@
       vIndex = curveIndex;
       
       if(start < time){
-        if(curveIndex < (time-start)*lerp*100.0){
+        if(curveIndex < (time-start)*lerp*50.0){
           vAlpha = lerp*(timestamp+300000.0-time)+0.1;
         }
       }
@@ -421,8 +421,8 @@
 
     void main() {
       
-      //gl_FragColor = vec4( 1.0/100.0*vIndex,1.0-0.5/100.0*vIndex,0.5/100.0*vIndex, vAlpha );
-      gl_FragColor = vec4( 0.0,1.0-0.5/100.0*vIndex,1.0/100.0*vIndex, vAlpha );
+      //gl_FragColor = vec4( 1.0/50.0*vIndex,1.0-0.5/50.0*vIndex,0.5/50.0*vIndex, vAlpha );
+      gl_FragColor = vec4( 0.0,1.0-0.5/50.0*vIndex,1.0/50.0*vIndex, vAlpha );
     }
 
   </script>
@@ -670,10 +670,10 @@
     </div>
   </div>
     <div id="login-container" style="text-align: center; color: white;">
-        <div id="login" style="width: 720px; margin-bottom: 20px;">
-          <div style="width: 94%; margin: 0px 3%; background-color: black;">Welcome Chat</div>
-          <div style="width: 94%; margin: 0px 3%; background-color: black;">loading stuff...</div>
-            <div id ="loading-bar" style="width: 94%; margin: 0px 3%;"></div>
+        <div id="login" style="width: 500px; margin-bottom: 20px;">
+          <div style="width: 90%; margin: 10px 3%; background-color: transparent; color: black; padding: 0px 2%">Gone Surfing is a web application that visualises global surfing as captured by the SearchGPS Watch (Rip Curl). Using the data captured from November 2014 to November 2015, surfs can be visualised on a global, local, and personal level. This project was completed as part of a Master of Design Innovation at Victoria University in 2016.</div>
+          <div style="width: 90%; margin: 10px 3%; background-color: transparent; color: black; padding: 0px 2%">loading data...</div>
+            <div id ="loading-bar" style="width: 94%; margin: 0px 3%; "></div>
         </div>
 <!--         <div id="initial-menu" style="width: 720px; height: 300px; margin: 0px auto; opacity: 0.5; display: none;">
           <div id="follow-pro" style="width: 30%; height: 100%;float: left; background-color: black; margin-left: 3%" onClick="goUser()">follow a pro!</div>

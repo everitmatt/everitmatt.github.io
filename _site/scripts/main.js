@@ -174,8 +174,8 @@ function initCanvas(){
 
 	infoDiv = document.getElementById("information");
 
-// 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 10000);
-	camera = new THREE.OrthographicCamera( -window.innerWidth , window.innerWidth , window.innerHeight , -window.innerHeight, 1, 10000 );
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth/ window.innerHeight, 1, 10000);
+// 	camera = new THREE.OrthographicCamera( -window.innerWidth , window.innerWidth , window.innerHeight , -window.innerHeight, 1, 10000 );
 	camera.up.set( 0, 0, 1 );
 	camera.position.x = window.innerWidth/2.0;
 	camera.position.y = window.innerHeight;
@@ -190,40 +190,6 @@ function initCanvas(){
 	scene.fog = new THREE.FogExp2( palette.background, 0.005 );
 
 	createLoading();
-	initPostprocessing();
-
-	effectController  = {
-
-		enabled: true,
-		jsDepthCalculation: true,
-		shaderFocus: false,
-
-		fstop: 2.2,
-		maxblur: 1.0,
-
-		showFocus: false,
-		focalDepth: 2.8,
-		manualdof: false,
-		vignetting: false,
-		depthblur: false,
-
-		threshold: 0.5,
-		gain: 2.0,
-		bias: 0.5,
-		fringe: 0.7,
-
-		focalLength: 35,
-		noise: true,
-		pentagon: false,
-
-		dithering: 0.0001
-
-	};
-// 	cssRenderer = new THREE.CSS3DRenderer();
-// 	cssRenderer.setSize( window.innerWidth, window.innerHeight );
-// 	cssRenderer.domElement.style.position = 'absolute';
-// 	cssRenderer.domElement.style.top = 0;
-// 	container.appendChild( cssRenderer.domElement );
 
 	renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, alpha: true});
 	renderer.setPixelRatio( window.devicePixelRatio );
@@ -331,37 +297,6 @@ function loadTextures(){
 			pointWidth: {type: 'f', value: 20.0*world},
 		};
 
-// 	loader.load(
-// 		// resource URL
-// 		"../textures/world.topo.bathy.200412.3x21600x10800.jpg",
-// 		// Function when resource is loaded
-// 		function ( texture ) {
-// 			// do something with the texture
-
-// 			blueMarbleMaterial = new THREE.ShaderMaterial( {
-// 				uniforms: {
-// 					texture: {type: 't', value: texture}
-// 					},
-// 				vertexShader:   document.getElementById( 'bluemarble_vertexshader' ).textContent,
-// 				fragmentShader: document.getElementById( 'bluemarble_fragmentshader' ).textContent,
-// 				transparent: true,
-// 				depthTest: false,
-// 				blending: THREE.NormalBlending,
-// 			});
-
-// 			mainApiCall();
-
-// 		},
-// 		// Function called when download progresses
-// 		function ( xhr ) {
-// 			console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-// 		},
-// 		// Function called when download errors
-// 		function ( xhr ) {
-// 			console.log( 'An error happened' );
-// 		}
-// 	);
-
 	loader.load(
 		// resource URL
 		"../textures/sprites/spark1.png",
@@ -463,23 +398,9 @@ function loadTextures(){
       
 function mainApiCall(){
 	
-// 	database = [];
 	var chunkCount = 0;
 	var lerp = 100/250000;
 	var loadingBar = document.getElementById("loading-bar");
-
-// 	$.ajax({
-// 		url: "../local-sources/minified-surfs.csv",
-// 		success: function (csvd) {
-// 			landing = $.csv.toObjects(csvd);
-// 		},
-// 		dataType: "text",
-// 		complete: function () {
-// 			console.log(landing);
-// 			exitLoading();
-// 			// call a function on complete 
-// 		}
-// 	});
 	
 	jsonpipe.flow('../local-sources/searchGPSData-minified.json', {
 		"delimiter": "\n", // String. The delimiter separating valid JSON objects; default is "\n\n"
@@ -506,50 +427,6 @@ function mainApiCall(){
 		"withCredentials": true // Boolean. Send cookies when making cross-origin requests; default is true
 	});
 // 	exitLoading();
-}
-
-function initPostprocessing() {
-
-	postprocessing.scene = new THREE.Scene();
-
-	postprocessing.camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2,  window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 );
-	postprocessing.camera.position.z = 100;
-
-	postprocessing.scene.add( postprocessing.camera );
-
-	var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
-	postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, pars );
-	postprocessing.rtTextureColor = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, pars );
-
-
-
-	var bokeh_shader = THREE.BokehShader;
-
-	postprocessing.bokeh_uniforms = THREE.UniformsUtils.clone( bokeh_shader.uniforms );
-
-	postprocessing.bokeh_uniforms[ "tColor" ].value = postprocessing.rtTextureColor;
-	postprocessing.bokeh_uniforms[ "tDepth" ].value = postprocessing.rtTextureDepth;
-
-	postprocessing.bokeh_uniforms[ "textureWidth" ].value = window.innerWidth;
-
-	postprocessing.bokeh_uniforms[ "textureHeight" ].value = window.innerHeight;
-
-	postprocessing.materialBokeh = new THREE.ShaderMaterial( {
-
-		uniforms: postprocessing.bokeh_uniforms,
-		vertexShader: bokeh_shader.vertexShader,
-		fragmentShader: bokeh_shader.fragmentShader,
-		defines: {
-			RINGS: shaderSettings.rings,
-			SAMPLES: shaderSettings.samples
-		}
-
-	} );
-
-	postprocessing.quad = new THREE.Mesh( new THREE.PlaneBufferGeometry( window.innerWidth, window.innerHeight ), postprocessing.materialBokeh );
-	postprocessing.quad.position.z = - 500;
-	postprocessing.scene.add( postprocessing.quad );
-
 }
 
 
@@ -592,26 +469,6 @@ function animate(time){
 }
 
 function render(){
-	if ( postprocessing.enabled ) {
-
-		renderer.clear();
-		renderer.setClearColor(palette.background,palette.background_alpha);
-		// Render scene into texture
-
-		scene.overrideMaterial = null;
-		renderer.render( scene, camera, postprocessing.rtTextureColor, true );
-
-		// Render depth into texture
-
-		scene.overrideMaterial = material_depth;
-		renderer.render( scene, camera, postprocessing.rtTextureDepth, true );
-
-		// Render bokeh composite
-
-		renderer.render( postprocessing.scene, postprocessing.camera );
-
-
-	} else {
 
 		scene.overrideMaterial = null;
 // 		renderer.clear();
@@ -621,12 +478,11 @@ function render(){
 // 		scene.fog.density = 4.0;
 		renderer.render( scene, params.camera);
 		
-
-	}
 }
 
 function updateLoading(){
 	//TODO swell lerp
+	totalPerc = 50;
 	var AMOUNTX = 100;
 	var AMOUNTY = 500;
 	for(var i = 0; i<AMOUNTX;i++){
@@ -780,17 +636,8 @@ function onDocumentMouseMove( event ) {
 			$("#information #duration").text("");
 			$("#information #topSpeed").text("");
 			$("#information #previous").text("");
-// 			infoDiv.style.visibility = "hidden";
 		}
 	}
-// 		mouseDiff = [(mouseX - mouseDown[0])*world/Math.pow(2,params.zoom)*2,(mouseY - mouseDown[1])*world/Math.pow(2,params.zoom)*2];
-// 		camera.position.x = mouseDownPosition[0] + mouseDiff[0];
-// 		targPos.x = mouseDownTarget[0] + mouseDiff[0];
-// 		camera.position.y = mouseDownPosition[1] - mouseDiff[1];
-// 		targPos.y = mouseDownTarget[1] - mouseDiff[1];
-// 		camera.lookAt(targPos);
-// // 		console.log(mouseDiff);
-// 	}
 }
 
 function onDocumentMouseDown( event ) {
@@ -950,82 +797,12 @@ function intersect(){
 				}
 			}
 
-// 			attributes.position.array[LOCAL_INTERSECTED*3+2] = attributes.scale.array[LOCAL_INTERSECTED]*0.001;
-// 			attributes.position.needsUpdate = true;
+
 
 		}
 	}
-// 	} else if (LOCAL_INTERSECTED !== null) {
-
-// 		if ( LOCAL_INTERSECTED ){
-// 			console.log(local[LOCAL_INTERSECTED]);
-// 		}
-
-// 		attributes.position.array[LOCAL_INTERSECTED*3+2] = 0;
-// 		attributes.position.needsUpdate = true;
-// 		LOCAL_INTERSECTED = null;
-
-// 	}
-// 	var intersects = raycaster.intersectObjects( localObject.children);
 	
 }
-
-function intersectGlobal(){
-	var infoDiv = document.getElementById("information");
-	raycaster.setFromCamera(mouse,camera);
-	raycaster.params.Points.threshold = 10.0;
-
-// 	console.log(raycaster);
-
-// 	scene.remove(arrowHelper);
-// 	arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction, targPos, 10000, 0xffff00);
-// 	scene.add(arrowHelper);
-// 	console.log(raycaster.ray.direction);
-
-	var intersects = raycaster.intersectObject(landingObject);
-	var d, l;
-	if ( intersects.length > 0 ) {
-		console.log("intersect");
-		if ( GLOBAL_INTERSECTED != intersects[ 0 ] ) {
-
-			if ( GLOBAL_INTERSECTED ) {
-				d = landing[GLOBAL_INTERSECTED.index];
-// 				d = new Date((landing[GLOBAL_INTERSECTED.index].start_timestamp - Math.floor(landing[GLOBAL_INTERSECTED.index].longitude/15)*3600)*1000);
-// 				console.log(d);
-
-// 				console.log(GLOBAL_INTERSECTED.object);
-			}
-			GLOBAL_INTERSECTED = intersects[ 0 ];
-
-
-            l = landing[GLOBAL_INTERSECTED.index];
-//             console.log(l);
-			infoDiv.style.visibility = "visible"
-//             infoDiv.textContent = l + "\n" + d
-
-		}
-
-	} else {
-
-		if ( GLOBAL_INTERSECTED ){
-// 			 console.log(landing[GLOBAL_INTERSECTED.index]);
-// 			 console.log(GLOBAL_INTERSECTED.object);
-		}
-		infoDiv.style.visibility = "hidden";
-		GLOBAL_INTERSECTED = null;
-
-	}
-}
-
-// function latLngToPixel(lat,lng){
-// 	mapWidth = window.innerWidth*world;
-//     mapHeight = window.innerHeight*world;
-// 	var x = mapWidth-(lng+180)*(mapWidth/360);
-//     var latRad = lat*Math.PI/180;
-//     var mercN = Math.log(Math.tan((Math.PI/4)+(latRad/2)));
-//     var y = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
-//     return [x,y];
-// }
 
 function latLngToPixel(lat,lng)
 {

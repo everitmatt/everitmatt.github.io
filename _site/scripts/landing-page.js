@@ -17,8 +17,17 @@ var localName;
 var histogram = false;
 
 function initLanding() {
+	camera = new THREE.OrthographicCamera( -window.innerWidth , window.innerWidth , window.innerHeight , -window.innerHeight, 1, 10000 );
+	camera.up.set( 0, 0, 1 );
+	camera.position.x = window.innerWidth/2.0;
+	camera.position.y = window.innerHeight;
+	camera.position.z = 200;
+	targPos = new THREE.Vector3(window.innerWidth/2,window.innerHeight/2,0);
+	camera.lookAt(targPos);
+	params.camera = camera;
     TIME_SPACE = "landing";
-    params.speed = 1500;
+
+    params.speed = 3000;
    	camera.up.set( 0, -1, 1 );
     camera.position.x = width*0.5;
 	camera.position.y = height*0.5;
@@ -232,7 +241,7 @@ function initLanding() {
 							target
 						);
 						var gPGeometry = new THREE.Geometry();
-						gPGeometry.vertices = curve.getPoints( 100 );
+						gPGeometry.vertices = curve.getPoints( 50 );
 						var gPBufferGeometry = new THREE.BufferGeometry();
 						var position = new THREE.Float32Attribute( gPGeometry.vertices.length * 3, 3 ).copyVector3sArray( gPGeometry.vertices );
 						gPBufferGeometry.addAttribute( 'position', position )

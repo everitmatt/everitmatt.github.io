@@ -8,4 +8,4 @@ url: ""
 # Build settings
 markdown: kramdown
 permalink: none
-highlighter: pygments
+highlighter: rouge
