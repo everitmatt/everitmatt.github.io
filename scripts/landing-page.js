@@ -46,6 +46,8 @@ function initLanding() {
 	var customContainer = document.getElementById('gui-container');
 // 	customContainer.appendChild(gui.domElement);
 	$("#menu-icon").fadeIn("fast");
+	$("#timeline-container").fadeIn("fast");
+	$("#key").fadeIn("fast");
 	$("#menu-icon").click(function(){
 		$("#gui-container").slideToggle("slow");
 // 		$(this).fadeOut(50,function(){
