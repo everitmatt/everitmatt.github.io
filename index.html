@@ -5,6 +5,13 @@ layout: home
 <div class="home">
 
 	<article class="home-article">
+		<div class="featured">
+			<div>
+			<a class="post-link" href="{{ site.baseurl }}/gone-surfing/">
+				<img src="{{ site.baseurl }}/assets/thesis/Screen_Shot_2016-02-28_at_1.20.17_PM.png"/>
+			</a>	
+			</div>
+		</div>
 		<ul class="gallery">
 			{% for post in site.categories.gallery reversed limit:8 %}
 				<li>
