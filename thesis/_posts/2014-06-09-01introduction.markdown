@@ -39,5 +39,7 @@ Action sports trackers are translating the surfing subculture into databases whi
 
 ![The SearchGPS Watch (2014)]({{ site.baseurl }}/assets/thesis/2014-10-23-Ripcurl-Tide-Watch-01.png)
 
-As part of understanding our experiences in the world, we can begin by understanding ourselves. Li, Dey, & Forlizzi (2010) describe the field of personal informatics facilitates an understanding of self-knowledge through the collection and reflection of information about oneself . Specific motivations for those who take part in this practice according to Choe et al (2014) are: to improve health, to improve other aspects of life, or to find new life experiences. Action sports trackers have likely emerged from the field of personal informatics, specifically, for those aiming to learn something interesting about their participation in the sport or to improve their abilities.
+As part of understanding our experiences in the world, we can begin by understanding ourselves. Li, Dey, & Forlizzi (2010) describe the field of personal informatics facilitates an understanding of self-knowledge through the collection and reflection of information about oneself . Specific motivations for those who take part in this practice according to Choe et al (2014) are: to improve health, to improve other aspects of life, or to find new life experiences. Action sports trackers have likely emerged from the field of personal informatics, specifically, for those aiming to learn something interesting about their participation in the sport or to improve their abilities.  
+
+###  [Preface]({{site.baseurl}}/data-for-surfs-sake/preface) < > [Literature Review]({{site.baseurl}}/data-for-surfs-sake/literature-review)
 

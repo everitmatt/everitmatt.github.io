@@ -36,4 +36,5 @@ For example, a video of a professional surfer surfing Shipsterns, a large wave b
 
 This research highlighted the ability of visualisation as a tool to translate quantified statistics of the surfing community into visual information about the subculture. Some of the members of the surfing subculture are aware of the hierarchical, nomadic, and experiential aspects of their culture. However, many observers of the subculture are unaware of these aspects. Through interactive data visualisation these subcultural aspects can be communicated to generate knowledge of a somewhat mysterious group of individuals.
 
+###  < [Conclusion]({{site.baseurl}}/data-for-surfs-sake/discussion)
 

@@ -33,5 +33,8 @@ The hierarchical, nomadic, and experiential aspects of the surfing subculture ar
 
 **surf session** - any time spent surfing
 
-**turn** - a manoeuvre performed on the face of the wave while riding the wave
+**turn** - a manoeuvre performed on the face of the wave while riding the wave  
+  
+
+### > [Introduction]({{site.baseurl}}/data-for-surfs-sake/introduction)
 
