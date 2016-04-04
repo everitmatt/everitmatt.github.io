@@ -55,46 +55,6 @@
         
           <a class="page-link" href="http://everittcreative.me/"></a>
         
-        <a class="thesis" href="http://everittcreative.me/data-for-surfs-sake/preface">Data For Surf's Sake</a>
-        <nav class="post-nav">
-          <div class="trigger">
-            <div class="post-links" id="post-links2">
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/preface">+ Preface</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/introduction">+ Introduction</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/literature-review">+ Literature</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/design-experiments">+ Experiments</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/design">+ Design</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/conclusion">+ Conclusion</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/discussion">+ Discussion</a>
-                  
-              
-                
-                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/references">+ References</a>
-                  
-              
-            </div>
-          </div>
-        </nav>
         <a class="projects" href="#project">Projects</a>
         <nav class="post-nav">
           <div class="trigger">
@@ -139,6 +99,46 @@
             </div>
           </div>
         </nav>
+        <a class="thesis" href="http://everittcreative.me/data-for-surfs-sake/preface">Data For Surf's Sake</a>
+        <nav class="post-nav">
+          <div class="trigger">
+            <div class="post-links" id="post-links2">
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/preface">+ Preface</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/introduction">+ Introduction</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/literature-review">+ Literature</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/design-experiments">+ Experiments</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/design">+ Design</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/conclusion">+ Conclusion</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/discussion">+ Discussion</a>
+                  
+              
+                
+                    <a class="post-link" href="http://everittcreative.me/data-for-surfs-sake/references">+ References</a>
+                  
+              
+            </div>
+          </div>
+        </nav>
       </div>
     </nav>
   </div>
@@ -153,7 +153,10 @@
 		<div class="featured">
 			<div>
 			<a class="post-link" href="http://everittcreative.me/gone-surfing/">
-				<img src="http://everittcreative.me/assets/thesis/Screen_Shot_2016-02-28_at_1.20.17_PM.png"/>
+				<div class="img-window">
+					<img src="http://everittcreative.me/assets/thesis/Screen_Shot_2016-02-28_at_1.20.17_PM.png"/>
+				</div>
+				<div class="info-window" style="-webkit-mask-image: url('/assets/gone-surfing.svg')"></div>
 			</a>	
 			</div>
 		</div>
@@ -300,12 +303,12 @@
 <script type="text/javascript">
   $(document).ready(function() {
   	$(window).load(function(){
-  		$(".gallery .post-box").mouseenter(function() {
+  		$(".gallery .post-box, .featured").mouseenter(function() {
   			if( $(this).find(".info-window").is(':hidden')){
 				$(this).find(".info-window").fadeIn("slow");
 			}
   		});
-  		$(".gallery .post-box").mouseleave(function() {
+  		$(".gallery .post-box, .featured").mouseleave(function() {
   			$(this).find(".info-window").delay(1000).animate({opacity: 0},function(){
   				$(this).css({"display": "none","opacity":"1"});
   			});

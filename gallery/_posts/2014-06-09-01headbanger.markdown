@@ -7,11 +7,14 @@ category: gallery
 thumbnail: /assets/gallery/headbanger-thumbnail.png
 video: 124261553
 ---
-
-![headbanger01]({{ site.baseurl}}/assets/gallery/headbanger+nod01.jpg)
-![headbanger02]({{ site.baseurl}}/assets/gallery/headbanger+nod02.jpg)
-![headbanger03]({{ site.baseurl}}/assets/gallery/headbanger+nod03.jpg)
-![headbanger04]({{ site.baseurl}}/assets/gallery/headbanger+nod04.jpg)
-![headbanger05]({{ site.baseurl}}/assets/gallery/headbanger+nod05.jpg)
-![headbanger06]({{ site.baseurl}}/assets/gallery/headbanger+nod06.jpg)
-![headbanger07]({{ site.baseurl}}/assets/gallery/headbanger+nod07.jpg)
+![headbanger001]({{ site.baseurl}}/assets/gallery/headbanger+nod02.jpg)
+![headbanger002]({{ site.baseurl}}/assets/gallery/headbanger+nod07.jpg)
+![headbanger01]({{ site.baseurl}}/assets/gallery/documentation-1.jpg)
+![headbanger02]({{ site.baseurl}}/assets/gallery/documentation-2.jpg)
+![headbanger03]({{ site.baseurl}}/assets/gallery/documentation-3.jpg)
+![headbanger04]({{ site.baseurl}}/assets/gallery/documentation-4jpg)
+![headbanger05]({{ site.baseurl}}/assets/gallery/documentation-5.jpg)
+![headbanger06]({{ site.baseurl}}/assets/gallery/documentation-6.jpg)
+![headbanger07]({{ site.baseurl}}/assets/gallery/documentation-7.jpg)
+![headbanger08]({{ site.baseurl}}/assets/gallery/documentation-8.jpg)
+![headbanger09]({{ site.baseurl}}/assets/gallery/documentation-9.jpg)

@@ -8,7 +8,10 @@ layout: home
 		<div class="featured">
 			<div>
 			<a class="post-link" href="{{ site.baseurl }}/gone-surfing/">
-				<img src="{{ site.baseurl }}/assets/thesis/Screen_Shot_2016-02-28_at_1.20.17_PM.png"/>
+				<div class="img-window">
+					<img src="{{ site.baseurl }}/assets/thesis/Screen_Shot_2016-02-28_at_1.20.17_PM.png"/>
+				</div>
+				<div class="info-window" style="-webkit-mask-image: url('/assets/gone-surfing.svg')"></div>
 			</a>	
 			</div>
 		</div>
@@ -49,12 +52,12 @@ layout: home
 <script type="text/javascript">
   $(document).ready(function() {
   	$(window).load(function(){
-  		$(".gallery .post-box").mouseenter(function() {
+  		$(".gallery .post-box, .featured").mouseenter(function() {
   			if( $(this).find(".info-window").is(':hidden')){
 				$(this).find(".info-window").fadeIn("slow");
 			}
   		});
-  		$(".gallery .post-box").mouseleave(function() {
+  		$(".gallery .post-box, .featured").mouseleave(function() {
   			$(this).find(".info-window").delay(1000).animate({opacity: 0},function(){
   				$(this).css({"display": "none","opacity":"1"});
   			});

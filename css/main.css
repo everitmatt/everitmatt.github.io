@@ -14,7 +14,8 @@ body {
   font-family: Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  font-weight: 300; }
+  font-weight: 300;
+  background-image: url("/assets/background3.jpg"); }
 
 h1 {
   border-bottom: 1px solid #000; }
@@ -142,6 +143,32 @@ h2 {
     .gallery .gallery-article p {
       visibility: hidden; }
 
+.featured {
+  margin: 0px auto;
+  position: relative;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  height: 232px;
+  display: inline-table;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px; }
+  .featured:last-child {
+    margin-right: 0; }
+  .featured .info-window {
+    width: 98%;
+    height: 98%;
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    opacity: 1;
+    display: none;
+    background: #000;
+    -webkit-mask-image: url("/assets/mask.svg");
+    mask-type: alpha; }
+
 .lightbox {
   position: fixed;
   display: none;
@@ -190,7 +217,7 @@ p {
   padding: 0 30px;
   z-index: 1;
   zoom: 1;
-  background-color: #fff; }
+  background-color: transparent; }
 
 .slider-wrap {
   display: table;
@@ -230,6 +257,14 @@ p {
       padding: 0px 30px; }
       .site-header .navigation .site-nav:last-child {
         margin-right: 0; }
+      .site-header .navigation .site-nav .projects {
+        font-size: 15px;
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 100%; }
+        .site-header .navigation .site-nav .projects:last-child {
+          margin-right: 0; }
       .site-header .navigation .site-nav .page-link {
         color: #000;
         display: block;
@@ -251,7 +286,13 @@ p {
       .site-header .navigation .post-nav:last-child {
         margin-right: 0; }
       .site-header .navigation .post-nav .projects {
-        font-size: 15px; }
+        font-size: 15px;
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 100%; }
+        .site-header .navigation .post-nav .projects:last-child {
+          margin-right: 0; }
       .site-header .navigation .post-nav .post-links {
         display: none; }
         .site-header .navigation .post-nav .post-links .post-link {
@@ -272,7 +313,7 @@ p {
 
 .site-footer {
   width: 100%;
-  background-color: #fff; }
+  background-color: transparent; }
   .site-footer .wrap {
     padding: 15px 30px; }
   .site-footer li {

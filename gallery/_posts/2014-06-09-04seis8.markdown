@@ -19,7 +19,6 @@ The technology within the dress consists of an Arduino Lilypad, one ultrasonic-s
 
 Made in collaboration with Greg Jennings
 
-![sies801]({{ site.baseurl}}/assets/gallery/seis8-01.jpg)
 ![sies801]({{ site.baseurl}}/assets/gallery/seis8-02.jpg)
 ![sies801]({{ site.baseurl}}/assets/gallery/seis8-03.jpg)
 ![sies801]({{ site.baseurl}}/assets/gallery/seis8-04.jpg)
