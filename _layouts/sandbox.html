@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+    <body style="background-image: url('{{ site.baseurl }}/assets/background3.jpg')">
+
+    {% include header.html %}
+
+    <div class="page-content">
+      <div class="wrap">
+      <ul class="gallery">
+			{% for post in site.categories.experiments reversed %}
+				<li>
+					<div class="post-box">
+						<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+							<div class="img-window">
+								{% if post.thumbnail %}
+								<img src="{{ post.thumbnail | prepend: site.baseurl }}"/>
+								{% endif %}
+							</div>
+							<div class="info-window" style="-webkit-mask-image: url('/assets/{{ post.title }}.svg')">
+							</div>
+						</a>
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+      </div>
+    </div>
+
+    {% include footer.html %}
+
+    </body>
+</html>

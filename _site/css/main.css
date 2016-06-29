@@ -150,7 +150,7 @@ h2 {
   display: block;
   margin-right: 2.35765%;
   width: 100%;
-  height: 232px;
+  height: 366px;
   display: inline-table;
   overflow: hidden;
   margin: 0px;
@@ -258,7 +258,7 @@ p {
       .site-header .navigation .site-nav:last-child {
         margin-right: 0; }
       .site-header .navigation .site-nav .projects {
-        font-size: 15px;
+        font-size: 16px;
         float: left;
         display: block;
         margin-right: 2.35765%;

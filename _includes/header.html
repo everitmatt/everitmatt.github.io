@@ -8,9 +8,6 @@
   <div class="navigation">
     <nav class="site-nav">
       <div class="trigger">
-        {% for page in site.pages %}
-          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-        {% endfor %}
         <a class="projects" href="#project">Projects</a>
         <nav class="post-nav">
           <div class="trigger">
@@ -39,6 +36,8 @@
             </div>
           </div>
         </nav>
+        <a class="page-link" href="{{ site.baseurl }}/bio">Bio</a>
+        <a class="page-link" href="{{ site.baseurl }}/sandbox">Sandbox</a>
       </div>
     </nav>
   </div>

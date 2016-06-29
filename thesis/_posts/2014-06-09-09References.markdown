@@ -7,4 +7,80 @@ permalink: /data-for-surfs-sake/references
 
 ### References
 
+Bennett, A. (2006). Design Studies: Theory and Research in Graphic Design. Princeton Architectural Press.
+
+Booth, D. (1995). Ambiguities in pleasure and discipline: the development of competitive surfing. Journal of Sport History, 22, 189–206.
+
+Bulajić, V. V. (Ed.). (2007). Database aesthetics: art in the age of information overflow. Minneapolis: University of Minnesota Press.
+
+Can You Outdo Your Year with Nike+? (n.d.). Retrieved February 17, 2016, from http://news.nike.com/news/can-you-outdo-your-year-with-nike
+
+Shoe, E. K., Lee, N. B., Lee, B., Pratt, W., & Kientz, J. A. (2014). Understanding quantified-sellers’ practices in collecting and exploring personal data. In Proceedings of the 32nd annual ACM conference on Human factors in computing systems (pp. 1143–1152). ACM. Retrieved from http://dl.acm.org/citation.cfm?id=2557372
+
+Choose Your Nike+ App. (n.d.). Retrieved February 18, 2016, from http://www.nike.com/us/en_us/c/nikeplus-fuel
+
+Chrome Experiments - WebGL Experiments. (n.d.). Retrieved February 12, 2016, from https://www.chromeexperiments.com/webgl
+
+Crewel, J. W. (2009). Research design: qualitative, quantitative, and mixed methods approaches (3rd ed.). SAGE Publications, Inc.
+
+FIELD.io - Digital Art + Design. (n.d.-b). Retrieved January 20, 2016, from http://field.io
+
+fijiadmin. (2015, September 7). eCoast wins major research grant. Retrieved from http://www.ecoast.co.nz/ecoast-wins-major-research-grant/
+
+Fry, B. (2004). Computation information design. Massachusetts Institute of Technology.
+
+Google Developers. (n.d.). Google I/O 2013 - Google Maps + HTML5 + Spatial Data Visualisation: A Love Story. Retrieved from https://www.youtube.com/watch?v=aZJnI6hxr-c
+
+GoPro Brings Tahiti Surfing in 360 Degrees to Facebook GoPro News. (n.d.). Retrieved January 18, 2016, from https://gopro.com/news/gopro-brings-tahiti-surfing-in-360-degrees-to-facebook
+
+Hersey, P. (n.d.). New Zealand’s Top Surf Breaks. Retrieved from http://www.paulherseywrites.com/2012/03/new-zealands-top-surf-breaks.html
+
+Introducing Trace: The Action Sports Tracker. (2015, August 11). Retrieved from http://culture.evo.com/2015/08/introducing-trace-the-action-sports-tracker/
+
+Join me on Nike+. (n.d.). Retrieved February 18, 2016, from https://secure-nikeplus.nike.com/plus/products/
+
+Just Landed: Processing, Twitter, MetaCarta & Hidden Data blprnt.blg. (n.d.). Retrieved from http://blog.blprnt.com/blog/blprnt/just-landed-processing-twitter-metacarta-hidden-data
+
+Knigge, L., & Cope, M. (2006). Grounded visualisation: integrating the analysis of qualitative and quantitative data through grounded theory and visualisation. Environment and Planning A, 38, 2021–2037.
+
+Li, I., Dey, A., & Forlizzi, J. (2010). A stage-based model of personal informatics systems. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (pp. 557–566). ACM. Retrieved from http://dl.acm.org/citation.cfm?id=1753409
+
+Lima, M. (2011). Visual complexity: mapping patterns of information (1st ed.). New York, NY, USA: Princeton Architectural Press.
+
+Manovich, L. (2001). The language of new media. MIT Press.
+
+Mitchell, D. (n.d.). Why the Trace Action Sports Tracker Is a Must Have. Retrieved February 11, 2016, from http://au.complex.com/sneakers/2014/10/why-the-trace-action-sports-tracker-is-a-must-have
+
+Nike+ Collab: City Runs. (n.d.). Retrieved January 22, 2016, from http://www.yesyesno.com/nike-collab-city-runs/
+
+Rip Curl. (n.d.). Search GPS Watch by Rip Curl The World’s First GPS Surf Watch. Retrieved January 20, 2016, from http://www.ripcurl.com/searchgps/
+
+RIP CURL SEARCH GPS SURF WATCH. (n.d.). Retrieved February 17, 2016, from http://www.blessthisstuff.com/stuff/wear/watches/rip-curl-search-gps-surf-watch/
+
+stabmag.com - Mick Fanning Tows Serious Shipsterns Bluff. (n.d.). Retrieved from http://stabmag.com/mick-fanning-tows-serious-shipsterns-bluff/
+
+Sherman, E. (2013). Pipeline Winter 2013. Retrieved from https://vimeo.com/83187924
+
+Stranger, M. (2011). Surfing Life: Surface, Substructure and the Commodification of the Sublime. Ash gate Publishing, Ltd.
+
+Trace - The World’s Most Advanced Action Sports Tracker - Trace. (n.d.). Retrieved January 20, 2016, from http://www.traceup.com/
+
+Trace’s surf contest analytics at Oakley Lowers Pro with Conner Coffin. (n.d.). Retrieved September 16, 2015, from http://business.transworld.net/news/traces-surf-contest-analytics-oakley-lowers-pro-conner-coffin/
+
+Tufts, E. R. (2001). The visual display of quantitative information (Second Edition). Cheshire, Connecticut: Graphics Press LLC.
+
+What Killed The Infographic? (2015, May 6). Retrieved January 20, 2016, from http://www.fastcodesign.com/3045291/what-killed-the-infographic
+
+Yi, J. S., Kang, Y. ah, Stasko, J. T., & Jacko, J. A. (2007). Toward a Deeper Understanding of the Role of Interaction in Information Visualisation. IEEE Transactions on Visualisation and Computer Graphics, 13(6), 1224–1231. http://doi.org/10.1109/TVCG.2007.70515
+
+Your Year. (n.d.). Retrieved September 16, 2015, from http://www.akqa.com/work/nike/your-year/
+
 ### Figures
+
+Fry, B. (2004). Computation information design. Massachusetts Institute of Technology.
+
+Google Developers. (n.d.). Google I/O 2013 - Google Maps + HTML5 + Spatial Data Visualisation: A Love Story. Retrieved from https://www.youtube.com/watch?v=aZJnI6hxr-c
+
+Just Landed: Processing, Twitter, MetaCarta & Hidden Data blprnt.blg. (n.d.). Retrieved from http://blog.blprnt.com/blog/blprnt/just-landed-processing-twitter-metacarta-hidden-data
+
+Nike+ Collab: City Runs. (n.d.). Retrieved January 22, 2016, from http://www.yesyesno.com/nike-collab-city-runs/
