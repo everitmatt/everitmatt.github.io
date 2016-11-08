@@ -1,0 +1,491 @@
+// yellow = #FFFD3saveE
+// honeydew
+<html>
+	<head>
+		<style type="text/css">
+			body{
+				font-family: Montserrat, sans-serif;
+				color: honeydew;
+			}
+			h1 {
+				font-size: 2em;
+			}
+			h1, h2 {
+				cursor: pointer;
+				cursor: hand;
+			}
+			#set-height{
+			  display: block;
+			  height: 200%;
+			}
+			#v0 {
+			  position: fixed;
+			  z-index:1;
+			  top: 0;
+			  left: 0;
+			  width: 101%;
+			  height: 101%;
+			  background-image: url("assets/AXx3QORhRDKAMrbb8pX4_photo 2.jpeg");
+			  background-size: cover;
+			  background-position: center;
+			}
+			header{
+				position:fixed;
+				z-index: 3;
+				opacity: 0.75;
+				top: 0px;
+				height: 50px;
+				width: 100%;
+			}
+			header h1{
+				position: absolute;
+				margin: 0px;
+				margin-left: 30px;
+				bottom: 0px;
+			}
+			header h1:after {
+				display:block;
+			  	content: '';
+			  	border-bottom: solid 3px honeydew;  
+			  	transform: scaleX(0);  
+			  	transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			header h1:hover:after { 
+				transform: scaleX(1); 
+				transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			header h2{
+				position: absolute;
+				margin: 0px;
+				margin-right: 30px;
+				bottom: 0px;
+				right: 0px;
+			}
+			header h2:after {
+				display:block;
+			  	content: '';
+			  	border-bottom: solid 3px honeydew;  
+			  	transform: scaleX(0);  
+			  	transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			header h2:hover:after { 
+				transform: scaleX(1); 
+				transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			header h2.active:after {
+				transform: scaleX(1); 
+				transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#content{
+			  position: fixed;
+			  z-index:2;
+			  top: 0;
+			  left: 0;
+			  width: 100%;
+			  height: 100%; 
+			}
+		/*	#content.active{
+				top: calc(-100% + 90px);
+				
+			}*/
+			#canvas-container {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				opacity: 0.75;
+				/*top: 0px;*/
+				transition: transform 0.5s 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#canvas-container.active {
+				/*top: calc(-150% + 90px);*/
+				transform: translateY(-150%);
+				transition: transform 0.5s cubic-bezier(0.25,0,0,1);
+			}
+			svg {
+				width: 100%;
+				height: 100%;
+			}
+			.nodes {
+				/*filter: url(#gooey);*/
+			}
+			.nodes circle {
+				z-index: 2;
+				/*transform-origin: 50% 50%;*/
+				/*transition: transform 0.2s;*/
+			}
+
+			.nodes circle.active {
+				/*transform-origin: 50% 50%;*/
+				/*transform: scale(1.1,1.1);*/
+			}
+			.links line {
+				z-index: 1;
+				stroke: honeydew;
+				stroke-width: 2;
+				opacity: 0;
+				transition: opacity 0.2s cubic-bezier(1,0,0,0.25);
+			}
+			.links line.active {
+				opacity: 1;
+			}
+			.work{
+				opacity: 0;
+				position: absolute;
+				width: 100%;
+				height: 80%;
+				top: 10%;
+				margin: 0px auto;
+				pointer-events: none;
+				transition: opacity 0.2s cubic-bezier(0,0,0,1);;
+			}
+			.work.active{
+				opacity: 1;
+				transition: opacity 0s;
+			}
+			.work-background{
+				fill: honeydew;
+				transform-origin: 50% 50%;
+				transform: scale(1,1);
+				transition: transform 0.0s 0.2s
+			}
+			.work-background.active {
+				transform: scale(20,20);
+				transition: transform 0.5s cubic-bezier(0.25,0,0,1);
+			}
+			#about-container{
+				position: absolute;
+				width: 100%;
+				height: 80%;
+				top: 65px;
+				transform: translateY(110%);
+				transition: transform 0.2s 0.2s cubic-bezier(0.25,0,0,1)
+			}
+			#about-container.active {
+				transform: translateY(0);
+				transition: transform 0.5s cubic-bezier(0.25,0,0,1);
+			}
+			#about-header{
+				position: relative;
+				width: 80px;
+				height: 50px;
+				margin: 0px auto;
+				opacity: 0.75;
+				top: -65px;
+			}
+			#about-container h2 {
+				text-align: center;
+			}
+			#about-container h2:after {
+				display:block;
+				  content: '';
+				  border-bottom: solid 3px honeydew;  
+				  transform: scaleX(0);  
+				  transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#about-container h2:hover:after { 
+				transform: scaleX(1); 
+				transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#about-container h2.active:after { 
+				transform: scaleX(1); 
+				transition: transform 0.2s 0.5s cubic-bezier(0.25,0,0,1);
+			}
+			#about-contents{
+				position: absolute;
+				z-index: 0;
+				opacity: 0;
+				background-color: white;
+				width: 100%;
+				height: 100%;
+				top: 0px;
+				transform-origin: center;
+				transform: scaleX(0);
+				transition: transform 0.2s cubic-bezier(0.25,0,0,1), opacity 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#about-contents.active{
+/*				width: 100%;*/
+				opacity: 1;
+				transform: scaleX(1);
+				transition: transform 0.5s 0.65s cubic-bezier(0.25,0,0,1), opacity 0.5s 0.65s cubic-bezier(0.25,0,0,1);
+			}
+			#about-line{
+				position: relative;
+				background-color: honeydew;
+				opacity: 0.75;
+				width:4px;
+				height:100%;
+				margin: 0 auto;
+				transform: translateY(-65px);
+				/*transform-origin: center;*/
+				/*transform: scaleX(0.0025);*/
+				transition: opacity 0s 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#about-line.active{
+				/*transform: scaleX(1);*/
+				opacity: 0;
+				transition: opacity 0s 0.5s cubic-bezier(0.25,0,0,1);
+				/*width:100%;*/
+			}
+			#about-cover{
+				position: absolute;
+				width:100%;
+				height:100%;
+				top: 0px;
+				transform-origin: center;
+				transform: scaleX(0);
+				background-color: honeydew;
+				opacity: 0.75;
+				transition: transform 0.2s cubic-bezier(0.25,0,0,1);
+			}
+			#about-cover.active{
+				transform: scaleX(1);
+				transition: transform 0.5s 0.5s cubic-bezier(0.25,0,0,1);
+				/*width:100%;*/
+			}
+		</style>
+	</head>
+<body>
+	<div id="set-height"></div>
+	<div id="v0"></div>
+		<!-- <img id="v0" src="assets/AXx3QORhRDKAMrbb8pX4_photo 2.jpeg"/> -->
+<!-- 		<video id="v0" tabindex="0" autobuffer="autobuffer" preload="preload">
+		  <source type="video/mp4" src="water-background.mp4"></source>
+		  <p>Sorry, your browser does not support the video element.</p>
+		</video> -->
+	<header>
+		<h1>ME</h1>
+		<h2 class="toggle">work</h2>
+	</header>
+	<section id="content">
+		<section id="canvas-container" class="about toggle">
+			<svg width="1080" height="720"></svg>
+		</section>
+		<section id="about-container" class="about toggle">
+			<div id="about-header">
+				<h2 class="about">about</h2>
+			</div>
+			<article id="about-contents" class="about">
+				
+			</article>
+			<div id="about-line" class="about">
+				
+			</div>
+			<div id="about-cover" class="about">
+				
+			</div>
+		</section>
+		<section id="work-container" class="work toggle">
+			<svg xmlns="http://www.w3.org/2000/svg">
+				<circle class="work-background toggle" cx="100" cy="100" r="50"/>
+			</svg>
+		</section>
+	</section>
+
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+	<script type="text/javascript">
+		let frameNumber = 0,
+		scrollOld = window.pageYOffset,
+		scrolledUp = false,
+		scrolledDown = false,
+		aboutActive = false,
+		workActive = false;
+	    playbackConst = window.innerHeight/2,
+	    accel = 0,
+	    accelRate = 0.05,
+	    setHeight = document.getElementById("set-height"); 
+
+		let svg = d3.select("svg"),
+			width = window.innerWidth,
+			height = window.innerHeight;
+
+		const color = d3.color("honeydew");
+
+		let simulation = d3.forceSimulation();
+
+		const col = Math.random()*10 + 35;
+		const dis = Math.random()*40 + 80;
+
+		$('header h1').click(function(){
+			workActive = false;
+			$("header h2").removeClass("active");
+			$(".work").removeClass("active");
+			$(".work-background").removeClass("active");
+		});
+
+		$('#about-container h2').click(function(){
+			if(workActive){
+				workActive = false;
+				$(".work").removeClass("active");
+				$(".work-background").removeClass("active");
+			}
+			window.scrollBy(0,100);
+		});
+
+		document.addEventListener("scroll",function(){
+			if(!workActive && window.pageYOffset > 0 && window.pageYOffset < document.body.offsetHeight - window.innerHeight){
+				if(window.pageYOffset>scrollOld) {
+					scrolledDown = true;
+					scrolledUp = false;
+				}
+			  	if(window.pageYOffset<scrollOld) {
+			  		scrolledUp = true;
+			  		scrolledDown = false;
+			  	}
+			  	if(!aboutActive&&scrolledDown){
+			  		aboutActive = true;
+			  		console.log(window.pageYOffset);
+			  		// $(".work").removeClass("active");
+			  		// $(".work-background").removeClass("active");
+			  		$(".about").addClass("active");
+			  	}
+			  	if(aboutActive&&scrolledUp){
+			  		aboutActive = false;
+			  		console.log(window.pageYOffset);
+			  		$(".about").removeClass("active");
+			  	}
+			  }
+		  	scrollOld = window.pageYOffset;
+		})
+
+		simulation
+				.force("link", d3.forceLink().id(function(d){ return d.id }).distance(dis).strength(1))
+				.force("center", d3.forceCenter(width/2,height/2))
+				.force("charge", d3.forceManyBody())
+				.force("collide", d3.forceCollide(function(d){ return d.value*col }));
+
+		d3.json("projects.json", function(error, graph) {
+	  		if (error) throw error;
+
+	  // 		var defs = svg.append('defs');
+			// var filter = defs.append('filter').attr('id','gooey');
+			// filter.append('feGaussianBlur')
+			// 	.attr('in','SourceGraphic')	
+			// 	.attr('stdDeviation','10')
+			// 	.attr('result','blur');
+			// filter.append('feColorMatrix')
+			// 	.attr('in','blur')
+			// 	.attr('mode','matrix')
+			// 	.attr('values','1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7')
+			// 	.attr('result','gooey');
+			// filter.append('feComposite')
+			// 	.attr('in','SourceGraphic')
+			// 	.attr('in2','goo')
+			// 	.attr('operator','atop');	
+
+
+	  		var link = svg.append("g")
+	     		.attr("class", "links")
+			    .selectAll("line")
+			    .data(graph.links)
+			    .enter().append("line");
+
+			var node = svg.append("g")
+	      		.attr("class", "nodes")
+			    .selectAll(".node")
+			    .data(graph.projects)
+			    .enter().append("g")
+				.on("mouseenter",function(d){
+					if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+					d.fx = d.x;
+					d.fy = d.y;
+					d3.select(this).select("circle").attr("class","active");
+					d3.select(this).select("path").attr("class","active");
+					simulation.force("link").distance(function(l){
+						if (d === l.source || d === l.target){
+					      return 50;
+					  	} else {
+					      return 100
+					  	}
+					});
+					link.attr("class", function(l) {
+					    if (d === l.source || d === l.target){
+					      return "active";
+					  	} else {
+					      return "";
+					  	}
+	    			});
+				})
+				.on("mouseout",function(d){
+					if (!d3.event.active) simulation.alphaTarget(0);
+					d.fx = null;
+					d.fy = null;
+					link.attr("class","");
+					node.selectAll("circle").attr("class","");
+					node.selectAll("path").attr("class","");
+					simulation.force("link").distance(function(l){
+						return 100;
+					});
+				})
+				.on("click",function(d){
+					console.log();
+					workActive = true;
+					d3.selectAll(".work-background")
+						.attr('cx',d.x)
+						.attr('cy',d.y-75)
+						.classed("active",true);
+					d3.selectAll("header h2").classed("active",true);
+					d3.selectAll("#work-container").classed("active",true);
+				})
+				.call(d3.drag()
+		          .on("start", dragstarted)
+		          .on("drag", dragged)
+		          .on("end", dragended));
+
+			node
+				.append(function(d){ return d.group === 1 ? document.createElementNS("http://www.w3.org/2000/svg","path") : document.createElementNS("http://www.w3.org/2000/svg","circle")})
+				.attr("d",function  (d) { return d.group === 1 ? graph.icons[d.id]:null; })
+				.attr("transform", function  (d) { return d.group === 1 ? "scale(0.75)":null; })
+				.attr("fill",color)
+				.attr("r",function  (d) { return d.group === 1 ? null:d.value*20; })
+
+			simulation
+				.nodes(graph.projects)
+				.on("tick", ticked);
+
+			simulation.force("link")
+				.links(graph.links);
+
+		  	function ticked() {
+			    link
+			        .attr("x1", function(d) { return d.source.x; })
+			        .attr("y1", function(d) { return d.source.y; })
+			        .attr("x2", function(d) { return d.target.x; })
+			        .attr("y2", function(d) { return d.target.y; });
+
+			    node.attr("transform", function(d) { return d.group === 1 ? "translate(" + (d.x-30) + "," + (d.y-30) + ")" : "translate(" + (d.x) + "," + (d.y) + ")"; });
+	  		}
+		});
+
+		function positionLink(d) {
+		  return "M" + d[0].x + "," + d[0].y
+		       + "S" + d[1].x + "," + d[1].y
+		       + " " + d[2].x + "," + d[2].y;
+		}
+		
+		function dragstarted(d) {
+			if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+			d.fx = d.x;
+			d.fy = d.y;
+		}
+
+		function dragged(d) {
+			d.fx = d3.event.x;
+			d.fy = d3.event.y;
+		}
+
+		function dragended(d) {
+			if (!d3.event.active) simulation.alphaTarget(0);
+			d.fx = null;
+			d.fy = null;
+		}
+	</script>
+
+	<script>
+
+	</script>
+
+	
+</body>
+</html>
